@@ -11,7 +11,13 @@ package com.team5.cbl.cbl_app;
  */
 public enum Genre {
 
-    ACTION,ADVENTURE,FANTASTY,HORROR,SUPERHERO
+    ACTION("Action"),ADVENTURE("Adventure"),FANTASTY("Fantasy"),HORROR("Horror"),SUPERHERO("Superhero");
+    
+    private String displayName;
+
+    private Genre(String displayName) {
+        this.displayName = displayName;
+    }
 
 
 

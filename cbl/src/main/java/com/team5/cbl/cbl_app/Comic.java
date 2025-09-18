@@ -5,6 +5,8 @@
 
 package com.team5.cbl.cbl_app;
 
+import java.util.List;
+
 /**
  *
  * @author vscode
@@ -13,6 +15,6 @@ public class Comic {
 
     private String title;
 
-    private Genre genre;
+    private List<Genre> genre;
 
 }
