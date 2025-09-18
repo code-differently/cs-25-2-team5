@@ -1,0 +1,18 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+
+package com.team5.cbl.cbl_app;
+
+/**
+ *
+ * @author vscode
+ */
+public class Comic {
+
+    private String title;
+
+    private Genre genre;
+
+}
