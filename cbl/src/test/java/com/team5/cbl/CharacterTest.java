@@ -1,6 +1,7 @@
 package com.team5.cbl;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import org.junit.jupiter.api.Test;
 
 public class CharacterTest {

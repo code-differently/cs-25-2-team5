@@ -13,20 +13,12 @@ public class Character {
     return heroName;
   }
 
-
   public String getBio() {
     return bio;
   }
 
   @Override
   public String toString() {
-    return "Character{"
-        + "heroName='"
-        + heroName
-        + '\''
-        + ", bio='"
-        + bio
-        + '\''
-        + '}';
+    return "Character{" + "heroName='" + heroName + '\'' + ", bio='" + bio + '\'' + '}';
   }
 }
