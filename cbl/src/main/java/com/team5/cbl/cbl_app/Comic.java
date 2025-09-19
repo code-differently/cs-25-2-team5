@@ -11,7 +11,7 @@ import java.util.List;
  *
  * @author vscode
  */
-public class Comic {
+public class Comic implements Comparable<Comic> {
 
     private String title;
 
@@ -33,6 +33,15 @@ public class Comic {
 
     public List<Genre> getGenre() {
         return genre;
+    }
+
+    public RarityDetails getRarityDetails() {
+        return rarityDetails;
+    }
+
+    @Override
+    public int compareTo(Comic other) {
+        return Double.compare(rarityDetails.getGrade(),other.getRarityDetails().getGrade());
     }
 
 
