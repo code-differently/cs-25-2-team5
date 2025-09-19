@@ -8,6 +8,8 @@ import java.util.Arrays;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 
+import com.team5.cbl.cbl_app.Edition;
+
 public class EditionTest {
 
   @Test

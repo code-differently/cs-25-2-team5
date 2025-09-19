@@ -5,6 +5,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.time.Year;
 import org.junit.jupiter.api.Test;
 
+import com.team5.cbl.cbl_app.Edition;
+import com.team5.cbl.cbl_app.RarityDetails;
+
 public class RarityDetailsTest {
 
   @Test
