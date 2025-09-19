@@ -4,17 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Publisher {
-  private String companyName;
+  private CompanyName companyName;
   private final List<String> characters; // Make final
 
   // Constructor with company name only
-  public Publisher(String companyName) {
+  public Publisher(CompanyName companyName) {
     this.companyName = companyName;
     this.characters = new ArrayList<>();
   }
 
   // Constructor with company name and characters list
-  public Publisher(String companyName, List<String> characters) {
+  public Publisher(CompanyName companyName, List<String> characters) {
     this.companyName = companyName;
     this.characters = new ArrayList<>();
     if (characters != null) {
@@ -23,12 +23,12 @@ public class Publisher {
   }
 
   // Getter for company name
-  public String getCompanyName() {
+  public CompanyName getCompanyName() {
     return companyName;
   }
 
   // Setter for company name
-  public void setCompanyName(String companyName) {
+  public void setCompanyName(CompanyName companyName) {
     this.companyName = companyName;
   }
 
