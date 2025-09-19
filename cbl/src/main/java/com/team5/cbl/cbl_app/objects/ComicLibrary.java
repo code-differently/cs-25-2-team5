@@ -28,7 +28,7 @@ public class ComicLibrary {
       List<Comic> comicsByFilter =   comics.stream()
       .filter(comic-> comic.getTitle().equals(title))
       .collect(Collectors.toList());
-      if (comicsByFilter.size() == 0) {
+      if (comicsByFilter.isEmpty()) {
           throw new ComicNotFoundException("Comic title not found");
       }
       return comicsByFilter;
