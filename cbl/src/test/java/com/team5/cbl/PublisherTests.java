@@ -1,33 +1,38 @@
 package com.team5.cbl;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import com.team5.cbl.cbl_app.enums.CompanyName;
 import com.team5.cbl.cbl_app.objects.Publisher;
 
 public class PublisherTests {
 
-  private String testCompanyName;
+  
   private List<String> testCharacters;
 
   @BeforeEach
   void setUp() {
-    testCompanyName = "Marvel Comics";
+    
     testCharacters = new ArrayList<>(Arrays.asList("Spider-Man", "Iron Man", "Captain America"));
   }
 
   @Test
   @DisplayName("Test constructor with company name and character list")
   void testConstructorWithCharacters() {
-    Publisher publisher = new Publisher(testCompanyName, testCharacters);
+    Publisher publisher = new Publisher(CompanyName.MARVEL_COMICS, testCharacters);
 
-    assertEquals(testCompanyName, publisher.getCompanyName());
+    assertEquals(CompanyName.MARVEL_COMICS, publisher.getCompanyName());
     assertNotNull(publisher.getCharacters());
     assertFalse(publisher.getCharacters().isEmpty());
   }
@@ -35,24 +40,24 @@ public class PublisherTests {
   @Test
   @DisplayName("Test getCompanyName method")
   void testGetCompanyName() {
-    Publisher publisher = new Publisher(testCompanyName, testCharacters);
-    assertEquals(testCompanyName, publisher.getCompanyName());
+    Publisher publisher = new Publisher(CompanyName.MARVEL_COMICS, testCharacters);
+    assertEquals(CompanyName.MARVEL_COMICS, publisher.getCompanyName());
   }
 
   @Test
   @DisplayName("Test setCompanyName method")
   void testSetCompanyName() {
-    Publisher publisher = new Publisher(testCompanyName, testCharacters);
-    String newCompanyName = "DC Comics";
+    Publisher publisher = new Publisher(CompanyName.MARVEL_COMICS, testCharacters);
+    var newCompanyName = CompanyName.DC_COMICS;
 
-    publisher.setCompanyName(newCompanyName);
+    publisher.setCompanyName(CompanyName.DC_COMICS);
     assertEquals(newCompanyName, publisher.getCompanyName());
   }
 
   @Test
   @DisplayName("Test setCharacters method")
   void testSetCharacters() {
-    Publisher publisher = new Publisher(testCompanyName);
+    Publisher publisher = new Publisher(CompanyName.DC_COMICS);
     List<String> newCharacters =
         new ArrayList<>(Arrays.asList("Batman", "Superman", "Wonder Woman"));
 
@@ -66,7 +71,7 @@ public class PublisherTests {
   @Test
   @DisplayName("Test addCharacter - new character")
   void testAddCharacterNew() {
-    Publisher publisher = new Publisher(testCompanyName, testCharacters);
+    Publisher publisher = new Publisher(CompanyName.MARVEL_COMICS, testCharacters);
     String newCharacter = "Black Widow";
 
     publisher.addCharacter(newCharacter);
@@ -77,7 +82,7 @@ public class PublisherTests {
   @Test
   @DisplayName("Test addCharacter - duplicate character")
   void testAddCharacterDuplicate() {
-    Publisher publisher = new Publisher(testCompanyName, testCharacters);
+    Publisher publisher = new Publisher(CompanyName.MARVEL_COMICS, testCharacters);
     String existingCharacter = "Spider-Man";
 
     publisher.addCharacter(existingCharacter);
@@ -88,7 +93,7 @@ public class PublisherTests {
   @Test
   @DisplayName("Test hasCharacter - existing character")
   void testHasCharacterExisting() {
-    Publisher publisher = new Publisher(testCompanyName, testCharacters);
+    Publisher publisher = new Publisher(CompanyName.MARVEL_COMICS, testCharacters);
     assertTrue(publisher.hasCharacter("Spider-Man"));
     assertTrue(publisher.hasCharacter("Iron Man"));
     assertTrue(publisher.hasCharacter("Captain America"));
@@ -97,7 +102,7 @@ public class PublisherTests {
   @Test
   @DisplayName("Test hasCharacter - non-existing character")
   void testHasCharacterNonExisting() {
-    Publisher publisher = new Publisher(testCompanyName, testCharacters);
+    Publisher publisher = new Publisher(CompanyName.DC_COMICS, testCharacters);
     assertFalse(publisher.hasCharacter("Batman"));
     assertFalse(publisher.hasCharacter("Superman"));
   }
@@ -117,7 +122,7 @@ public class PublisherTests {
   void testNullCharactersList() {
     assertDoesNotThrow(
         () -> {
-          Publisher publisher = new Publisher(testCompanyName, null);
+          Publisher publisher = new Publisher(CompanyName.DC_COMICS, null);
           assertNotNull(publisher.getCharacters());
         });
   }
@@ -126,7 +131,7 @@ public class PublisherTests {
   @DisplayName("Test with empty characters list")
   void testEmptyCharactersList() {
     List<String> emptyList = new ArrayList<>();
-    Publisher publisher = new Publisher(testCompanyName, emptyList);
+    Publisher publisher = new Publisher(CompanyName.DC_COMICS, emptyList);
 
     assertTrue(publisher.getCharacters().isEmpty());
     assertFalse(publisher.hasCharacter("Any Character"));

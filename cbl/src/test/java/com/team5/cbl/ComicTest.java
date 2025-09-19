@@ -9,6 +9,7 @@ import java.time.Year;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -45,10 +46,18 @@ public class ComicTest {
     List<Genre> expected = new ArrayList<>();
     RarityDetails expectedRarityDetails =
         new RarityDetails(Edition.SINGLE_ISSUES, 150, 7.3, Year.now());
+    var expectedPublisher = new Publisher(CompanyName.DC_COMICS); 
+    var expectedLeadingCharacter = new com.team5.cbl.cbl_app.objects.Character("Test name","This is a hero");
+ 
     expected.add(Genre.ACTION);
     expected.add(Genre.ADVENTURE);
     assertEquals(comic.getTitle(), "Test comic");
     assertEquals(comic.getGenre(), expected);
     assertEquals(comic.getRarityDetails(), expectedRarityDetails);
+
+    assertThat(expectedLeadingCharacter.equals( comic.getLeadingCharacter()));
+    assertThat(expectedPublisher.equals(comic.getPublisher()));
+
+
   }
 }
