@@ -35,6 +35,22 @@ public class ComicLibrary {
         return comicsByFilter;
     }
 
+    public List<Comic> filterByPublisher() {
+        return null;
+    }
+
+    public List<Comic> filterByCharacter() {
+        return null;
+    }
+
+    public List<Comic> filterByGenre() {
+        return null;
+    }
+
+    public List<Comic> filterByCreator() {
+        return null;
+    }
+
     public List<Comic> getComics() {
         return comics;
     }
