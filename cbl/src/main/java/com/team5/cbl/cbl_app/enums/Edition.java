@@ -1,4 +1,4 @@
-package com.team5.cbl.cbl_app;
+package com.team5.cbl.cbl_app.enums;
 
 public enum Edition {
   SINGLE_ISSUES("Single Issues"),

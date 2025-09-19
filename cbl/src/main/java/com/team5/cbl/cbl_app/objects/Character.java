@@ -1,4 +1,4 @@
-package com.team5.cbl.cbl;
+package com.team5.cbl.cbl_app.objects;
 
 public class Character {
   String heroName = "Hero Name";

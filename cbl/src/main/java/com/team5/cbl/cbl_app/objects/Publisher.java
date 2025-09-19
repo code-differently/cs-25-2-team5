@@ -1,7 +1,9 @@
-package com.team5.cbl;
+package com.team5.cbl.cbl_app.objects;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import com.team5.cbl.cbl_app.enums.CompanyName;
 
 public class Publisher {
   private CompanyName companyName;

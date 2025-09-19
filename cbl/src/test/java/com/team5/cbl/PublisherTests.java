@@ -9,6 +9,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import com.team5.cbl.cbl_app.objects.Publisher;
+
 public class PublisherTests {
 
   private String testCompanyName;

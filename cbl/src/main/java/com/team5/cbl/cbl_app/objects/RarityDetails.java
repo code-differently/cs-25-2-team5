@@ -1,5 +1,6 @@
-package com.team5.cbl.cbl_app;
+package com.team5.cbl.cbl_app.objects;
 
+import com.team5.cbl.cbl_app.enums.Edition;
 import java.time.Year;
 
 public class RarityDetails {
@@ -63,28 +64,16 @@ public class RarityDetails {
 
   @Override
   public boolean equals(Object obj) {
-    if (this == obj)
-      return true;
-    if (obj == null)
-      return false;
-    if (getClass() != obj.getClass())
-      return false;
+    if (this == obj) return true;
+    if (obj == null) return false;
+    if (getClass() != obj.getClass()) return false;
     RarityDetails other = (RarityDetails) obj;
-    if (edition != other.edition)
-      return false;
-    if (printCount != other.printCount)
-      return false;
-    if (Double.doubleToLongBits(grade) != Double.doubleToLongBits(other.grade))
-      return false;
+    if (edition != other.edition) return false;
+    if (printCount != other.printCount) return false;
+    if (Double.doubleToLongBits(grade) != Double.doubleToLongBits(other.grade)) return false;
     if (year == null) {
-      if (other.year != null)
-        return false;
-    } else if (!year.equals(other.year))
-      return false;
+      if (other.year != null) return false;
+    } else if (!year.equals(other.year)) return false;
     return true;
   }
-
-  
-
-  
 }
