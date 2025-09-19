@@ -12,6 +12,7 @@ class CreatorTest {
         Creator creator = new Creator("Joy Brown", 39);
         assertEquals("Joy Brown", creator.getName());
         assertEquals(39, creator.getAge());
+        
     }
 
     @Test
