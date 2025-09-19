@@ -17,6 +17,12 @@ public class Comic {
 
     private List<Genre> genre;
 
+    public Comic(String title,List<Genre> genre) {
+        this.title = title;
+        this.genre = genre; 
+
+    }
+
 
     public String getTitle() {
         return title;
