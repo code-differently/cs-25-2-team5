@@ -65,10 +65,9 @@ public class ComicLibraryTest {
             leadingCharacter,
             publisher);
 
-            classUnderTest = new ComicLibrary(comics);
-
             comics.add(comic1);
             comics.add(comic2);
+            classUnderTest = new ComicLibrary(comics);
         }
 
     @Test
