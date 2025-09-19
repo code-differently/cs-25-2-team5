@@ -6,6 +6,9 @@
 package com.team5.cbl.cbl_app.objects;
 
 import java.util.List;
+import java.util.stream.Collectors;
+import com.team5.cbl.cbl_app.exceptions.ComicNotFoundException;
+
 
 /**
  *
@@ -21,11 +24,34 @@ public class ComicLibrary {
 
     }
 
+  public List<Comic> filterByComicTitle(String title) {
+      List<Comic> comicsByFilter =   comics.stream()
+      .filter(comic-> comic.getTitle().equals(title))
+      .collect(Collectors.toList());
+      if (comicsByFilter.isEmpty()) {
+          throw new ComicNotFoundException("Comic title not found");
+      }
+      return comicsByFilter;
+  }
 
-    public List<Comic> filterByInput(String input) {
-
+    public List<Comic> filterByPublisher() {
         return null;
+    }
 
+    public List<Comic> filterByCharacter() {
+        return null;
+    }
+
+    public List<Comic> filterByGenre() {
+        return null;
+    }
+
+    public List<Comic> filterByCreator() {
+        return null;
+    }
+
+    public List<Comic> getComics() {
+        return comics;
     }
 
     // sorts the lists by the grade and returns the list of comics

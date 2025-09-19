@@ -39,6 +39,15 @@ public class Comic implements Comparable<Comic> {
     this.publisher = publisher;
   }
 
+  public Comic(String title, Creator headWriter, RarityDetails rarityDetails, Character leadingCharacter) {
+    this.title = title;
+    this.headWriter = headWriter;
+    this.rarityDetails = rarityDetails;
+    this.leadingCharacter = leadingCharacter;
+    this.genre = null;
+    this.publisher = null;
+  }
+
   public String getTitle() {
     return title;
   }
