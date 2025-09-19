@@ -6,6 +6,7 @@
 package com.team5.cbl.cbl_app.objects;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -22,9 +23,10 @@ public class ComicLibrary {
     }
 
 
-    public List<Comic> filterByInput(String input) {
-
-        return null;
+    public List<Comic> filterByComicTitle(String title) {
+        return comics.stream()
+        .filter(comic-> comic.getTitle().equals(title))
+        .collect(Collectors.toList());
 
     }
 
