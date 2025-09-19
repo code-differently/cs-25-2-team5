@@ -2,6 +2,7 @@ package com.team5.cbl;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import com.team5.cbl.cbl_app.objects.Creator;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

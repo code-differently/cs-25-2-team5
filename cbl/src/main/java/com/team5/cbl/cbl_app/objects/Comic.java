@@ -1,0 +1,70 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+
+package com.team5.cbl.cbl_app.objects;
+
+import com.team5.cbl.cbl_app.enums.Genre;
+import java.util.List;
+
+/**
+ * @author vscode
+ */
+public class Comic implements Comparable<Comic> {
+
+  private String title;
+
+  private List<Genre> genre;
+
+  private RarityDetails rarityDetails;
+
+  private Creator headWriter;
+  private Character leadingCharacter;
+
+  private Publisher publisher;
+
+  public Comic(
+      String title,
+      List<Genre> genre,
+      RarityDetails rarityDetails,
+      Creator headWriter,
+      Character leadingCharacter,
+      Publisher publisher) {
+    this.genre = genre;
+    this.title = title;
+    this.rarityDetails = rarityDetails;
+    this.headWriter = headWriter;
+    this.leadingCharacter = leadingCharacter;
+    this.publisher = publisher;
+  }
+
+  public String getTitle() {
+    return title;
+  }
+
+  public List<Genre> getGenre() {
+    return genre;
+  }
+
+  public RarityDetails getRarityDetails() {
+    return rarityDetails;
+  }
+
+  @Override
+  public int compareTo(Comic other) {
+    return Double.compare(rarityDetails.getGrade(), other.getRarityDetails().getGrade());
+  }
+
+  public Creator getHeadWriter() {
+    return headWriter;
+  }
+
+  public Character getLeadingCharacter() {
+    return leadingCharacter;
+  }
+
+  public Publisher getPublisher() {
+    return publisher;
+  }
+}

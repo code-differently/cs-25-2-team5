@@ -2,6 +2,8 @@ package com.team5.cbl;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import com.team5.cbl.cbl_app.enums.Edition;
+import com.team5.cbl.cbl_app.objects.RarityDetails;
 import java.time.Year;
 import org.junit.jupiter.api.Test;
 

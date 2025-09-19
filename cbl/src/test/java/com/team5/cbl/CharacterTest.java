@@ -8,14 +8,15 @@ public class CharacterTest {
 
   @Test
   public void testConstructorAndGetters() {
-    Character character = new Character("Superman", "Man of Steel");
+    var character = new com.team5.cbl.cbl_app.objects.Character("Superman", "Man of Steel");
+
     assertEquals("Superman", character.getHeroName());
     assertEquals("Man of Steel", character.getBio());
   }
 
   @Test
   public void testToString() {
-    Character character = new Character("Batman", "Dark Knight");
+    var character = new com.team5.cbl.cbl_app.objects.Character("Batman", "Dark Knight");
     String expected = "Character{heroName='Batman', bio='Dark Knight'}";
     assertEquals(expected, character.toString());
   }

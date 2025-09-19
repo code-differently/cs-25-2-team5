@@ -1,8 +1,8 @@
-package com.team5.cbl;
+package com.team5.cbl.cbl_app.objects;
 
 public class Character {
-  String heroName = "Hero Name";
-  String bio = "Bio";
+  String heroName;
+  String bio;
 
   public Character(String heroName, String bio) {
     this.heroName = heroName;
@@ -13,20 +13,12 @@ public class Character {
     return heroName;
   }
 
-
   public String getBio() {
     return bio;
   }
 
   @Override
   public String toString() {
-    return "Character{"
-        + "heroName='"
-        + heroName
-        + '\''
-        + ", bio='"
-        + bio
-        + '\''
-        + '}';
+    return "Character{" + "heroName='" + heroName + '\'' + ", bio='" + bio + '\'' + '}';
   }
 }
