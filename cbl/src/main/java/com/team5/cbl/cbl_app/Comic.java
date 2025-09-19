@@ -36,31 +36,10 @@ public class Comic {
     }
 
 
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((rarityDetails == null) ? 0 : rarityDetails.hashCode());
-        return result;
-    }
+    
 
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        Comic other = (Comic) obj;
-        if (rarityDetails == null) {
-            if (other.rarityDetails != null)
-                return false;
-        } else if (!rarityDetails.equals(other.rarityDetails))
-            return false;
-        return true;
-    }
+    
 
     
 

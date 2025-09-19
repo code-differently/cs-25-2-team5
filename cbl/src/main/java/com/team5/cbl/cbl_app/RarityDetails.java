@@ -48,29 +48,7 @@ public class RarityDetails {
     this.year = year;
   }
 
-  @Override
-  public int hashCode() {
-    final int prime = 31;
-    int result = 1;
-    long temp;
-    temp = Double.doubleToLongBits(grade);
-    result = prime * result + (int) (temp ^ (temp >>> 32));
-    return result;
-  }
-
-  @Override
-  public boolean equals(Object obj) {
-    if (this == obj)
-      return true;
-    if (obj == null)
-      return false;
-    if (getClass() != obj.getClass())
-      return false;
-    RarityDetails other = (RarityDetails) obj;
-    if (Double.doubleToLongBits(grade) != Double.doubleToLongBits(other.grade))
-      return false;
-    return true;
-  }
+  
 
   
 }
