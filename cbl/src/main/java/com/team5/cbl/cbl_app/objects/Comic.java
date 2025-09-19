@@ -5,8 +5,9 @@
 
 package com.team5.cbl.cbl_app.objects;
 
-import com.team5.cbl.cbl_app.enums.Genre;
 import java.util.List;
+
+import com.team5.cbl.cbl_app.enums.Genre;
 
 /**
  * @author vscode
@@ -20,12 +21,21 @@ public class Comic implements Comparable<Comic> {
   private RarityDetails rarityDetails;
 
   private Creator headWriter;
+  private Character leadingCharacter;
 
-  public Comic(String title, List<Genre> genre, RarityDetails rarityDetails, Creator headWriter) {
-    this.title = title;
+  private Publisher publisher;
+
+  
+  public Comic(String title, List<Genre> genre, RarityDetails rarityDetails, Creator headWriter, Character leadingCharacter, Publisher publisher) {
     this.genre = genre;
+    this.title = title;
     this.rarityDetails = rarityDetails;
     this.headWriter = headWriter;
+    this.headWriter = headWriter;
+    this.leadingCharacter = leadingCharacter;
+    this.publisher = publisher;
+
+
   }
 
   public String getTitle() {
@@ -40,8 +50,22 @@ public class Comic implements Comparable<Comic> {
     return rarityDetails;
   }
 
+  
+
   @Override
   public int compareTo(Comic other) {
     return Double.compare(rarityDetails.getGrade(), other.getRarityDetails().getGrade());
+  }
+
+  public Creator getHeadWriter() {
+    return headWriter;
+  }
+
+  public Character getLeadingCharacter() {
+    return leadingCharacter;
+  }
+
+  public Publisher getPublisher() {
+    return publisher;
   }
 }
