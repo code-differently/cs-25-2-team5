@@ -1,13 +1,11 @@
-package com.team5.cbl.cbl;
+package com.team5.cbl;
 
 public class Character {
   String heroName = "Hero Name";
-  String publisher = "Publisher";
   String bio = "Bio";
 
-  public Character(String heroName, String publisher, String bio) {
+  public Character(String heroName, String bio) {
     this.heroName = heroName;
-    this.publisher = publisher;
     this.bio = bio;
   }
 
@@ -15,9 +13,6 @@ public class Character {
     return heroName;
   }
 
-  public String getPublisher() {
-    return publisher;
-  }
 
   public String getBio() {
     return bio;
@@ -28,9 +23,6 @@ public class Character {
     return "Character{"
         + "heroName='"
         + heroName
-        + '\''
-        + ", publisher='"
-        + publisher
         + '\''
         + ", bio='"
         + bio
