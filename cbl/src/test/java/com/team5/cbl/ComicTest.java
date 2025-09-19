@@ -61,7 +61,7 @@ public class ComicTest {
     assertEquals(comic.getGenre(), expected);
     assertEquals(comic.getRarityDetails(), expectedRarityDetails);
 
-    assertThat(expectedLeadingCharacter.equals(comic.getLeadingCharacter()));
-    assertThat(expectedPublisher.equals(comic.getPublisher()));
+    assertThat(comic.getLeadingCharacter()).isEqualTo(expectedLeadingCharacter);
+    assertThat(comic.getPublisher()).isEqualTo(expectedPublisher);
   }
 }
