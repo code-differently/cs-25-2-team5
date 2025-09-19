@@ -35,7 +35,6 @@ public class Comic implements Comparable<Comic> {
     this.title = title;
     this.rarityDetails = rarityDetails;
     this.headWriter = headWriter;
-    this.headWriter = headWriter;
     this.leadingCharacter = leadingCharacter;
     this.publisher = publisher;
   }
