@@ -50,32 +50,7 @@ public class ComicLibrary {
             .collect(Collectors.toList());
     if (comicsByFilter.isEmpty()) {
       throw new ComicNotFoundException("Comic title not found");
-    }
-    return comicsByFilter;
-  }
 
-  public List<Comic> filterByPublisher(CompanyName companyName) {
-    List<Comic> comicsByFilter =
-        comics.stream()
-            .filter(comic -> comic.getPublisher().getCompanyName().equals(companyName))
-            .collect(Collectors.toList());
-    if (comicsByFilter.isEmpty()) {
-      throw new ComicNotFoundException("Publisher not found");
-    }
-    return comicsByFilter;
-  }
-
-  public List<Comic> filterByCharacter(String heroName) {
-    List<Comic> comicsByFilter =
-        comics.stream()
-            .filter(
-                comic ->
-                    comic.getLeadingCharacter() != null
-                        && comic.getLeadingCharacter().getHeroName().equals(heroName))
-            .collect(Collectors.toList());
-    if (comicsByFilter.isEmpty()) {
-      throw new ComicNotFoundException("Character not found");
-    }
     return comicsByFilter;
   }
 
@@ -111,10 +86,4 @@ public class ComicLibrary {
   public List<Comic> getRankings() {
     return null;
   }
-
-  // Adds a new comic to library
-  public void addComic(Comic comic) {}
-
-  // removes a
-  public void removeComic(Comic comic) {}
 }

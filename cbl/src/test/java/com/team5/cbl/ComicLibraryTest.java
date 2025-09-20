@@ -37,11 +37,11 @@ public class ComicLibraryTest {
   com.team5.cbl.cbl_app.objects.Character leadingCharacter;
 
 
+
   @BeforeEach
   public void setUp() {
 
     comics = new ArrayList<>();
-
     genres.add(Genre.SUPERHERO);
     genres.add(Genre.ACTION);
     writer = new Creator("Test Creator", 45);
@@ -86,6 +86,7 @@ public class ComicLibraryTest {
               classUnderTest.filterByComicTitle("invalid title");
             })
         .withMessage("Comic title not found");
+
   }
 
   @Test
