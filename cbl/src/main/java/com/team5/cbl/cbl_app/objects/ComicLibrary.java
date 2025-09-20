@@ -60,10 +60,8 @@ public class ComicLibrary {
   public void addComic(Comic comic) {
     if (comic != null && !comics.contains(comic)) {
       comics.add(comic);
-      System.out.println("Added comic: " + comic.getTitle());
     } else {
-      System.out.println(
-          "Comic already exists or is null: " + (comic != null ? comic.getTitle() : "null"));
+      throw new ComicNotFoundException("Comic already exists");
     }
   }
 
@@ -71,10 +69,8 @@ public class ComicLibrary {
   public void removeComic(Comic comic) {
     if (comic != null && comics.contains(comic)) {
       comics.remove(comic);
-      System.out.println("Removed comic: " + comic.getTitle());
     } else {
-      System.out.println(
-          "Comic not found or is null: " + (comic != null ? comic.getTitle() : "null"));
+      throw new ComicNotFoundException("Comic title not found");
     }
   }
 }
