@@ -36,6 +36,7 @@ public class ComicLibraryTest {
   Publisher publisher;
   com.team5.cbl.cbl_app.objects.Character leadingCharacter;
 
+
   @BeforeEach
   public void setUp() {
 
@@ -46,6 +47,7 @@ public class ComicLibraryTest {
     writer = new Creator("Test Creator", 45);
     leadingCharacter = new com.team5.cbl.cbl_app.objects.Character("Test name", "This is a hero");
     publisher = new Publisher(CompanyName.DC_COMICS);
+    
     comic1 =
         new Comic(
             "Test comic",
@@ -132,5 +134,70 @@ public class ComicLibraryTest {
               classUnderTest.removeComic(comic3);
             })
         .withMessage("Comic title not found");
+
+
+  @Test
+  public void testFilterByCharacter() {
+    List<Comic> actual = classUnderTest.filterByCharacter("Test name");
+    assertEquals(actual, comics);
+  }
+
+  @Test
+  public void testFilterByCharacter_NoComicsByCharacter() {
+    assertThatExceptionOfType(ComicNotFoundException.class)
+        .isThrownBy(
+            () -> {
+              classUnderTest.filterByCharacter("invalid hero");
+            })
+        .withMessage("Character not found");
+  }
+
+  @Test
+  public void testFilterByGenre() {
+    List<Comic> actual = classUnderTest.filterByGenre(Genre.SUPERHERO);
+    assertEquals(actual, comics);
+  }
+
+  @Test
+  public void testFilterByGenre_NoComicsByGenre() {
+    assertThatExceptionOfType(ComicNotFoundException.class)
+        .isThrownBy(
+            () -> {
+              classUnderTest.filterByGenre(Genre.HORROR);
+            })
+        .withMessage("Genre not found");
+  }
+
+  @Test
+  public void testFilterByCreator() {
+    List<Comic> actual = classUnderTest.filterByCreator("Test Creator");
+    assertEquals(actual, comics);
+  }
+
+  @Test
+  public void testFilterByCreator_NoComicsByCreator() {
+    assertThatExceptionOfType(ComicNotFoundException.class)
+        .isThrownBy(
+            () -> {
+              classUnderTest.filterByCreator("invalid creator");
+            })
+        .withMessage("Creator not found");
+  }
+
+  @Test
+  public void testFilterByPublisher() {
+    List<Comic> actual = classUnderTest.filterByPublisher(CompanyName.DC_COMICS);
+    assertEquals(actual, comics);
+  }
+
+  @Test
+  public void testFilterByPublisher_NoComicsByPublisher() {
+    assertThatExceptionOfType(ComicNotFoundException.class)
+        .isThrownBy(
+            () -> {
+              classUnderTest.filterByPublisher(CompanyName.MARVEL_COMICS);
+            })
+        .withMessage("Publisher not found");
+
   }
 }
