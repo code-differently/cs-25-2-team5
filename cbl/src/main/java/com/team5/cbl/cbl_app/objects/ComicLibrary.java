@@ -5,6 +5,9 @@
 
 package com.team5.cbl.cbl_app.objects;
 
+import com.team5.cbl.cbl_app.enums.CompanyName;
+import com.team5.cbl.cbl_app.enums.Genre;
+
 import com.team5.cbl.cbl_app.exceptions.ComicNotFoundException;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -20,6 +23,26 @@ public class ComicLibrary {
     this.comics = comics;
   }
 
+  // Adds a new comic to library
+  public void addComic(Comic comic) {
+    if (comic != null && !comics.contains(comic)) {
+      comics.add(comic);
+    } else {
+      throw new ComicNotFoundException("Comic already exists");
+    }
+  }
+
+  // removes a comic from library
+  public void removeComic(Comic comic) {
+    if (comic != null && comics.contains(comic)) {
+      comics.remove(comic);
+    } else {
+      throw new ComicNotFoundException("Comic title not found");
+    }
+  }
+
+  // Filter comics by Title, Publisher, Character, Genre, Creator
+
   public List<Comic> filterByComicTitle(String title) {
     List<Comic> comicsByFilter =
         comics.stream()
@@ -27,24 +50,32 @@ public class ComicLibrary {
             .collect(Collectors.toList());
     if (comicsByFilter.isEmpty()) {
       throw new ComicNotFoundException("Comic title not found");
+
+    return comicsByFilter;
+  }
+
+  public List<Comic> filterByGenre(Genre genre) {
+    List<Comic> comicsByFilter =
+        comics.stream()
+            .filter(comic -> comic.getGenre().contains(genre))
+            .collect(Collectors.toList());
+    if (comicsByFilter.isEmpty()) {
+      throw new ComicNotFoundException("Genre not found");
     }
     return comicsByFilter;
   }
 
-  public List<Comic> filterByPublisher() {
-    return null;
-  }
-
-  public List<Comic> filterByCharacter() {
-    return null;
-  }
-
-  public List<Comic> filterByGenre() {
-    return null;
-  }
-
-  public List<Comic> filterByCreator() {
-    return null;
+  public List<Comic> filterByCreator(String name) {
+    List<Comic> comicsByFilter =
+        comics.stream()
+            .filter(
+                comic ->
+                    comic.getHeadWriter() != null && comic.getHeadWriter().getName().equals(name))
+            .collect(Collectors.toList());
+    if (comicsByFilter.isEmpty()) {
+      throw new ComicNotFoundException("Creator not found");
+    }
+    return comicsByFilter;
   }
 
   public List<Comic> getComics() {
@@ -55,10 +86,4 @@ public class ComicLibrary {
   public List<Comic> getRankings() {
     return null;
   }
-
-  // Adds a new comic to library
-  public void addComic(Comic comic) {}
-
-  // removes a
-  public void removeComic(Comic comic) {}
 }
