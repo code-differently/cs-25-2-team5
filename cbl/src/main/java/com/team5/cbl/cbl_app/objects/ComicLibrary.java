@@ -21,6 +21,8 @@ public class ComicLibrary {
     this.comics = comics;
   }
 
+  // Filter comics by Title, Publisher, Character, Genre, Creator
+
   public List<Comic> filterByComicTitle(String title) {
     List<Comic> comicsByFilter =
         comics.stream()
@@ -46,7 +48,10 @@ public class ComicLibrary {
   public List<Comic> filterByCharacter(String heroName) {
     List<Comic> comicsByFilter =
         comics.stream()
-            .filter(comic -> comic.getLeadingCharacter().getHeroName().equals(heroName))
+            .filter(
+                comic ->
+                    comic.getLeadingCharacter() != null
+                        && comic.getLeadingCharacter().getHeroName().equals(heroName))
             .collect(Collectors.toList());
     if (comicsByFilter.isEmpty()) {
       throw new ComicNotFoundException("Character not found");
@@ -68,7 +73,9 @@ public class ComicLibrary {
   public List<Comic> filterByCreator(String name) {
     List<Comic> comicsByFilter =
         comics.stream()
-            .filter(comic -> comic.getHeadWriter().getName().equals(name))
+            .filter(
+                comic ->
+                    comic.getHeadWriter() != null && comic.getHeadWriter().getName().equals(name))
             .collect(Collectors.toList());
     if (comicsByFilter.isEmpty()) {
       throw new ComicNotFoundException("Creator not found");
