@@ -9,6 +9,7 @@ import com.team5.cbl.cbl_app.enums.Genre;
 import com.team5.cbl.cbl_app.exceptions.ComicNotFoundException;
 import java.util.List;
 import java.util.stream.Collectors;
+import com.team5.cbl.cbl_app.enums.CompanyName;
 
 /**
  * @author vscode
@@ -34,10 +35,10 @@ public class ComicLibrary {
     return comicsByFilter;
   }
 
-  public List<Comic> filterByPublisher(Publisher publisher) {
+  public List<Comic> filterByPublisher(CompanyName companyName) {
     List<Comic> comicsByFilter =
         comics.stream()
-            .filter(comic -> comic.getPublisher().equals(publisher))
+            .filter(comic -> comic.getPublisher().getCompanyName().equals(companyName))
             .collect(Collectors.toList());
     if (comicsByFilter.isEmpty()) {
       throw new ComicNotFoundException("Publisher not found");
