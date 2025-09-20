@@ -31,19 +31,23 @@ public class ComicLibraryTest {
   private Comic comic1;
   private Comic comic2;
   List<Comic> comics;
+  List<Genre> genres = new ArrayList<>();
+  Creator writer;
+  Publisher publisher;
+  com.team5.cbl.cbl_app.objects.Character leadingCharacter;
+
 
   @BeforeEach
   public void setUp() {
 
     comics = new ArrayList<>();
-    List<Genre> genres = new ArrayList<>();
+
     genres.add(Genre.SUPERHERO);
     genres.add(Genre.ACTION);
-
-    Creator writer = new Creator("Test Creator", 45);
-    var leadingCharacter =
-        new com.team5.cbl.cbl_app.objects.Character("Test name", "This is a hero");
-    var publisher = new Publisher(CompanyName.DC_COMICS);
+    writer = new Creator("Test Creator", 45);
+    leadingCharacter = new com.team5.cbl.cbl_app.objects.Character("Test name", "This is a hero");
+    publisher = new Publisher(CompanyName.DC_COMICS);
+    
     comic1 =
         new Comic(
             "Test comic",
@@ -83,6 +87,54 @@ public class ComicLibraryTest {
             })
         .withMessage("Comic title not found");
   }
+
+  @Test
+  public void testAddComic() {
+    var comic3 =
+        new Comic(
+            "Test comic",
+            genres,
+            new RarityDetails(Edition.SINGLE_ISSUES, 150, 7.3, Year.now()),
+            writer,
+            leadingCharacter,
+            publisher);
+    classUnderTest.addComic(comic3);
+    assertEquals(3, classUnderTest.getComics().size());
+  }
+
+  @Test
+  public void testremoveComic() {
+    classUnderTest.removeComic(comic2);
+    assertEquals(1, classUnderTest.getComics().size());
+  }
+
+  @Test
+  public void testAddComic_AlreadyExists() {
+    assertThatExceptionOfType(ComicNotFoundException.class)
+        .isThrownBy(
+            () -> {
+              classUnderTest.addComic(comic1);
+            })
+        .withMessage("Comic already exists");
+  }
+
+  @Test
+  public void testRemoveComic_NotFound() {
+    var comic3 =
+        new Comic(
+            "Test comic",
+            genres,
+            new RarityDetails(Edition.SINGLE_ISSUES, 150, 7.3, Year.now()),
+            writer,
+            leadingCharacter,
+            publisher);
+    assertThatExceptionOfType(ComicNotFoundException.class)
+        .isThrownBy(
+            () -> {
+              classUnderTest.removeComic(comic3);
+            })
+        .withMessage("Comic title not found");
+
 
   @Test
   public void testFilterByCharacter() {
@@ -146,5 +198,6 @@ public class ComicLibraryTest {
               classUnderTest.filterByPublisher(CompanyName.MARVEL_COMICS);
             })
         .withMessage("Publisher not found");
+
   }
 }

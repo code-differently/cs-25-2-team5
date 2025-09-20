@@ -21,4 +21,17 @@ public class Character {
   public String toString() {
     return "Character{" + "heroName='" + heroName + '\'' + ", bio='" + bio + '\'' + '}';
   }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null || getClass() != obj.getClass()) return false;
+    Character character = (Character) obj;
+    return heroName.equals(character.heroName) && bio.equals(character.bio);
+  }
+
+  @Override
+  public int hashCode() {
+    return heroName.hashCode() + bio.hashCode();
+  }
 }

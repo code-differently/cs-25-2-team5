@@ -57,4 +57,17 @@ public class Publisher {
   public boolean hasCharacter(String character) {
     return character != null && characters.contains(character);
   }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null || getClass() != obj.getClass()) return false;
+    Publisher publisher = (Publisher) obj;
+    return companyName == publisher.companyName && characters.equals(publisher.characters);
+  }
+
+  @Override
+  public int hashCode() {
+    return companyName.hashCode() + characters.hashCode();
+  }
 }

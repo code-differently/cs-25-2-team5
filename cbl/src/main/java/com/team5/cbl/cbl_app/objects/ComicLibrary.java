@@ -7,6 +7,7 @@ package com.team5.cbl.cbl_app.objects;
 
 import com.team5.cbl.cbl_app.enums.CompanyName;
 import com.team5.cbl.cbl_app.enums.Genre;
+
 import com.team5.cbl.cbl_app.exceptions.ComicNotFoundException;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -20,6 +21,24 @@ public class ComicLibrary {
 
   public ComicLibrary(List<Comic> comics) {
     this.comics = comics;
+  }
+
+  // Adds a new comic to library
+  public void addComic(Comic comic) {
+    if (comic != null && !comics.contains(comic)) {
+      comics.add(comic);
+    } else {
+      throw new ComicNotFoundException("Comic already exists");
+    }
+  }
+
+  // removes a comic from library
+  public void removeComic(Comic comic) {
+    if (comic != null && comics.contains(comic)) {
+      comics.remove(comic);
+    } else {
+      throw new ComicNotFoundException("Comic title not found");
+    }
   }
 
   // Filter comics by Title, Publisher, Character, Genre, Creator
