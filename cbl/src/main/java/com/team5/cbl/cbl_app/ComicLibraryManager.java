@@ -6,10 +6,6 @@
 package com.team5.cbl.cbl_app;
 
 /**
- *
  * @author vscode
  */
-public class ComicLibraryManager {
-    
-
-}
+public class ComicLibraryManager {}
