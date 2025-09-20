@@ -58,25 +58,28 @@ public class Publisher {
     return character != null && characters.contains(character);
   }
 
+  /**
+   * Identity and hash code are based only on companyName.
+   * The characters list is excluded to ensure hashCode stability.
+   */
   @Override
   public int hashCode() {
     final int prime = 31;
     int result = 1;
     result = prime * result + ((companyName == null) ? 0 : companyName.hashCode());
-    result = prime * result + ((characters == null) ? 0 : characters.hashCode());
     return result;
   }
 
+  /**
+   * Equality is based only on companyName.
+   * The characters list is excluded to ensure consistent behavior in collections.
+   */
   @Override
   public boolean equals(Object obj) {
     if (this == obj) return true;
     if (obj == null) return false;
     if (getClass() != obj.getClass()) return false;
     Publisher other = (Publisher) obj;
-    if (companyName != other.companyName) return false;
-    if (characters == null) {
-      if (other.characters != null) return false;
-    } else if (!characters.equals(other.characters)) return false;
-    return true;
+    return companyName == other.companyName;
   }
 }
