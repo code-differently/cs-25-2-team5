@@ -23,6 +23,10 @@ public class Publisher {
     }
   }
 
+  public Publisher(String string) {
+    //TODO Auto-generated constructor stub
+}
+
   // Getter for company name
   public CompanyName getCompanyName() {
     return companyName;
