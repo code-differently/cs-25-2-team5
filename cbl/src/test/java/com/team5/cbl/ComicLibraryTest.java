@@ -5,15 +5,8 @@
 
 package com.team5.cbl;
 
-import java.time.Year;
-import java.util.ArrayList;
-import java.util.List;
-
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 
 import com.team5.cbl.cbl_app.enums.CompanyName;
 import com.team5.cbl.cbl_app.enums.Edition;
@@ -24,19 +17,23 @@ import com.team5.cbl.cbl_app.objects.ComicLibrary;
 import com.team5.cbl.cbl_app.objects.Creator;
 import com.team5.cbl.cbl_app.objects.Publisher;
 import com.team5.cbl.cbl_app.objects.RarityDetails;
+import java.time.Year;
+import java.util.ArrayList;
+import java.util.List;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
- *
  * @author vscode
  */
 public class ComicLibraryTest {
-    private ComicLibrary classUnderTest;
-    private Comic comic1;
-    private Comic comic2;
-    List<Comic> comics;
+  private ComicLibrary classUnderTest;
+  private Comic comic1;
+  private Comic comic2;
+  List<Comic> comics;
 
-    @BeforeEach
-    public void setUp(){
+  @BeforeEach
+  public void setUp() {
 
     comics = new ArrayList<>();
     List<Genre> genres = new ArrayList<>();
@@ -47,7 +44,7 @@ public class ComicLibraryTest {
     var leadingCharacter =
         new com.team5.cbl.cbl_app.objects.Character("Test name", "This is a hero");
     var publisher = new Publisher(CompanyName.DC_COMICS);
-     comic1 =
+    comic1 =
         new Comic(
             "Test comic",
             genres,
@@ -56,7 +53,7 @@ public class ComicLibraryTest {
             leadingCharacter,
             publisher);
 
-     comic2 =
+    comic2 =
         new Comic(
             "Test comic",
             genres,
@@ -65,27 +62,89 @@ public class ComicLibraryTest {
             leadingCharacter,
             publisher);
 
-            comics.add(comic1);
-            comics.add(comic2);
-            classUnderTest = new ComicLibrary(comics);
-        }
+    comics.add(comic1);
+    comics.add(comic2);
+    classUnderTest = new ComicLibrary(comics);
+  }
 
-    @Test
-    public void testFilterByComicTitle() {
-        List<Comic> actual = classUnderTest.filterByComicTitle("Test comic");
-        assertEquals(actual, comics);
-    }
+  @Test
+  public void testFilterByComicTitle() {
+    List<Comic> actual = classUnderTest.filterByComicTitle("Test comic");
+    assertEquals(actual, comics);
+  }
 
+  @Test
+  public void testFilterByComicTitle_NoComicsByTitle() {
 
-    @Test 
-    public void testFilterByComicTitle_NoComicsByTitle() {
-        
-        assertThatExceptionOfType(ComicNotFoundException.class)
-        .isThrownBy(()-> {
-            classUnderTest.filterByComicTitle("invalid title");
-        })
+    assertThatExceptionOfType(ComicNotFoundException.class)
+        .isThrownBy(
+            () -> {
+              classUnderTest.filterByComicTitle("invalid title");
+            })
         .withMessage("Comic title not found");
-    }
+  }
 
+  @Test
+  public void testFilterByCharacter() {
+    List<Comic> actual = classUnderTest.filterByCharacter("Test name");
+    assertEquals(actual, comics);
+  }
 
+  @Test
+  public void testFilterByCharacter_NoComicsByCharacter() {
+    assertThatExceptionOfType(ComicNotFoundException.class)
+        .isThrownBy(
+            () -> {
+              classUnderTest.filterByCharacter("invalid hero");
+            })
+        .withMessage("Character not found");
+  }
+
+  @Test
+  public void testFilterByGenre() {
+    List<Comic> actual = classUnderTest.filterByGenre(Genre.SUPERHERO);
+    assertEquals(actual, comics);
+  }
+
+  @Test
+  public void testFilterByGenre_NoComicsByGenre() {
+    assertThatExceptionOfType(ComicNotFoundException.class)
+        .isThrownBy(
+            () -> {
+              classUnderTest.filterByGenre(Genre.HORROR);
+            })
+        .withMessage("Genre not found");
+  }
+
+  @Test
+  public void testFilterByCreator() {
+    List<Comic> actual = classUnderTest.filterByCreator("Test Creator");
+    assertEquals(actual, comics);
+  }
+
+  @Test
+  public void testFilterByCreator_NoComicsByCreator() {
+    assertThatExceptionOfType(ComicNotFoundException.class)
+        .isThrownBy(
+            () -> {
+              classUnderTest.filterByCreator("invalid creator");
+            })
+        .withMessage("Creator not found");
+  }
+
+  @Test
+  public void testFilterByPublisher() {
+    List<Comic> actual = classUnderTest.filterByPublisher(CompanyName.DC_COMICS);
+    assertEquals(actual, comics);
+  }
+
+  @Test
+  public void testFilterByPublisher_NoComicsByPublisher() {
+    assertThatExceptionOfType(ComicNotFoundException.class)
+        .isThrownBy(
+            () -> {
+              classUnderTest.filterByPublisher(CompanyName.MARVEL_COMICS);
+            })
+        .withMessage("Publisher not found");
+  }
 }
