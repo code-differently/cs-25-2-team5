@@ -111,8 +111,9 @@ public class ComicLibrary {
   }
 
   public List<Comic> getRankings() {
-        Collections.sort(comics);
-        return comics.reversed();
+        List<Comic> sortedComics = new java.util.ArrayList<>(comics);
+        Collections.sort(sortedComics);
+        return sortedComics.reversed();
     }
 
 }
