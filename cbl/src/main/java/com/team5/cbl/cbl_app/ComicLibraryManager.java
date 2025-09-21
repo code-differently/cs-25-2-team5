@@ -53,7 +53,6 @@ public class ComicLibraryManager {
                     ? "No leading Character"
                     : comic.getLeadingCharacter().getHeroName();
             System.out.println(leadingCharacterName + " ");
-            System.out.println(comic.getPublisher().getCompanyName() + " ");
             System.out.println();
           }
           break;
@@ -68,7 +67,7 @@ public class ComicLibraryManager {
         case 3:
           System.out.println("What is the name of the comic");
           String comicTitle = scanner.nextLine().trim();
-          System.out.println("How many issue does it have");
+          System.out.println("How many issues does it have");
           int numberOfIssues = scanner.nextInt();
           scanner.nextLine();
           Genre genre = readEnumInput(scanner, Genre.class, "What is the genre");
@@ -77,7 +76,7 @@ public class ComicLibraryManager {
           System.out.println("How old are they");
           int age = scanner.nextInt();
           scanner.nextLine();
-          // creaters new creator object
+          // creates new creator object
           Creator writer = new Creator(writerName, age);
           // Creates new publisher object
           CompanyName publisherName =
@@ -106,7 +105,7 @@ public class ComicLibraryManager {
           System.out.println("What is the grade");
           var grade = scanner.nextDouble();
           scanner.nextLine();
-          System.out.println("What year was it relased");
+          System.out.println("What year was it released");
           var relaseDate = Year.of(scanner.nextInt());
           var newRarityDetails = new RarityDetails(edition, printCount, grade, relaseDate);
           Comic newComic =
@@ -136,6 +135,7 @@ public class ComicLibraryManager {
                               + comic.getRarityDetails().getGrade()
                               + " year: "
                               + comic.getRarityDetails().getYear()));
+          break;
         default:
           flag = false;
           break;

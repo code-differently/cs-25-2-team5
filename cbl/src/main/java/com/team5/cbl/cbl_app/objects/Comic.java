@@ -22,7 +22,7 @@ public class Comic implements Comparable<Comic> {
   private List<Creator> creativeTeam;
   private Character leadingCharacter;
   private Publisher publisher;
-  public Integer numberOfIssues;
+  private Integer numberOfIssues;
 
   // Main constructor with creative team
   public Comic(
