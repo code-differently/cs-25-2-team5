@@ -5,14 +5,8 @@
 
 package com.team5.cbl;
 
-import java.time.Year;
-import java.util.ArrayList;
-import java.util.List;
-
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 
 import com.team5.cbl.cbl_app.enums.CompanyName;
 import com.team5.cbl.cbl_app.enums.Edition;
@@ -24,6 +18,11 @@ import com.team5.cbl.cbl_app.objects.ComicLibrary;
 import com.team5.cbl.cbl_app.objects.Creator;
 import com.team5.cbl.cbl_app.objects.Publisher;
 import com.team5.cbl.cbl_app.objects.RarityDetails;
+import java.time.Year;
+import java.util.ArrayList;
+import java.util.List;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author vscode
@@ -39,7 +38,6 @@ public class ComicLibraryTest {
   private Publisher publisher;
   private Comic comic1;
   private Comic comic2;
-
 
   @BeforeEach
   public void setUp() {
@@ -272,5 +270,4 @@ public class ComicLibraryTest {
     comic1.removeCreator(newCreator);
     assertEquals(2, comic1.getCreativeTeam().size());
   }
-
 }
