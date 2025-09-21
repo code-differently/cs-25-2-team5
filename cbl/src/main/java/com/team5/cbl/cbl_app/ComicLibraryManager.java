@@ -68,6 +68,7 @@ public class ComicLibraryManager {
                     String comicTitle = scanner.nextLine().trim();
                     System.out.println("How many issue does it have");
                     int numberOfIssues= scanner.nextInt();
+                    scanner.nextLine();
                     Genre genre = readEnumInput(scanner, Genre.class, "What is the genre");
                     System.out.println("Who is the writer");
                     String writerName  = scanner.nextLine().trim();
