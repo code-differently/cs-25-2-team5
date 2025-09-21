@@ -4,7 +4,7 @@ public enum Edition {
   SINGLE_ISSUE("Single Issues"),
   TRADE_PAPERBACK("Trade Paperbacks"),
   GRAPHIC_NOVEL("Graphic Novels"),
-  OMNIBUSE("Omnibuses"),
+  OMNIBUS("Omnibuses"),
   COLLECTORS_EDITION("Collector's Edition"),
   DIGITAL_EDITION("Digital Editions"),
   ALTERNATE_COMIC("Alternate Comics"),
@@ -21,8 +21,5 @@ public enum Edition {
     return displayName;
   }
 
-  @Override
-  public String toString() {
-    return displayName;
-  }
+  
 }

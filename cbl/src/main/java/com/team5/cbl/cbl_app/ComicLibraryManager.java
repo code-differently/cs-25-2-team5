@@ -14,6 +14,7 @@ import java.util.Scanner;
 import com.team5.cbl.cbl_app.enums.CompanyName;
 import com.team5.cbl.cbl_app.enums.Edition;
 import com.team5.cbl.cbl_app.enums.Genre;
+import com.team5.cbl.cbl_app.objects.Character;
 import com.team5.cbl.cbl_app.objects.Comic;
 import com.team5.cbl.cbl_app.objects.ComicLibrary;
 import com.team5.cbl.cbl_app.objects.Creator;
@@ -64,14 +65,48 @@ public class ComicLibraryManager {
                 case 3:
                     System.out.println("What is the name of the comic");
                     String comicTitle = scanner.nextLine().trim();
-                    readEnumInput(scanner, Genre.class, "What is the genre");
+                    System.out.println("How many issue does it have");
+                    int numberOfIssues= scanner.nextInt();
+                    Genre genre = readEnumInput(scanner, Genre.class, "What is the genre");
                     System.out.println("Who is the writer");
                     String writerName  = scanner.nextLine().trim();
                     System.out.println("How old are they");
                     int age = scanner.nextInt();
                     scanner.nextLine();
-                    readEnumInput(scanner, CompanyName.class, "who is the publisher");
-                    
+                    // creaters new creator object
+                    Creator writer = new Creator(writerName, age);
+                    // Creates new publisher object
+                    CompanyName publisherName = readEnumInput(scanner, CompanyName.class, "who is the publisher");
+                    Publisher publisher = new Publisher(publisherName);
+
+                    System.out.println("Who is the main hero");
+                    String heroName = scanner.nextLine().trim();
+                    System.out.println("Give them a short bio");
+                    String bio = scanner.nextLine().trim();
+                    System.out.println("Do they have a secret Identity 1 for yes any key for no");
+                    var val = scanner.nextInt();
+                    scanner.nextLine();
+                    Character newComicCharater = null;
+                    if (val == 1) {
+                        System.out.println("What is their name");
+                        newComicCharater = new Character(heroName, bio, scanner.nextLine());
+
+                    } else {
+                        newComicCharater = new Character(heroName, bio);
+
+                    }
+                    Edition edition = readEnumInput(scanner, Edition.class, "What is the edition");
+                    System.out.println("What is the print count");
+                    var printCount = scanner.nextInt();
+                    scanner.nextLine();
+                    System.out.println("What is the grade");
+                    var grade = scanner.nextDouble();
+                    scanner.nextLine();
+                    System.out.println("What year was it relased");
+                    var relaseDate = Year.of(scanner.nextInt());
+                    var newRarityDetails = new RarityDetails(edition, printCount, grade, relaseDate);
+                    Comic newComic = new Comic(comicTitle, List.of(genre), numberOfIssues, newRarityDetails, writer, newComicCharater, publisher);
+                    System.out.println("You added a new comic to the library");
                     break;
                 default:
                 flag = false;
@@ -126,6 +161,7 @@ public class ComicLibraryManager {
         comics.add(new Comic(
             "The Amazing Spider-Man #1",
             superheroGenre,
+            100,
             commonRarity,
             stanLee,
             spiderMan,
@@ -135,6 +171,7 @@ public class ComicLibraryManager {
         comics.add(new Comic(
             "Batman: The Dark Knight Returns",
             superheroActionGenre,
+            4,
             rareRarity,
             frankMiller,
             batman,
@@ -144,6 +181,7 @@ public class ComicLibraryManager {
         comics.add(new Comic(
             "Watchmen #1",
             superheroGenre,
+            30,
             veryRareRarity,
             alanMoore,
             null, // No single main character
@@ -153,6 +191,7 @@ public class ComicLibraryManager {
         comics.add(new Comic(
             "Superman: Action Comics #1000",
             superheroGenre,
+            1,
             uncommonRarity,
             scottSnyder,
             superman,
@@ -162,6 +201,7 @@ public class ComicLibraryManager {
         comics.add(new Comic(
             "Ultimate Spider-Man #1",
             superheroGenre,
+            1,
             rareRarity,
             brianBendis,
             spiderMan,
@@ -171,6 +211,7 @@ public class ComicLibraryManager {
         comics.add(new Comic(
             "Wonder Woman #750",
             superheroGenre,
+            1,
             commonRarity,
             stanLee,
             wonderWoman,
@@ -180,6 +221,7 @@ public class ComicLibraryManager {
         comics.add(new Comic(
             "X-Men Origins: Wolverine",
             actionGenre,
+            15,
             ultraRareRarity,
             frankMiller,
             wolverine,
@@ -189,6 +231,7 @@ public class ComicLibraryManager {
         comics.add(new Comic(
             "Batman: Year One",
             crimeGenre,
+            60,
             rareRarity,
             frankMiller,
             batman,
