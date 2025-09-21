@@ -13,7 +13,6 @@ import com.team5.cbl.cbl_app.enums.CompanyName;
 import com.team5.cbl.cbl_app.enums.Genre;
 import com.team5.cbl.cbl_app.exceptions.ComicNotFoundException;
 
-
 /**
  * @author vscode
  */
@@ -21,8 +20,8 @@ public class ComicLibrary {
 
   private List<Comic> comics;
 
-  public ComicLibrary(List<Comic> comics) {
-    this.comics = comics;
+  public ComicLibrary(List<Comic> comics2) {
+    this.comics = comics2;
   }
 
   // Adds a new comic to library
@@ -52,10 +51,9 @@ public class ComicLibrary {
             .collect(Collectors.toList());
     if (comicsByFilter.isEmpty()) {
       throw new ComicNotFoundException("Comic title not found");
-
     }
     return comicsByFilter;
-}
+  }
 
   public List<Comic> filterByGenre(Genre genre) {
     List<Comic> comicsByFilter =
@@ -81,7 +79,7 @@ public class ComicLibrary {
     return comicsByFilter;
   }
 
-   public List<Comic> filterByCharacter(String heroName) {
+  public List<Comic> filterByCharacter(String heroName) {
     List<Comic> comicsByFilter =
         comics.stream()
             .filter(
@@ -111,9 +109,8 @@ public class ComicLibrary {
   }
 
   public List<Comic> getRankings() {
-        List<Comic> sortedComics = new java.util.ArrayList<>(comics);
-        Collections.sort(sortedComics);
-        return sortedComics.reversed();
-    }
-
+    List<Comic> sortedComics = new java.util.ArrayList<>(comics);
+    Collections.sort(sortedComics);
+    return sortedComics.reversed();
+  }
 }

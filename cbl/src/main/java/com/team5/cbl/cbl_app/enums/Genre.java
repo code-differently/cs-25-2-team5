@@ -14,6 +14,10 @@ public enum Genre {
   FANTASY("Fantasy"),
   HORROR("Horror"),
   SUPERHERO("Superhero"),
+  CRIME("Crime"),
+  MYSTERY("Mystery"),
+  THRILLER("Thriller"),
+  COMEDY("Comedy"),
   SCI_FI("Sci-fi");
 
   private String displayName;
