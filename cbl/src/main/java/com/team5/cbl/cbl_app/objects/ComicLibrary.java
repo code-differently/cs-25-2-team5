@@ -79,9 +79,10 @@ public class ComicLibrary implements ComicRepository, ComicSearchService {
   public List<Comic> filterByCreator(String name) {
     List<Comic> comicsByFilter =
         comics.stream()
-            .filter(comic -> 
-                comic.getCreativeTeam().stream()
-                    .anyMatch(creator -> creator.getName().contains(name)))
+            .filter(
+                comic ->
+                    comic.getCreativeTeam().stream()
+                        .anyMatch(creator -> creator.getName().contains(name)))
             .collect(Collectors.toList());
     if (comicsByFilter.isEmpty()) {
       throw new ComicNotFoundException("Creator not found");

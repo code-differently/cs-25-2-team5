@@ -5,11 +5,10 @@
 
 package com.team5.cbl.cbl_app.objects;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.team5.cbl.cbl_app.enums.CompanyName;
 import com.team5.cbl.cbl_app.enums.Genre;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author vscode
@@ -133,16 +132,25 @@ public class Comic implements Comparable<Comic> {
   public boolean equals(Object obj) {
     if (this == obj) return true;
     if (obj == null || getClass() != obj.getClass()) return false;
-    
+
     Comic comic = (Comic) obj;
-    
+
     if (title != null ? !title.equals(comic.title) : comic.title != null) return false;
     if (genre != null ? !genre.equals(comic.genre) : comic.genre != null) return false;
-    if (rarityDetails != null ? !rarityDetails.equals(comic.rarityDetails) : comic.rarityDetails != null) return false;
-    if (creativeTeam != null ? !creativeTeam.equals(comic.creativeTeam) : comic.creativeTeam != null) return false;
-    if (leadingCharacter != null ? !leadingCharacter.equals(comic.leadingCharacter) : comic.leadingCharacter != null) return false;
-    if (publisher != null ? !publisher.equals(comic.publisher) : comic.publisher != null) return false;
-    return numberOfIssues != null ? numberOfIssues.equals(comic.numberOfIssues) : comic.numberOfIssues == null;
+    if (rarityDetails != null
+        ? !rarityDetails.equals(comic.rarityDetails)
+        : comic.rarityDetails != null) return false;
+    if (creativeTeam != null
+        ? !creativeTeam.equals(comic.creativeTeam)
+        : comic.creativeTeam != null) return false;
+    if (leadingCharacter != null
+        ? !leadingCharacter.equals(comic.leadingCharacter)
+        : comic.leadingCharacter != null) return false;
+    if (publisher != null ? !publisher.equals(comic.publisher) : comic.publisher != null)
+      return false;
+    return numberOfIssues != null
+        ? numberOfIssues.equals(comic.numberOfIssues)
+        : comic.numberOfIssues == null;
   }
 
   @Override
@@ -159,14 +167,22 @@ public class Comic implements Comparable<Comic> {
 
   @Override
   public String toString() {
-    return "Comic{" +
-            "title='" + title + '\'' +
-            ", genre=" + genre +
-            ", numberOfIssues=" + numberOfIssues +
-            ", creativeTeam=" + creativeTeam +
-            ", leadingCharacter=" + leadingCharacter +
-            ", publisher=" + publisher +
-            ", rarityDetails=" + rarityDetails +
-            '}';
+    return "Comic{"
+        + "title='"
+        + title
+        + '\''
+        + ", genre="
+        + genre
+        + ", numberOfIssues="
+        + numberOfIssues
+        + ", creativeTeam="
+        + creativeTeam
+        + ", leadingCharacter="
+        + leadingCharacter
+        + ", publisher="
+        + publisher
+        + ", rarityDetails="
+        + rarityDetails
+        + '}';
   }
 }
