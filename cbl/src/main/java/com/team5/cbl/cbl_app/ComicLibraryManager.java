@@ -106,6 +106,7 @@ public class ComicLibraryManager {
                     var relaseDate = Year.of(scanner.nextInt());
                     var newRarityDetails = new RarityDetails(edition, printCount, grade, relaseDate);
                     Comic newComic = new Comic(comicTitle, List.of(genre), numberOfIssues, newRarityDetails, writer, newComicCharater, publisher);
+                    sampleLibrary.addComic(newComic);
                     System.out.println("You added a new comic to the library");
                     break;
                 default:
