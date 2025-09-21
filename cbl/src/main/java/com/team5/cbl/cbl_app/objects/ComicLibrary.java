@@ -5,12 +5,14 @@
 
 package com.team5.cbl.cbl_app.objects;
 
-import com.team5.cbl.cbl_app.enums.CompanyName;
-import com.team5.cbl.cbl_app.enums.Genre;
-
-import com.team5.cbl.cbl_app.exceptions.ComicNotFoundException;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import com.team5.cbl.cbl_app.enums.CompanyName;
+import com.team5.cbl.cbl_app.enums.Genre;
+import com.team5.cbl.cbl_app.exceptions.ComicNotFoundException;
+
 
 /**
  * @author vscode
@@ -51,8 +53,9 @@ public class ComicLibrary {
     if (comicsByFilter.isEmpty()) {
       throw new ComicNotFoundException("Comic title not found");
 
+    }
     return comicsByFilter;
-  }
+}
 
   public List<Comic> filterByGenre(Genre genre) {
     List<Comic> comicsByFilter =
@@ -78,12 +81,39 @@ public class ComicLibrary {
     return comicsByFilter;
   }
 
+   public List<Comic> filterByCharacter(String heroName) {
+    List<Comic> comicsByFilter =
+        comics.stream()
+            .filter(
+                comic ->
+                    comic.getLeadingCharacter() != null
+                        && comic.getLeadingCharacter().getHeroName().equals(heroName))
+            .collect(Collectors.toList());
+    if (comicsByFilter.isEmpty()) {
+      throw new ComicNotFoundException("Character not found");
+    }
+    return comicsByFilter;
+  }
+
+  public List<Comic> filterByPublisher(CompanyName companyName) {
+    List<Comic> comicsByFilter =
+        comics.stream()
+            .filter(comic -> comic.getPublisher().getCompanyName().equals(companyName))
+            .collect(Collectors.toList());
+    if (comicsByFilter.isEmpty()) {
+      throw new ComicNotFoundException("Publisher not found");
+    }
+    return comicsByFilter;
+  }
+
   public List<Comic> getComics() {
     return comics;
   }
 
-  // sorts the lists by the grade and returns the list of comics
   public List<Comic> getRankings() {
-    return null;
-  }
+        List<Comic> sortedComics = new java.util.ArrayList<>(comics);
+        Collections.sort(sortedComics);
+        return sortedComics.reversed();
+    }
+
 }
