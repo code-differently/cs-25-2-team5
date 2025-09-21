@@ -105,7 +105,7 @@ public class ComicLibraryManager {
           System.out.println("What is the grade");
           var grade = scanner.nextDouble();
           scanner.nextLine();
-          System.out.println("What year was it relased");
+          System.out.println("What year was it released");
           var relaseDate = Year.of(scanner.nextInt());
           var newRarityDetails = new RarityDetails(edition, printCount, grade, relaseDate);
           Comic newComic =
