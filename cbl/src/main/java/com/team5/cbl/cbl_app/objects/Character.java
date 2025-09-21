@@ -22,7 +22,6 @@ public class Character {
     return "Character{" + "heroName='" + heroName + '\'' + ", bio='" + bio + '\'' + '}';
   }
 
-
   @Override
   public boolean equals(Object obj) {
     if (this == obj) return true;
@@ -34,6 +33,5 @@ public class Character {
   @Override
   public int hashCode() {
     return heroName.hashCode() + bio.hashCode();
-
   }
 }

@@ -5,14 +5,8 @@
 
 package com.team5.cbl;
 
-import java.time.Year;
-import java.util.ArrayList;
-import java.util.List;
-
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 
 import com.team5.cbl.cbl_app.enums.CompanyName;
 import com.team5.cbl.cbl_app.enums.Edition;
@@ -23,6 +17,11 @@ import com.team5.cbl.cbl_app.objects.ComicLibrary;
 import com.team5.cbl.cbl_app.objects.Creator;
 import com.team5.cbl.cbl_app.objects.Publisher;
 import com.team5.cbl.cbl_app.objects.RarityDetails;
+import java.time.Year;
+import java.util.ArrayList;
+import java.util.List;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author vscode
@@ -37,8 +36,6 @@ public class ComicLibraryTest {
   Publisher publisher;
   com.team5.cbl.cbl_app.objects.Character leadingCharacter;
 
-
-
   @BeforeEach
   public void setUp() {
 
@@ -48,7 +45,7 @@ public class ComicLibraryTest {
     writer = new Creator("Test Creator", 45);
     leadingCharacter = new com.team5.cbl.cbl_app.objects.Character("Test name", "This is a hero");
     publisher = new Publisher(CompanyName.DC_COMICS);
-    
+
     comic1 =
         new Comic(
             "Test comic",
@@ -87,7 +84,6 @@ public class ComicLibraryTest {
               classUnderTest.filterByComicTitle("invalid title");
             })
         .withMessage("Comic title not found");
-
   }
 
   @Test
@@ -137,7 +133,6 @@ public class ComicLibraryTest {
             })
         .withMessage("Comic title not found");
   }
-
 
   @Test
   public void testFilterByCharacter() {
@@ -201,7 +196,6 @@ public class ComicLibraryTest {
               classUnderTest.filterByPublisher(CompanyName.MARVEL_COMICS);
             })
         .withMessage("Publisher not found");
-
   }
 
   @Test
@@ -231,7 +225,5 @@ public class ComicLibraryTest {
     assertEquals(expected.get(0), classUnderTest.getRankings().get(0));
     assertEquals(expected.get(1), classUnderTest.getRankings().get(1));
     assertEquals(expected.get(2), classUnderTest.getRankings().get(2));
-
   }
-
 }
