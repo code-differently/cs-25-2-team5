@@ -75,7 +75,7 @@ public class ComicLibraryManager {
           System.out.println("How old are they");
           int age = scanner.nextInt();
           scanner.nextLine();
-          // creaters new creator object
+          // creates new creator object
           Creator writer = new Creator(writerName, age);
           // Creates new publisher object
           CompanyName publisherName =
