@@ -89,7 +89,7 @@ public class ComicLibraryManager {
           String heroName = scanner.nextLine().trim();
           System.out.println("Give them a short bio");
           String bio = scanner.nextLine().trim();
-          System.out.println("Do they have a secret Identity? 1 for yes, any other number for no");
+          System.out.println("Do they have a secret identity? 1 for yes, any other number for no");
           var val = scanner.nextInt();
           scanner.nextLine();
           Character newComicCharacter = null;
