@@ -5,6 +5,7 @@
 
 package com.team5.cbl.cbl_app.objects;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -108,5 +109,10 @@ public class ComicLibrary {
   public List<Comic> getComics() {
     return comics;
   }
+
+  public List<Comic> getRankings() {
+        Collections.sort(comics);
+        return comics.reversed();
+    }
 
 }

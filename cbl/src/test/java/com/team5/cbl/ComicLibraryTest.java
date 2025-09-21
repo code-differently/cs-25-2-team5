@@ -53,7 +53,7 @@ public class ComicLibraryTest {
         new Comic(
             "Test comic",
             genres,
-            new RarityDetails(Edition.SINGLE_ISSUES, 150, 7.3, Year.now()),
+            new RarityDetails(Edition.SINGLE_ISSUES, 150, 7.8, Year.now()),
             writer,
             leadingCharacter,
             publisher);
@@ -62,7 +62,7 @@ public class ComicLibraryTest {
         new Comic(
             "Test comic",
             genres,
-            new RarityDetails(Edition.TRADE_PAPERBACKS, 150, 7.3, Year.now()),
+            new RarityDetails(Edition.TRADE_PAPERBACKS, 150, 8.2, Year.now()),
             writer,
             leadingCharacter,
             publisher);
@@ -210,5 +210,32 @@ public class ComicLibraryTest {
     assertEquals(actual, comics);
   }
 
+  @Test
+  public void getRankingsTest() {
+
+    var comic3 =
+        new Comic(
+            "Test comic 3 ",
+            genres,
+            new RarityDetails(Edition.TRADE_PAPERBACKS, 150, 9.1, Year.now()),
+            writer,
+            leadingCharacter,
+            publisher);
+
+    classUnderTest.addComic(comic3);
+
+    List<Comic> expected = new ArrayList<>();
+    expected.add(comic3);
+    expected.add(comic2);
+    expected.add(comic1);
+    assertEquals(expected.get(0), classUnderTest.getRankings().get(0));
+    assertEquals(expected.get(1), classUnderTest.getRankings().get(1));
+    assertEquals(expected.get(2), classUnderTest.getRankings().get(2));
+
   
+    
+
+
+  }
+
 }
