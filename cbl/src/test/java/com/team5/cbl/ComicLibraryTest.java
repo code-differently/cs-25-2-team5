@@ -232,10 +232,6 @@ public class ComicLibraryTest {
     assertEquals(expected.get(1), classUnderTest.getRankings().get(1));
     assertEquals(expected.get(2), classUnderTest.getRankings().get(2));
 
-  
-    
-
-
   }
 
 }
