@@ -37,7 +37,8 @@ public class ComicLibraryManager {
             System.out.println("1. Display all comics");
             System.out.println("2. Filter comics");
             System.out.println("3. Add a new comic");
-            System.out.println("4. Exit");
+            System.out.println("4. View the comic grades of our Library");
+            System.out.println("any other key to exit");
             int input = scanner.nextInt();
             scanner.nextLine();
             switch(input) {
@@ -109,6 +110,11 @@ public class ComicLibraryManager {
                     sampleLibrary.addComic(newComic);
                     System.out.println("You added a new comic to the library");
                     break;
+                case 4:
+                    sampleLibrary.getRankings().forEach(comic -> System.out.println(comic.getTitle()  +
+                     " Edition: " + comic.getRarityDetails().getEdition() + " print count: " +comic.getRarityDetails().getPrintCount()
+                    + " grade: " + comic.getRarityDetails().getGrade() 
+                     + " year: " + comic.getRarityDetails().getYear()));
                 default:
                 flag = false;
                     break;
