@@ -1,8 +1,9 @@
 package com.team5.cbl.cbl_app.objects;
 
-import com.team5.cbl.cbl_app.enums.CompanyName;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.team5.cbl.cbl_app.enums.CompanyName;
 
 public class Publisher {
   private CompanyName companyName;
@@ -23,9 +24,6 @@ public class Publisher {
     }
   }
 
-  public Publisher(String string) {
-    //TODO Auto-generated constructor stub
-}
 
   // Getter for company name
   public CompanyName getCompanyName() {

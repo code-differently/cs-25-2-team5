@@ -5,8 +5,10 @@
 
 package com.team5.cbl.cbl_app.objects;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
+
 import com.team5.cbl.cbl_app.exceptions.ComicNotFoundException;
 
 
@@ -56,7 +58,8 @@ public class ComicLibrary {
 
     // sorts the lists by the grade and returns the list of comics
     public List<Comic> getRankings() {
-        return null;
+        Collections.sort(comics);
+        return comics;
     }
 
     // Adds a new comic to library
