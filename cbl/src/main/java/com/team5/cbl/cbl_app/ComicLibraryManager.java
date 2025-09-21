@@ -42,10 +42,16 @@ public class ComicLibraryManager {
                 for (Comic comic : sampleLibrary.getComics()) {
                     System.out.print(comic.getTitle() + " ");
                     comic.getGenre().forEach(genre-> System.out.print(" " +  genre));
-                    
+                    System.out.print(" "+comic.getHeadWriter().getName() + " ");
+                    System.out.print(comic.getRarityDetails().getEdition()+ " ");
+                    System.out.print(comic.getPublisher().getCompanyName()+ " ");
+                    String leadingCharacterName = comic.getLeadingCharacter() == null ? "No leading Character":comic.getLeadingCharacter().getHeroName();
+                    System.out.println(leadingCharacterName+ " ");
+                    System.out.println(comic.getPublisher().getCompanyName()+ " ");
                     System.out.println();
                 }
                 break;
+                
                 default:
                     break;
             }
