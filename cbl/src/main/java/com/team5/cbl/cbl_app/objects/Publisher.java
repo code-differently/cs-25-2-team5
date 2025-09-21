@@ -1,9 +1,8 @@
 package com.team5.cbl.cbl_app.objects;
 
+import com.team5.cbl.cbl_app.enums.CompanyName;
 import java.util.ArrayList;
 import java.util.List;
-
-import com.team5.cbl.cbl_app.enums.CompanyName;
 
 public class Publisher {
   private CompanyName companyName;
@@ -23,7 +22,6 @@ public class Publisher {
       this.characters.addAll(characters);
     }
   }
-
 
   // Getter for company name
   public CompanyName getCompanyName() {
