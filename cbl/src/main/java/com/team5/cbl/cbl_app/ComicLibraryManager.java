@@ -135,6 +135,7 @@ public class ComicLibraryManager {
                               + comic.getRarityDetails().getGrade()
                               + " year: "
                               + comic.getRarityDetails().getYear()));
+          break;
         default:
           flag = false;
           break;
