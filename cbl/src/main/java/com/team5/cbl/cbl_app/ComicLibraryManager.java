@@ -7,6 +7,7 @@ package com.team5.cbl.cbl_app;
 
 import java.time.Year;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
@@ -37,6 +38,7 @@ public class ComicLibraryManager {
             System.out.println("3. Add a new comic");
             System.out.println("4. Exit");
             int input = scanner.nextInt();
+            scanner.nextLine();
             switch(input) {
                 case 1:
                 for (Comic comic : sampleLibrary.getComics()) {
@@ -51,8 +53,28 @@ public class ComicLibraryManager {
                     System.out.println();
                 }
                 break;
-                
+                case 2:
+                System.out.println("What would you like to search by");
+                System.out.println("1. By Character");
+                System.out.println("2. Genre");
+                System.out.println("3. Title");
+                System.out.println("4. Writer");
+                System.out.println("5. Publisher");
+                break;
+                case 3:
+                    System.out.println("What is the name of the comic");
+                    String comicTitle = scanner.nextLine().trim();
+                    readEnumInput(scanner, Genre.class, "What is the genre");
+                    System.out.println("Who is the writer");
+                    String writerName  = scanner.nextLine().trim();
+                    System.out.println("How old are they");
+                    int age = scanner.nextInt();
+                    scanner.nextLine();
+                    readEnumInput(scanner, CompanyName.class, "who is the publisher");
+                    
+                    break;
                 default:
+                flag = false;
                     break;
             }
             
@@ -178,4 +200,20 @@ public class ComicLibraryManager {
         
         return library;
     }
+
+    public static <T extends Enum<T>> T readEnumInput(Scanner scanner, Class<T> enumClass, String prompt) {
+    T result = null;
+    while (result == null) {
+        System.out.println(prompt + " (options: " + Arrays.toString(enumClass.getEnumConstants()) + ")");
+        String input = scanner.nextLine().trim().toUpperCase();
+
+        try {
+            result = Enum.valueOf(enumClass, input);
+        } catch (IllegalArgumentException e) {
+            System.out.println("Invalid input. Please try again.");
+        }
+    }
+    return result;
+}
+
 }
