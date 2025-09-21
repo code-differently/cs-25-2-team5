@@ -14,38 +14,38 @@ public class EditionTest {
   @Test
   public void testAllEditionValues() {
     Edition[] editions = Edition.values();
-    assertEquals(7, editions.length);
+    assertEquals(9, editions.length);
 
     List<Edition> editionList = Arrays.asList(editions);
-    assertTrue(editionList.contains(Edition.SINGLE_ISSUES));
-    assertTrue(editionList.contains(Edition.TRADE_PAPERBACKS));
-    assertTrue(editionList.contains(Edition.GRAPHIC_NOVELS));
-    assertTrue(editionList.contains(Edition.OMNIBUSES));
+    assertTrue(editionList.contains(Edition.SINGLE_ISSUE));
+    assertTrue(editionList.contains(Edition.TRADE_PAPERBACK));
+    assertTrue(editionList.contains(Edition.GRAPHIC_NOVEL));
+    assertTrue(editionList.contains(Edition.OMNIBUS));
     assertTrue(editionList.contains(Edition.COLLECTORS_EDITION));
-    assertTrue(editionList.contains(Edition.DIGITAL_EDITIONS));
-    assertTrue(editionList.contains(Edition.ALTERNATE_COMICS));
+    assertTrue(editionList.contains(Edition.DIGITAL_EDITION));
+    assertTrue(editionList.contains(Edition.ALTERNATE_COMIC));
   }
 
   @Test
   public void testDisplayNames() {
-    assertEquals("Single Issues", Edition.SINGLE_ISSUES.getDisplayName());
-    assertEquals("Trade Paperbacks", Edition.TRADE_PAPERBACKS.getDisplayName());
-    assertEquals("Graphic Novels", Edition.GRAPHIC_NOVELS.getDisplayName());
-    assertEquals("Omnibuses", Edition.OMNIBUSES.getDisplayName());
+    assertEquals("Single Issues", Edition.SINGLE_ISSUE.getDisplayName());
+    assertEquals("Trade Paperbacks", Edition.TRADE_PAPERBACK.getDisplayName());
+    assertEquals("Graphic Novels", Edition.GRAPHIC_NOVEL.getDisplayName());
+    assertEquals("Omnibuses", Edition.OMNIBUS.getDisplayName());
     assertEquals("Collector's Edition", Edition.COLLECTORS_EDITION.getDisplayName());
-    assertEquals("Digital Editions", Edition.DIGITAL_EDITIONS.getDisplayName());
-    assertEquals("Alternate Comics", Edition.ALTERNATE_COMICS.getDisplayName());
+    assertEquals("Digital Editions", Edition.DIGITAL_EDITION.getDisplayName());
+    assertEquals("Alternate Comics", Edition.ALTERNATE_COMIC.getDisplayName());
   }
 
   @Test
   public void testEditionValueOf() {
-    assertEquals(Edition.SINGLE_ISSUES, Edition.valueOf("SINGLE_ISSUES"));
-    assertEquals(Edition.TRADE_PAPERBACKS, Edition.valueOf("TRADE_PAPERBACKS"));
-    assertEquals(Edition.GRAPHIC_NOVELS, Edition.valueOf("GRAPHIC_NOVELS"));
-    assertEquals(Edition.OMNIBUSES, Edition.valueOf("OMNIBUSES"));
+    assertEquals(Edition.SINGLE_ISSUE, Edition.valueOf("SINGLE_ISSUE"));
+    assertEquals(Edition.TRADE_PAPERBACK, Edition.valueOf("TRADE_PAPERBACK"));
+    assertEquals(Edition.GRAPHIC_NOVEL, Edition.valueOf("GRAPHIC_NOVEL"));
+    assertEquals(Edition.OMNIBUS, Edition.valueOf("OMNIBUS"));
     assertEquals(Edition.COLLECTORS_EDITION, Edition.valueOf("COLLECTORS_EDITION"));
-    assertEquals(Edition.DIGITAL_EDITIONS, Edition.valueOf("DIGITAL_EDITIONS"));
-    assertEquals(Edition.ALTERNATE_COMICS, Edition.valueOf("ALTERNATE_COMICS"));
+    assertEquals(Edition.DIGITAL_EDITION, Edition.valueOf("DIGITAL_EDITION"));
+    assertEquals(Edition.ALTERNATE_COMIC, Edition.valueOf("ALTERNATE_COMIC"));
   }
 
   @Test
@@ -53,13 +53,6 @@ public class EditionTest {
     for (Edition edition : Edition.values()) {
       assertNotNull(edition.getDisplayName());
       assertTrue(edition.getDisplayName().length() > 0);
-    }
-  }
-
-  @Test
-  public void testToStringConsistentWithDisplayName() {
-    for (Edition edition : Edition.values()) {
-      assertEquals(edition.getDisplayName(), edition.toString());
     }
   }
 }

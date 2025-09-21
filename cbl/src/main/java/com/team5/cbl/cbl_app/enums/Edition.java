@@ -1,13 +1,15 @@
 package com.team5.cbl.cbl_app.enums;
 
 public enum Edition {
-  SINGLE_ISSUES("Single Issues"),
-  TRADE_PAPERBACKS("Trade Paperbacks"),
-  GRAPHIC_NOVELS("Graphic Novels"),
-  OMNIBUSES("Omnibuses"),
+  SINGLE_ISSUE("Single Issues"),
+  TRADE_PAPERBACK("Trade Paperbacks"),
+  GRAPHIC_NOVEL("Graphic Novels"),
+  OMNIBUS("Omnibuses"),
   COLLECTORS_EDITION("Collector's Edition"),
-  DIGITAL_EDITIONS("Digital Editions"),
-  ALTERNATE_COMICS("Alternate Comics");
+  DIGITAL_EDITION("Digital Editions"),
+  ALTERNATE_COMIC("Alternate Comics"),
+  FIRST_EDITION("First Edition"),
+  SECOND_EDITION("Second Edition");
 
   private final String displayName;
 
@@ -16,11 +18,6 @@ public enum Edition {
   }
 
   public String getDisplayName() {
-    return displayName;
-  }
-
-  @Override
-  public String toString() {
     return displayName;
   }
 }

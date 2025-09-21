@@ -40,7 +40,8 @@ public class ComicTest {
         new Comic(
             "Test comic",
             genres,
-            new RarityDetails(Edition.SINGLE_ISSUES, 150, 7.3, Year.now()),
+            150,
+            new RarityDetails(Edition.SINGLE_ISSUE, 150, 7.3, Year.now()),
             writer,
             leadingCharacter,
             publisher);
@@ -50,7 +51,7 @@ public class ComicTest {
   public void getterTest() {
     List<Genre> expected = new ArrayList<>();
     RarityDetails expectedRarityDetails =
-        new RarityDetails(Edition.SINGLE_ISSUES, 150, 7.3, Year.now());
+        new RarityDetails(Edition.SINGLE_ISSUE, 150, 7.3, Year.now());
     var expectedPublisher = new Publisher(CompanyName.DC_COMICS);
     var expectedLeadingCharacter =
         new com.team5.cbl.cbl_app.objects.Character("Test name", "This is a hero");
@@ -60,6 +61,7 @@ public class ComicTest {
     assertEquals(comic.getTitle(), "Test comic");
     assertEquals(comic.getGenre(), expected);
     assertEquals(comic.getRarityDetails(), expectedRarityDetails);
+    assertEquals(comic.getNumberOfIssues(), 150);
 
     assertThat(comic.getLeadingCharacter()).isEqualTo(expectedLeadingCharacter);
     assertThat(comic.getPublisher()).isEqualTo(expectedPublisher);

@@ -2,11 +2,18 @@ package com.team5.cbl.cbl_app.objects;
 
 public class Character {
   String heroName;
+  String secretIdentity;
   String bio;
 
   public Character(String heroName, String bio) {
     this.heroName = heroName;
     this.bio = bio;
+  }
+
+  public Character(String heroName, String bio, String secretIdentity) {
+    this.heroName = heroName;
+    this.bio = bio;
+    this.secretIdentity = secretIdentity;
   }
 
   public String getHeroName() {
@@ -15,6 +22,10 @@ public class Character {
 
   public String getBio() {
     return bio;
+  }
+
+  public String getSecretIdentity() {
+    return secretIdentity;
   }
 
   @Override

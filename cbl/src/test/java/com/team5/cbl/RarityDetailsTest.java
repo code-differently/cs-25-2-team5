@@ -11,8 +11,8 @@ public class RarityDetailsTest {
 
   @Test
   public void testRarityDetailsCreation() {
-    RarityDetails details = new RarityDetails(Edition.SINGLE_ISSUES, 150000, 7.6, Year.of(2001));
-    assertEquals(Edition.SINGLE_ISSUES, details.getEdition());
+    RarityDetails details = new RarityDetails(Edition.SINGLE_ISSUE, 150000, 7.6, Year.of(2001));
+    assertEquals(Edition.SINGLE_ISSUE, details.getEdition());
     assertEquals(150000, details.getPrintCount());
     assertEquals(7.6, details.getGrade());
     assertEquals(Year.of(2001), details.getYear());
@@ -20,8 +20,8 @@ public class RarityDetailsTest {
 
   @Test
   public void testEditionGetterAndSetter() {
-    RarityDetails details = new RarityDetails(Edition.SINGLE_ISSUES, 150000, 7.6, Year.of(2001));
-    assertEquals(Edition.SINGLE_ISSUES, details.getEdition());
+    RarityDetails details = new RarityDetails(Edition.SINGLE_ISSUE, 150000, 7.6, Year.of(2001));
+    assertEquals(Edition.SINGLE_ISSUE, details.getEdition());
 
     details.setEdition(Edition.COLLECTORS_EDITION);
     assertEquals(Edition.COLLECTORS_EDITION, details.getEdition());
@@ -29,7 +29,7 @@ public class RarityDetailsTest {
 
   @Test
   public void testPrintCountGetterAndSetter() {
-    RarityDetails details = new RarityDetails(Edition.GRAPHIC_NOVELS, 150000, 7.6, Year.of(2001));
+    RarityDetails details = new RarityDetails(Edition.GRAPHIC_NOVEL, 150000, 7.6, Year.of(2001));
     assertEquals(150000, details.getPrintCount());
 
     details.setPrintCount(200000);
@@ -38,7 +38,7 @@ public class RarityDetailsTest {
 
   @Test
   public void testGradeGetterAndSetter() {
-    RarityDetails details = new RarityDetails(Edition.DIGITAL_EDITIONS, 150000, 7.6, Year.of(2001));
+    RarityDetails details = new RarityDetails(Edition.DIGITAL_EDITION, 150000, 7.6, Year.of(2001));
     assertEquals(7.6, details.getGrade());
 
     details.setGrade(9.2);
@@ -47,7 +47,7 @@ public class RarityDetailsTest {
 
   @Test
   public void testYearGetterAndSetter() {
-    RarityDetails details = new RarityDetails(Edition.TRADE_PAPERBACKS, 150000, 7.6, Year.of(2001));
+    RarityDetails details = new RarityDetails(Edition.TRADE_PAPERBACK, 150000, 7.6, Year.of(2001));
     assertEquals(Year.of(2001), details.getYear());
 
     details.setYear(Year.of(2023));
