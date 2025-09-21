@@ -20,6 +20,4 @@ public enum Edition {
   public String getDisplayName() {
     return displayName;
   }
-
-  
 }

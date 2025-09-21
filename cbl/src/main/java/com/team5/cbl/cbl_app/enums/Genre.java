@@ -26,9 +26,7 @@ public enum Genre {
     this.displayName = displayName;
   }
 
-  public String getDisplayName(){
+  public String getDisplayName() {
     return displayName;
   }
-
-
 }

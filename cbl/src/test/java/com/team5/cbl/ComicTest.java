@@ -5,14 +5,8 @@
 
 package com.team5.cbl;
 
-import java.time.Year;
-import java.util.ArrayList;
-import java.util.List;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 
 import com.team5.cbl.cbl_app.enums.CompanyName;
 import com.team5.cbl.cbl_app.enums.Edition;
@@ -21,6 +15,11 @@ import com.team5.cbl.cbl_app.objects.Comic;
 import com.team5.cbl.cbl_app.objects.Creator;
 import com.team5.cbl.cbl_app.objects.Publisher;
 import com.team5.cbl.cbl_app.objects.RarityDetails;
+import java.time.Year;
+import java.util.ArrayList;
+import java.util.List;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author vscode
@@ -40,7 +39,6 @@ public class ComicTest {
     comic =
         new Comic(
             "Test comic",
-            
             genres,
             150,
             new RarityDetails(Edition.SINGLE_ISSUE, 150, 7.3, Year.now()),
@@ -63,7 +61,7 @@ public class ComicTest {
     assertEquals(comic.getTitle(), "Test comic");
     assertEquals(comic.getGenre(), expected);
     assertEquals(comic.getRarityDetails(), expectedRarityDetails);
-    assertEquals(comic.getNumberOfIssues(),150) ;
+    assertEquals(comic.getNumberOfIssues(), 150);
 
     assertThat(comic.getLeadingCharacter()).isEqualTo(expectedLeadingCharacter);
     assertThat(comic.getPublisher()).isEqualTo(expectedPublisher);

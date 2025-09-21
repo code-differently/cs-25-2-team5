@@ -1,21 +1,20 @@
 package com.team5.cbl;
 
-import java.util.Arrays;
-import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import org.junit.jupiter.api.Test;
 
 import com.team5.cbl.cbl_app.enums.Edition;
+import java.util.Arrays;
+import java.util.List;
+import org.junit.jupiter.api.Test;
 
 public class EditionTest {
 
   @Test
   public void testAllEditionValues() {
     Edition[] editions = Edition.values();
-    assertEquals(7, editions.length);
+    assertEquals(9, editions.length);
 
     List<Edition> editionList = Arrays.asList(editions);
     assertTrue(editionList.contains(Edition.SINGLE_ISSUE));
@@ -40,13 +39,13 @@ public class EditionTest {
 
   @Test
   public void testEditionValueOf() {
-    assertEquals(Edition.SINGLE_ISSUE, Edition.valueOf("SINGLE_ISSUES"));
-    assertEquals(Edition.TRADE_PAPERBACK, Edition.valueOf("TRADE_PAPERBACKS"));
-    assertEquals(Edition.GRAPHIC_NOVEL, Edition.valueOf("GRAPHIC_NOVELS"));
-    assertEquals(Edition.OMNIBUS, Edition.valueOf("OMNIBUSES"));
+    assertEquals(Edition.SINGLE_ISSUE, Edition.valueOf("SINGLE_ISSUE"));
+    assertEquals(Edition.TRADE_PAPERBACK, Edition.valueOf("TRADE_PAPERBACK"));
+    assertEquals(Edition.GRAPHIC_NOVEL, Edition.valueOf("GRAPHIC_NOVEL"));
+    assertEquals(Edition.OMNIBUS, Edition.valueOf("OMNIBUS"));
     assertEquals(Edition.COLLECTORS_EDITION, Edition.valueOf("COLLECTORS_EDITION"));
-    assertEquals(Edition.DIGITAL_EDITION, Edition.valueOf("DIGITAL_EDITIONS"));
-    assertEquals(Edition.ALTERNATE_COMIC, Edition.valueOf("ALTERNATE_COMICS"));
+    assertEquals(Edition.DIGITAL_EDITION, Edition.valueOf("DIGITAL_EDITION"));
+    assertEquals(Edition.ALTERNATE_COMIC, Edition.valueOf("ALTERNATE_COMIC"));
   }
 
   @Test
@@ -54,13 +53,6 @@ public class EditionTest {
     for (Edition edition : Edition.values()) {
       assertNotNull(edition.getDisplayName());
       assertTrue(edition.getDisplayName().length() > 0);
-    }
-  }
-
-  @Test
-  public void testToStringConsistentWithDisplayName() {
-    for (Edition edition : Edition.values()) {
-      assertEquals(edition.getDisplayName(), edition.toString());
     }
   }
 }

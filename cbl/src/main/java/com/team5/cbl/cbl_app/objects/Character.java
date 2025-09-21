@@ -9,7 +9,8 @@ public class Character {
     this.heroName = heroName;
     this.bio = bio;
   }
-  public Character(String heroName, String bio,String secretIdentity) {
+
+  public Character(String heroName, String bio, String secretIdentity) {
     this.heroName = heroName;
     this.bio = bio;
     this.secretIdentity = secretIdentity;
@@ -22,10 +23,10 @@ public class Character {
   public String getBio() {
     return bio;
   }
+
   public String getSecretIdentity() {
     return secretIdentity;
   }
-  
 
   @Override
   public String toString() {
