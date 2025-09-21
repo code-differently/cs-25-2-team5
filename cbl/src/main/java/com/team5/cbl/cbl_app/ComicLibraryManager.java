@@ -52,7 +52,6 @@ public class ComicLibraryManager {
                     ? "No leading Character"
                     : comic.getLeadingCharacter().getHeroName();
             System.out.println(leadingCharacterName + " ");
-            System.out.println(comic.getPublisher().getCompanyName() + " ");
             System.out.println();
           }
           break;
