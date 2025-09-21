@@ -5,74 +5,108 @@
 
 package com.team5.cbl.cbl_app.objects;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.team5.cbl.cbl_app.enums.CompanyName;
+import com.team5.cbl.cbl_app.enums.Genre;
 import com.team5.cbl.cbl_app.exceptions.ComicNotFoundException;
 
 
 /**
- *
  * @author vscode
  */
 public class ComicLibrary {
 
-    private List<Comic> comics;
+  private List<Comic> comics;
 
-
-    public ComicLibrary(List<Comic> comics) {
-        this.comics = comics;
-
-    }
-
-  public List<Comic> filterByComicTitle(String title) {
-      List<Comic> comicsByFilter =   comics.stream()
-      .filter(comic-> comic.getTitle().equals(title))
-      .collect(Collectors.toList());
-      if (comicsByFilter.isEmpty()) {
-          throw new ComicNotFoundException("Comic title not found");
-      }
-      return comicsByFilter;
+  public ComicLibrary(List<Comic> comics) {
+    this.comics = comics;
   }
 
-    public List<Comic> filterByPublisher() {
-        return null;
+  // Adds a new comic to library
+  public void addComic(Comic comic) {
+    if (comic != null && !comics.contains(comic)) {
+      comics.add(comic);
+    } else {
+      throw new ComicNotFoundException("Comic already exists");
     }
+  }
 
-    public List<Comic> filterByCharacter() {
-        return null;
+  // removes a comic from library
+  public void removeComic(Comic comic) {
+    if (comic != null && comics.contains(comic)) {
+      comics.remove(comic);
+    } else {
+      throw new ComicNotFoundException("Comic title not found");
     }
+  }
 
-    public List<Comic> filterByGenre() {
-        return null;
-    }
+  // Filter comics by Title, Publisher, Character, Genre, Creator
 
-    public List<Comic> filterByCreator() {
-        return null;
-    }
-
-    public List<Comic> getComics() {
-        return comics;
-    }
-
-    // sorts the lists by the grade and returns the list of comics
-    public List<Comic> getRankings() {
-        Collections.sort(comics);
-        return comics;
-    }
-
-    // Adds a new comic to library
-    public void addComic(Comic comic) {
-
-    }
-
-    // removes a 
-    public void removeComic(Comic comic) {
+  public List<Comic> filterByComicTitle(String title) {
+    List<Comic> comicsByFilter =
+        comics.stream()
+            .filter(comic -> comic.getTitle().equals(title))
+            .collect(Collectors.toList());
+    if (comicsByFilter.isEmpty()) {
+      throw new ComicNotFoundException("Comic title not found");
 
     }
+    return comicsByFilter;
+}
 
+  public List<Comic> filterByGenre(Genre genre) {
+    List<Comic> comicsByFilter =
+        comics.stream()
+            .filter(comic -> comic.getGenre().contains(genre))
+            .collect(Collectors.toList());
+    if (comicsByFilter.isEmpty()) {
+      throw new ComicNotFoundException("Genre not found");
+    }
+    return comicsByFilter;
+  }
 
+  public List<Comic> filterByCreator(String name) {
+    List<Comic> comicsByFilter =
+        comics.stream()
+            .filter(
+                comic ->
+                    comic.getHeadWriter() != null && comic.getHeadWriter().getName().equals(name))
+            .collect(Collectors.toList());
+    if (comicsByFilter.isEmpty()) {
+      throw new ComicNotFoundException("Creator not found");
+    }
+    return comicsByFilter;
+  }
 
+   public List<Comic> filterByCharacter(String heroName) {
+    List<Comic> comicsByFilter =
+        comics.stream()
+            .filter(
+                comic ->
+                    comic.getLeadingCharacter() != null
+                        && comic.getLeadingCharacter().getHeroName().equals(heroName))
+            .collect(Collectors.toList());
+    if (comicsByFilter.isEmpty()) {
+      throw new ComicNotFoundException("Character not found");
+    }
+    return comicsByFilter;
+  }
+
+  public List<Comic> filterByPublisher(CompanyName companyName) {
+    List<Comic> comicsByFilter =
+        comics.stream()
+            .filter(comic -> comic.getPublisher().getCompanyName().equals(companyName))
+            .collect(Collectors.toList());
+    if (comicsByFilter.isEmpty()) {
+      throw new ComicNotFoundException("Publisher not found");
+    }
+    return comicsByFilter;
+  }
+
+  public List<Comic> getComics() {
+    return comics;
+  }
 
 }
