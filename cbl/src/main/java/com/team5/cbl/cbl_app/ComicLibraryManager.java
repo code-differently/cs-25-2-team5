@@ -23,18 +23,35 @@ import com.team5.cbl.cbl_app.objects.RarityDetails;
  */
 public class ComicLibraryManager {
 
-    private ComicLibrary comicLibrary;
 
-    public ComicLibraryManager(ComicLibrary comicLibrary) {
-        this.comicLibrary = comicLibrary;
-    }
-
+    
     public static void main(String[] args) {
-        Scanner input = new Scanner(System.in);
+        var scanner = new Scanner(System.in);
         ComicLibrary sampleLibrary = createSampleLibrary();
-        ComicLibraryManager manager = new ComicLibraryManager(sampleLibrary);
-        
+
+        boolean flag = true;
+        while(flag) {
+            System.out.println("Comic Book Library Menu:");
+            System.out.println("1. Display all comics");
+            System.out.println("2. Filter comics");
+            System.out.println("3. Add a new comic");
+            System.out.println("4. Exit");
+            int input = scanner.nextInt();
+            switch(input) {
+                case 1:
+                for (Comic comic : sampleLibrary.getComics()) {
+                    System.out.print(comic.getTitle() + " ");
+                    comic.getGenre().forEach(genre-> System.out.print(" " +  genre));
+                    
+                    System.out.println();
+                }
+                break;
+                default:
+                    break;
+            }
+            
     }
+}
 
     private static ComicLibrary createSampleLibrary() {
         List<Comic> comics = new ArrayList<>();
