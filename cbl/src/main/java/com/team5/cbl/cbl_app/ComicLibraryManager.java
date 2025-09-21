@@ -265,9 +265,7 @@ public class ComicLibraryManager {
           break;
       }
       
-      if (creator != null) {
-        creativeTeam.add(creator);
-      }
+      creativeTeam.add(creator);
       
       System.out.println("Would you like to add another creator? 1 for yes, any other number for no");
       int continueAdding = scanner.nextInt();
