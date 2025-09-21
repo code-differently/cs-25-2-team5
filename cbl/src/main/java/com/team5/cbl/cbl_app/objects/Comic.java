@@ -24,7 +24,7 @@ public class Comic implements Comparable<Comic> {
   private Character leadingCharacter;
 
   private Publisher publisher;
-  public Integer numberOfIssues;
+  private Integer numberOfIssues;
 
   public Comic(
       String title,
