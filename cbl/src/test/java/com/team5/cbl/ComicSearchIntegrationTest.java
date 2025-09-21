@@ -1,5 +1,6 @@
 package com.team5.cbl;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -97,16 +98,44 @@ public class ComicSearchIntegrationTest {
   @DisplayName("Search by character returns all matching comics")
   void searchByCharacter() {
     var results = library.filterByCharacter("Batman");
-    var titles = results.stream().map(Comic::getTitle).toList();
-    assertEquals(List.of("The Dark Knight Returns", "Batman: Year One"), titles);
+    
+    // Verify we get the expected number of results
+    assertThat(results).hasSize(2);
+    
+    // Extract titles from the List results and use containsExactlyInAnyOrder to avoid order dependency
+    var actualTitles = results.stream().map(Comic::getTitle).toList();
+    
+    assertThat(actualTitles)
+        .containsExactlyInAnyOrder("The Dark Knight Returns", "Batman: Year One");
+    
+    // Verify all results actually contain the searched character
+    results.forEach(comic -> {
+      assertThat(comic.getMainCharacter().getName())
+          .as("Comic '%s' should have Batman as main character", comic.getTitle())
+          .isEqualTo("Batman");
+    });
   }
 
   @Test
   @DisplayName("Search by creator (author) returns matching comics")
   void searchByCreator() {
     var results = library.filterByCreator("Frank Miller");
-    var titles = results.stream().map(Comic::getTitle).toList();
-    assertEquals(List.of("The Dark Knight Returns", "Batman: Year One"), titles);
+    
+    // Verify we get the expected number of results
+    assertThat(results).hasSize(2);
+    
+    // Extract titles from the List results and use containsExactlyInAnyOrder to avoid order dependency
+    var actualTitles = results.stream().map(Comic::getTitle).toList();
+    
+    assertThat(actualTitles)
+        .containsExactlyInAnyOrder("The Dark Knight Returns", "Batman: Year One");
+    
+    // Verify all results actually have the searched creator
+    results.forEach(comic -> {
+      assertThat(comic.getHeadWriter().getName())
+          .as("Comic '%s' should be written by Frank Miller", comic.getTitle())
+          .isEqualTo("Frank Miller");
+    });
   }
 
   @Test
@@ -123,5 +152,102 @@ public class ComicSearchIntegrationTest {
     assertThatExceptionOfType(ComicNotFoundException.class)
         .isThrownBy(() -> library.filterByCreator("Unknown Author"))
         .withMessage("Creator not found");
+  }
+
+  @Test
+  @DisplayName("Search by title - partial match should work")
+  void searchByTitlePartialMatch() {
+    var results = library.filterByComicTitle("Dark Knight");
+    
+    assertThat(results).hasSize(1);
+    assertThat(results.get(0).getTitle()).isEqualTo("The Dark Knight Returns");
+  }
+
+  @Test
+  @DisplayName("Search should be case insensitive")
+  void searchCaseInsensitive() {
+    // Test character search case insensitivity
+    var upperCaseResults = library.filterByCharacter("BATMAN");
+    var lowerCaseResults = library.filterByCharacter("batman");
+    var mixedCaseResults = library.filterByCharacter("BaTmAn");
+    
+    // All should return the same results
+    assertThat(upperCaseResults).hasSize(2);
+    assertThat(lowerCaseResults).hasSize(2);
+    assertThat(mixedCaseResults).hasSize(2);
+    
+    // Extract titles and compare using containsExactlyInAnyOrder
+    var upperTitles = upperCaseResults.stream().map(Comic::getTitle).toList();
+    var lowerTitles = lowerCaseResults.stream().map(Comic::getTitle).toList();
+    var mixedTitles = mixedCaseResults.stream().map(Comic::getTitle).toList();
+    
+    assertThat(upperTitles)
+        .containsExactlyInAnyOrderElementsOf(lowerTitles);
+    assertThat(lowerTitles)
+        .containsExactlyInAnyOrderElementsOf(mixedTitles);
+  }
+
+  @Test
+  @DisplayName("Search results contain all required fields")
+  void searchResultsContainAllRequiredFields() {
+    var results = library.filterByCharacter("Batman");
+    
+    assertThat(results).isNotEmpty();
+    
+    results.forEach(comic -> {
+      // Verify title is present and not empty
+      assertThat(comic.getTitle())
+          .as("Comic title should not be null or empty")
+          .isNotNull()
+          .isNotBlank();
+      
+      // Verify author/creator is present and not empty
+      assertThat(comic.getHeadWriter())
+          .as("Comic head writer should not be null")
+          .isNotNull();
+      assertThat(comic.getHeadWriter().getName())
+          .as("Creator name should not be null or empty")
+          .isNotNull()
+          .isNotBlank();
+      
+      // Verify year is present and reasonable
+      assertThat(comic.getRarityDetails())
+          .as("Rarity details should not be null")
+          .isNotNull();
+      assertThat(comic.getRarityDetails().getYear())
+          .as("Comic year should be present and reasonable")
+          .isNotNull()
+          .isAfter(Year.of(1900))
+          .isBeforeOrEqualTo(Year.now());
+      
+      // Verify grade is present
+      assertThat(comic.getRarityDetails().getGrade())
+          .as("Comic grade should be a valid positive number")
+          .isPositive()
+          .isLessThanOrEqualTo(10.0);
+    });
+  }
+
+  @Test
+  @DisplayName("Multiple search operations should be consistent")
+  void multipleSearchOperationsConsistency() {
+    // Perform the same search multiple times
+    var results1 = library.filterByCharacter("Batman");
+    var results2 = library.filterByCharacter("Batman");
+    var results3 = library.filterByCharacter("Batman");
+    
+    // All results should be identical
+    assertThat(results1).hasSize(results2.size());
+    assertThat(results2).hasSize(results3.size());
+    
+    // Extract titles and compare using containsExactlyInAnyOrder
+    var titles1 = results1.stream().map(Comic::getTitle).toList();
+    var titles2 = results2.stream().map(Comic::getTitle).toList();
+    var titles3 = results3.stream().map(Comic::getTitle).toList();
+    
+    assertThat(titles1)
+        .containsExactlyInAnyOrderElementsOf(titles2);
+    assertThat(titles2)
+        .containsExactlyInAnyOrderElementsOf(titles3);
   }
 }
