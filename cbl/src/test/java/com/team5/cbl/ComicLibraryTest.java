@@ -38,6 +38,12 @@ public class ComicLibraryTest {
   private Publisher publisher;
   private Comic comic1;
   private Comic comic2;
+  List<Comic> comics;
+  List<Genre> genres = new ArrayList<>();
+  Creator writer;
+  Publisher publisher;
+  com.team5.cbl.cbl_app.objects.Character leadingCharacter;
+
 
   @BeforeEach
   public void setUp() {
@@ -50,6 +56,7 @@ public class ComicLibraryTest {
 
     // Create comics with creative teams
     List<Creator> creativeTeam1 = List.of(writer, artist);
+
     comic1 =
         new Comic(
             "Test comic 1",
@@ -269,4 +276,5 @@ public class ComicLibraryTest {
     comic1.removeCreator(newCreator);
     assertEquals(2, comic1.getCreativeTeam().size());
   }
+
 }

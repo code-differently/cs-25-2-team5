@@ -8,14 +8,20 @@ package com.team5.cbl.cbl_app.objects;
 import com.team5.cbl.cbl_app.enums.CompanyName;
 import com.team5.cbl.cbl_app.enums.Genre;
 import com.team5.cbl.cbl_app.exceptions.ComicNotFoundException;
+
 import com.team5.cbl.cbl_app.interfaces.ComicRepository;
 import com.team5.cbl.cbl_app.interfaces.ComicSearchService;
 import java.util.ArrayList;
+
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
+class ComicLibrary implements ComicRepository, ComicSearchService {
 
-public class ComicLibrary implements ComicRepository, ComicSearchService {
+/**
+ * @author vscode
+ */
+
 
   private List<Comic> comics;
 
@@ -90,7 +96,6 @@ public class ComicLibrary implements ComicRepository, ComicSearchService {
     return comicsByFilter;
   }
 
-  @Override
   public List<Comic> filterByCharacter(String heroName) {
     List<Comic> comicsByFilter =
         comics.stream()
