@@ -42,7 +42,7 @@ public class AddComicIntegrationTest {
     List<Genre> superhero = List.of(Genre.SUPERHERO);
     Creator existingCreator = new Creator("Stan Lee", 95);
     Character existingCharacter = new Character("Spider-Man", "Friendly neighborhood hero");
-    Publisher marvel = new Publisher(CompanyName.DC_COMICS); // Using existing enum value
+    Publisher marvel = new Publisher(CompanyName.MARVEL_COMICS); // Using correct enum value
 
     Comic existingComic =
         new Comic(
