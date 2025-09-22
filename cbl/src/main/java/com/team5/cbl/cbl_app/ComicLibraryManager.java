@@ -1,9 +1,10 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-
 package com.team5.cbl.cbl_app;
+
+import java.time.Year;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Scanner;
 
 import com.team5.cbl.cbl_app.enums.CompanyName;
 import com.team5.cbl.cbl_app.enums.Edition;
@@ -16,11 +17,6 @@ import com.team5.cbl.cbl_app.objects.Creator;
 import com.team5.cbl.cbl_app.objects.Publisher;
 import com.team5.cbl.cbl_app.objects.RarityDetails;
 import com.team5.cbl.cbl_app.objects.Writer;
-import java.time.Year;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
 
 /**
  * @author vscode
@@ -239,12 +235,6 @@ public class ComicLibraryManager {
     return new RarityDetails(edition, printCount, grade, releaseDate);
   }
 
-  /**
-   * Handles adding multiple genres to a comic using the readEnumInput function
-   *
-   * @param scanner Scanner for user input
-   * @return List of selected genres
-   */
   private static List<Genre> addMultipleGenres(Scanner scanner) {
     List<Genre> genres = new ArrayList<>();
     boolean addingGenres = true;
@@ -279,12 +269,6 @@ public class ComicLibraryManager {
     return genres;
   }
 
-  /**
-   * Handles adding multiple creators (writers and artists) to a comic
-   *
-   * @param scanner Scanner for user input
-   * @return List of creators in the creative team
-   */
   private static List<Creator> addCreativeTeam(Scanner scanner) {
     List<Creator> creativeTeam = new ArrayList<>();
     boolean addingCreators = true;
@@ -425,7 +409,7 @@ public class ComicLibraryManager {
   private static ComicLibrary createSampleLibrary() {
     List<Comic> comics = new ArrayList<>();
 
-    // Create sample creators with different types using correct Writer structure
+    // Create sample creators
     Writer stanLee =
         new Writer(
             "Stan Lee", 95, List.of("The Amazing Spider-Man", "The X-Men", "The Fantastic Four"));
@@ -454,7 +438,7 @@ public class ComicLibraryManager {
     Character wolverine = new Character("Wolverine", "Logan");
     Character wonderWoman = new Character("Wonder Woman", "Diana Prince");
 
-    // Create sample publishers using correct CompanyName enum values
+    // Create publishers
     Publisher marvel = new Publisher(CompanyName.MARVEL_COMICS);
     marvel.addCharacter("Spider-Man");
     marvel.addCharacter("Wolverine");
@@ -464,7 +448,7 @@ public class ComicLibraryManager {
     dc.addCharacter("Superman");
     dc.addCharacter("Wonder Woman");
 
-    // Create sample rarity details
+    // Rarity details
     RarityDetails commonRarity =
         new RarityDetails(Edition.FIRST_EDITION, 50000, 8.5, Year.of(2020));
     RarityDetails uncommonRarity =
@@ -475,21 +459,21 @@ public class ComicLibraryManager {
     RarityDetails ultraRareRarity =
         new RarityDetails(Edition.FIRST_EDITION, 1000, 9.9, Year.of(1975));
 
-    // Create genre lists with multiple genres
+    // Genres
     List<Genre> superheroActionGenre = List.of(Genre.SUPERHERO, Genre.ACTION);
     List<Genre> superheroCrimeGenre = List.of(Genre.SUPERHERO, Genre.CRIME);
     List<Genre> superheroMysteryGenre = List.of(Genre.SUPERHERO, Genre.MYSTERY);
     List<Genre> superheroAdventureGenre = List.of(Genre.SUPERHERO, Genre.ADVENTURE);
     List<Genre> superheroSciFiGenre = List.of(Genre.SUPERHERO, Genre.SCI_FI);
 
-    // Create creative teams with different types of creators
+    // Teams
     List<Creator> stanLeeTeam = List.of(stanLee, jackKirby);
     List<Creator> frankMillerTeam = List.of(frankMiller, steveRogers);
     List<Creator> alanMooreTeam = List.of(alanMoore, steveRogers);
     List<Creator> scottSnyderTeam = List.of(scottSnyder);
     List<Creator> brianBendisTeam = List.of(brianBendis);
 
-    // Create sample comics using creative teams and multiple genres
+    // Comics
     comics.add(
         new Comic(
             "The Amazing Spider-Man #1",
@@ -517,49 +501,11 @@ public class ComicLibraryManager {
             12,
             veryRareRarity,
             alanMooreTeam,
-            null, // No single main character
+            null,
             dc));
 
     comics.add(
         new Comic(
-            "Superman: Action Comics #1000",
-            superheroAdventureGenre,
-            1000,
-            uncommonRarity,
-            scottSnyderTeam,
-            superman,
-            dc));
-
-    comics.add(
-        new Comic(
-            "Ultimate Spider-Man #1",
-            superheroSciFiGenre,
-            160,
-            rareRarity,
-            brianBendisTeam,
-            spiderMan,
-            marvel));
-
-    // Create and populate the comic library
-    ComicLibrary library = new ComicLibrary(comics);
-
-    return library;
-  }
-
-  public static <T extends Enum<T>> T readEnumInput(
-      Scanner scanner, Class<T> enumClass, String prompt) {
-    T result = null;
-    while (result == null) {
-      System.out.println(
-          prompt + " (options: " + Arrays.toString(enumClass.getEnumConstants()) + ")");
-      String input = scanner.nextLine().trim().toUpperCase();
-
-      try {
-        result = Enum.valueOf(enumClass, input);
-      } catch (IllegalArgumentException e) {
-        System.out.println("Invalid input. Please try again.");
+            "Superman: Action Comics #100
       }
-    }
-    return result;
-  }
 }
