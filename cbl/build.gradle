@@ -48,8 +48,8 @@ violationRules {
 		limit {
 			minimum = 0.80
 		}
+		}
 	}
-}
 }
 
 
