@@ -34,157 +34,21 @@ public class ComicLibraryManager {
 
     boolean flag = true;
     while (flag) {
-      System.out.println("Comic Book Library Menu:");
-      System.out.println("1. Display all comics");
-      System.out.println("2. Filter comics");
-      System.out.println("3. Add a new comic");
-      System.out.println("4. View the comic grades of our Library");
-      System.out.println("any other key to exit");
+      displayMainMenu();
       int input = scanner.nextInt();
       scanner.nextLine();
       switch (input) {
         case 1:
-          for (Comic comic : sampleLibrary.getComics()) {
-            System.out.print(comic.getTitle() + " ");
-            comic.getGenre().forEach(genre -> System.out.print(" " + genre));
-            System.out.print(" " + comic.getHeadWriter().getName() + " ");
-            System.out.print(comic.getRarityDetails().getEdition() + " ");
-            System.out.print(comic.getPublisher().getCompanyName() + " ");
-            String leadingCharacterName =
-                comic.getLeadingCharacter() == null
-                    ? "No leading Character"
-                    : comic.getLeadingCharacter().getHeroName();
-            System.out.println(leadingCharacterName + " ");
-            System.out.println();
-          }
+          displayAllComics(sampleLibrary);
           break;
         case 2:
-          System.out.println("What would you like to search by");
-          System.out.println("1. By Character");
-          System.out.println("2. Genre");
-          System.out.println("3. Title");
-          System.out.println("4. Creator (Writer/Artist)");
-          System.out.println("5. Publisher");
-          int searchChoice = scanner.nextInt();
-          scanner.nextLine();
-          switch (searchChoice) {
-            case 1:
-              System.out.println("What is the name of the character");
-              String characterName = scanner.nextLine().trim();
-              sampleLibrary
-                  .filterByCharacter(characterName)
-                  .forEach(comic -> System.out.println(comic.getTitle()));
-              break;
-            case 2:
-              Genre genre = readEnumInput(scanner, Genre.class, "What genre");
-              sampleLibrary
-                  .filterByGenre(genre)
-                  .forEach(comic -> System.out.println(comic.getTitle()));
-              break;
-            case 3:
-              System.out.println("What is the title of the comic");
-              String title = scanner.nextLine().trim();
-              sampleLibrary
-                  .filterByComicTitle(title)
-                  .forEach(comic -> System.out.println(comic.getTitle()));
-              break;
-            case 4:
-              System.out.println("What is the name of the creator");
-              String creatorName = scanner.nextLine().trim();
-              sampleLibrary
-                  .filterByCreator(creatorName)
-                  .forEach(comic -> System.out.println(comic.getTitle()));
-              break;
-            case 5:
-              CompanyName companyName = readEnumInput(scanner, CompanyName.class, "What company");
-              sampleLibrary
-                  .filterByPublisher(companyName)
-                  .forEach(comic -> System.out.println(comic.getTitle()));
-              break;
-            default:
-              System.out.println("Not a valid option");
-              break;
-          }
-
+          handleComicFiltering(scanner, sampleLibrary);
           break;
         case 3:
-          System.out.println("What is the name of the comic");
-          String comicTitle = scanner.nextLine().trim();
-          System.out.println("How many issues does it have");
-          int numberOfIssues = scanner.nextInt();
-          scanner.nextLine();
-
-          // Handle multiple genres using the enum input function
-          List<Genre> genres = addMultipleGenres(scanner);
-
-          // Handle multiple creators (writers and artists)
-          List<Creator> creativeTeam = addCreativeTeam(scanner);
-
-          // Creates new publisher object
-          CompanyName publisherName =
-              readEnumInput(scanner, CompanyName.class, "who is the publisher");
-          Publisher publisher = new Publisher(publisherName);
-
-          System.out.println("Who is the main hero");
-          String heroName = scanner.nextLine().trim();
-          System.out.println("Give them a short bio");
-          String bio = scanner.nextLine().trim();
-          System.out.println("Do they have a secret identity? 1 for yes, any other number for no");
-          var val = scanner.nextInt();
-          scanner.nextLine();
-          Character newComicCharacter = null;
-          if (val == 1) {
-            System.out.println("What is their secret identity name?");
-            String secretIdentity = scanner.nextLine().trim();
-            newComicCharacter = new Character(heroName, bio, secretIdentity);
-          } else {
-            newComicCharacter = new Character(heroName, bio);
-          }
-
-          Edition edition = readEnumInput(scanner, Edition.class, "What is the edition");
-          System.out.println("What is the print count?");
-          var printCount = scanner.nextInt();
-          scanner.nextLine();
-          System.out.println("What is the grade?");
-          var grade = scanner.nextDouble();
-          scanner.nextLine();
-          System.out.println("What year was it released?");
-          var releaseDate = Year.of(scanner.nextInt());
-          scanner.nextLine();
-
-          var newRarityDetails = new RarityDetails(edition, printCount, grade, releaseDate);
-          Comic newComic =
-              new Comic(
-                  comicTitle,
-                  genres,
-                  numberOfIssues,
-                  newRarityDetails,
-                  creativeTeam,
-                  newComicCharacter,
-                  publisher);
-          sampleLibrary.addComic(newComic);
-          System.out.println(
-              "You added a new comic to the library with "
-                  + creativeTeam.size()
-                  + " creators and "
-                  + genres.size()
-                  + " genres!");
+          handleAddNewComic(scanner, sampleLibrary);
           break;
         case 4:
-          sampleLibrary
-              .getRankings()
-              .forEach(
-                  comic ->
-                      System.out.println(
-                          comic.getTitle()
-                              + " Edition: "
-                              + comic.getRarityDetails().getEdition()
-                              + " print count: "
-                              + comic.getRarityDetails().getPrintCount()
-                              + " grade: "
-                              + comic.getRarityDetails().getGrade()
-                              + " year: "
-                              + comic.getRarityDetails().getYear()));
+          displayComicGrades(sampleLibrary);
           break;
         default:
           flag = false;
@@ -192,6 +56,198 @@ public class ComicLibraryManager {
       }
     }
     scanner.close();
+  }
+
+  private static void displayMainMenu() {
+    System.out.println("Comic Book Library Menu:");
+    System.out.println("1. Display all comics");
+    System.out.println("2. Filter comics");
+    System.out.println("3. Add a new comic");
+    System.out.println("4. View the comic grades of our Library");
+    System.out.println("any other key to exit");
+  }
+
+  private static void displayAllComics(ComicLibrary library) {
+    for (Comic comic : library.getComics()) {
+      displayComicInfo(comic);
+      System.out.println();
+    }
+  }
+
+  private static void displayComicInfo(Comic comic) {
+    System.out.print(comic.getTitle() + " ");
+    comic.getGenre().forEach(genre -> System.out.print(" " + genre));
+    System.out.print(" " + comic.getHeadWriter().getName() + " ");
+    System.out.print(comic.getRarityDetails().getEdition() + " ");
+    System.out.print(comic.getPublisher().getCompanyName() + " ");
+    String leadingCharacterName =
+        comic.getLeadingCharacter() == null
+            ? "No leading Character"
+            : comic.getLeadingCharacter().getHeroName();
+    System.out.println(leadingCharacterName + " ");
+  }
+
+  private static void displayComicGrades(ComicLibrary library) {
+    library
+        .getRankings()
+        .forEach(
+            comic ->
+                System.out.println(
+                    comic.getTitle()
+                        + " Edition: "
+                        + comic.getRarityDetails().getEdition()
+                        + " print count: "
+                        + comic.getRarityDetails().getPrintCount()
+                        + " grade: "
+                        + comic.getRarityDetails().getGrade()
+                        + " year: "
+                        + comic.getRarityDetails().getYear()));
+  }
+
+  private static void handleComicFiltering(Scanner scanner, ComicLibrary library) {
+    displayFilterMenu();
+    int searchChoice = scanner.nextInt();
+    scanner.nextLine();
+    
+    switch (searchChoice) {
+      case 1:
+        filterByCharacter(scanner, library);
+        break;
+      case 2:
+        filterByGenre(scanner, library);
+        break;
+      case 3:
+        filterByTitle(scanner, library);
+        break;
+      case 4:
+        filterByCreator(scanner, library);
+        break;
+      case 5:
+        filterByPublisher(scanner, library);
+        break;
+      default:
+        System.out.println("Not a valid option");
+        break;
+    }
+  }
+
+  private static void displayFilterMenu() {
+    System.out.println("What would you like to search by");
+    System.out.println("1. By Character");
+    System.out.println("2. Genre");
+    System.out.println("3. Title");
+    System.out.println("4. Creator (Writer/Artist)");
+    System.out.println("5. Publisher");
+  }
+
+  private static void filterByCharacter(Scanner scanner, ComicLibrary library) {
+    System.out.println("What is the name of the character");
+    String characterName = scanner.nextLine().trim();
+    library.filterByCharacter(characterName)
+        .forEach(comic -> System.out.println(comic.getTitle()));
+  }
+
+  private static void filterByGenre(Scanner scanner, ComicLibrary library) {
+    Genre genre = readEnumInput(scanner, Genre.class, "What genre");
+    library.filterByGenre(genre)
+        .forEach(comic -> System.out.println(comic.getTitle()));
+  }
+
+  private static void filterByTitle(Scanner scanner, ComicLibrary library) {
+    System.out.println("What is the title of the comic");
+    String title = scanner.nextLine().trim();
+    library.filterByComicTitle(title)
+        .forEach(comic -> System.out.println(comic.getTitle()));
+  }
+
+  private static void filterByCreator(Scanner scanner, ComicLibrary library) {
+    System.out.println("What is the name of the creator");
+    String creatorName = scanner.nextLine().trim();
+    library.filterByCreator(creatorName)
+        .forEach(comic -> System.out.println(comic.getTitle()));
+  }
+
+  private static void filterByPublisher(Scanner scanner, ComicLibrary library) {
+    CompanyName companyName = readEnumInput(scanner, CompanyName.class, "What company");
+    library.filterByPublisher(companyName)
+        .forEach(comic -> System.out.println(comic.getTitle()));
+  }
+
+  private static void handleAddNewComic(Scanner scanner, ComicLibrary library) {
+    String comicTitle = getComicTitle(scanner);
+    int numberOfIssues = getNumberOfIssues(scanner);
+    List<Genre> genres = addMultipleGenres(scanner);
+    List<Creator> creativeTeam = addCreativeTeam(scanner);
+    Publisher publisher = getPublisher(scanner);
+    Character character = createCharacter(scanner);
+    RarityDetails rarityDetails = createRarityDetails(scanner);
+
+    Comic newComic = new Comic(
+        comicTitle,
+        genres,
+        numberOfIssues,
+        rarityDetails,
+        creativeTeam,
+        character,
+        publisher);
+    
+    library.addComic(newComic);
+    System.out.println(
+        "You added a new comic to the library with "
+            + creativeTeam.size()
+            + " creators and "
+            + genres.size()
+            + " genres!");
+  }
+
+  private static String getComicTitle(Scanner scanner) {
+    System.out.println("What is the name of the comic");
+    return scanner.nextLine().trim();
+  }
+
+  private static int getNumberOfIssues(Scanner scanner) {
+    System.out.println("How many issues does it have");
+    int numberOfIssues = scanner.nextInt();
+    scanner.nextLine();
+    return numberOfIssues;
+  }
+
+  private static Publisher getPublisher(Scanner scanner) {
+    CompanyName publisherName = readEnumInput(scanner, CompanyName.class, "who is the publisher");
+    return new Publisher(publisherName);
+  }
+
+  private static Character createCharacter(Scanner scanner) {
+    System.out.println("Who is the main hero");
+    String heroName = scanner.nextLine().trim();
+    System.out.println("Give them a short bio");
+    String bio = scanner.nextLine().trim();
+    System.out.println("Do they have a secret identity? 1 for yes, any other number for no");
+    int val = scanner.nextInt();
+    scanner.nextLine();
+    
+    if (val == 1) {
+      System.out.println("What is their secret identity name?");
+      String secretIdentity = scanner.nextLine().trim();
+      return new Character(heroName, bio, secretIdentity);
+    } else {
+      return new Character(heroName, bio);
+    }
+  }
+
+  private static RarityDetails createRarityDetails(Scanner scanner) {
+    Edition edition = readEnumInput(scanner, Edition.class, "What is the edition");
+    System.out.println("What is the print count?");
+    int printCount = scanner.nextInt();
+    scanner.nextLine();
+    System.out.println("What is the grade?");
+    double grade = scanner.nextDouble();
+    scanner.nextLine();
+    System.out.println("What year was it released?");
+    Year releaseDate = Year.of(scanner.nextInt());
+    scanner.nextLine();
+
+    return new RarityDetails(edition, printCount, grade, releaseDate);
   }
 
   /**
@@ -247,77 +303,12 @@ public class ComicLibraryManager {
     System.out.println("Let's build the creative team for your comic!");
 
     while (addingCreators) {
-      System.out.println("What type of creator would you like to add?");
-      System.out.println("1. Writer");
-      System.out.println("2. Artist");
-      System.out.println("3. General Creator");
-
-      int creatorType = scanner.nextInt();
-      scanner.nextLine();
-
-      System.out.println("What is the creator's name?");
-      String creatorName = scanner.nextLine().trim();
-
-      System.out.println("How old are they?");
-      int age = scanner.nextInt();
-      scanner.nextLine();
-
-      Creator creator = null;
-
-      switch (creatorType) {
-        case 1: // Writer
-          List<String> publishedWorks = new ArrayList<>();
-          System.out.println("Let's add their published works. You can add multiple works.");
-          boolean addingWorks = true;
-
-          while (addingWorks) {
-            System.out.println("Enter a published work:");
-            String work = scanner.nextLine().trim();
-            if (!work.isEmpty() && !publishedWorks.contains(work)) {
-              publishedWorks.add(work);
-              System.out.println("Added work: " + work);
-            }
-
-            System.out.println("Add another work? 1 for yes, any other number for no");
-            int continueWorks = scanner.nextInt();
-            scanner.nextLine();
-
-            if (continueWorks != 1) {
-              addingWorks = false;
-            }
-          }
-
-          creator = new Writer(creatorName, age, publishedWorks);
-          System.out.println(
-              "Added Writer: " + creatorName + " (Published works: " + publishedWorks.size() + ")");
-          break;
-
-        case 2: // Artist
-          System.out.println(
-              "What is their art style? (e.g., Realistic, Cartoon, Manga, Abstract)");
-          String artStyle = scanner.nextLine().trim();
-          creator = new Artist(creatorName, age, artStyle);
-          System.out.println("Added Artist: " + creatorName + " (Style: " + artStyle + ")");
-          break;
-
-        case 3: // General Creator
-          creator = new Creator(creatorName, age);
-          System.out.println("Added Creator: " + creatorName);
-          break;
-
-        default:
-          System.out.println("Invalid option. Adding as general creator.");
-          creator = new Creator(creatorName, age);
-          System.out.println("Added Creator: " + creatorName);
-          break;
-      }
-
+      Creator creator = createSingleCreator(scanner);
       if (creator != null) {
         creativeTeam.add(creator);
       }
 
-      System.out.println(
-          "Would you like to add another creator? 1 for yes, any other number for no");
+      System.out.println("Would you like to add another creator? 1 for yes, any other number for no");
       int continueAdding = scanner.nextInt();
       scanner.nextLine();
 
@@ -331,6 +322,96 @@ public class ComicLibraryManager {
       creativeTeam.add(new Creator("Unknown Creator", 30));
     }
 
+    displayCreativeTeam(creativeTeam);
+    return creativeTeam;
+  }
+
+  private static Creator createSingleCreator(Scanner scanner) {
+    displayCreatorTypeMenu();
+    int creatorType = scanner.nextInt();
+    scanner.nextLine();
+
+    String creatorName = getCreatorName(scanner);
+    int age = getCreatorAge(scanner);
+
+    switch (creatorType) {
+      case 1: // Writer
+        return createWriter(scanner, creatorName, age);
+      case 2: // Artist
+        return createArtist(scanner, creatorName, age);
+      case 3: // General Creator
+        return createGeneralCreator(creatorName, age);
+      default:
+        System.out.println("Invalid option. Adding as general creator.");
+        return createGeneralCreator(creatorName, age);
+    }
+  }
+
+  private static void displayCreatorTypeMenu() {
+    System.out.println("What type of creator would you like to add?");
+    System.out.println("1. Writer");
+    System.out.println("2. Artist");
+    System.out.println("3. General Creator");
+  }
+
+  private static String getCreatorName(Scanner scanner) {
+    System.out.println("What is the creator's name?");
+    return scanner.nextLine().trim();
+  }
+
+  private static int getCreatorAge(Scanner scanner) {
+    System.out.println("How old are they?");
+    int age = scanner.nextInt();
+    scanner.nextLine();
+    return age;
+  }
+
+  private static Writer createWriter(Scanner scanner, String name, int age) {
+    List<String> publishedWorks = getPublishedWorks(scanner);
+    Writer writer = new Writer(name, age, publishedWorks);
+    System.out.println("Added Writer: " + name + " (Published works: " + publishedWorks.size() + ")");
+    return writer;
+  }
+
+  private static List<String> getPublishedWorks(Scanner scanner) {
+    List<String> publishedWorks = new ArrayList<>();
+    System.out.println("Let's add their published works. You can add multiple works.");
+    boolean addingWorks = true;
+
+    while (addingWorks) {
+      System.out.println("Enter a published work:");
+      String work = scanner.nextLine().trim();
+      if (!work.isEmpty() && !publishedWorks.contains(work)) {
+        publishedWorks.add(work);
+        System.out.println("Added work: " + work);
+      }
+
+      System.out.println("Add another work? 1 for yes, any other number for no");
+      int continueWorks = scanner.nextInt();
+      scanner.nextLine();
+
+      if (continueWorks != 1) {
+        addingWorks = false;
+      }
+    }
+    return publishedWorks;
+  }
+
+  private static Artist createArtist(Scanner scanner, String name, int age) {
+    System.out.println("What is their art style? (e.g., Realistic, Cartoon, Manga, Abstract)");
+    String artStyle = scanner.nextLine().trim();
+    Artist artist = new Artist(name, age, artStyle);
+    System.out.println("Added Artist: " + name + " (Style: " + artStyle + ")");
+    return artist;
+  }
+
+  private static Creator createGeneralCreator(String name, int age) {
+    Creator creator = new Creator(name, age);
+    System.out.println("Added Creator: " + name);
+    return creator;
+  }
+
+  private static void displayCreativeTeam(List<Creator> creativeTeam) {
     System.out.println("Final creative team:");
     for (int i = 0; i < creativeTeam.size(); i++) {
       Creator c = creativeTeam.get(i);
@@ -348,8 +429,6 @@ public class ComicLibraryManager {
 
       System.out.println((i + 1) + ". " + type + ": " + c.getName() + details);
     }
-
-    return creativeTeam;
   }
 
   private static ComicLibrary createSampleLibrary() {
