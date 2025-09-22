@@ -94,7 +94,6 @@ public class ComicLibrary implements ComicRepository, ComicSearchService {
   }
 
   public List<Comic> filterByCharacter(String heroName) {
-    
     List<Comic> comicsByFilter =
         comics.stream()
             .filter(
