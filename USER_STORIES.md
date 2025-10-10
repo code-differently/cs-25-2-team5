@@ -1,42 +1,35 @@
-1. View Events by Visibility
-As a user,
- I want to see both private and community (public) events,
- So that I can attend events I’m invited to as well as discover what’s happening in my community.
-Acceptance Criteria:
-User can view a list of public events available to everyone.
+# Event Planner App – User Stories & Acceptance Criteria
 
+## 1. View Events by Visibility  
+**As a** user,  
+**I want** to see both private and community (public) events,  
+**So that** I can attend events I’m invited to as well as discover what’s happening in my community.  
 
-User can view private events they have been specifically invited to.
+### Acceptance Criteria
+- User can view a list of **public events** available to everyone.  
+- User can view **private events** they have been specifically invited to.  
+- Event details (e.g., title, date, time, location, description) are displayed upon selecting an event.
 
+---
 
-Event details (e.g., title, date, time, location, description) are displayed upon selecting an event.
+## 2. Create an Account  
+**As a** user,  
+**I want** to create an account,  
+**So that** I can view, RSVP to, and participate in events.  
 
+### Acceptance Criteria
+- User can **sign up** using required fields (e.g., name, email, password).  
+- User can **log in** to access personalized content (e.g., invited events).  
+- User can **accept invitations** to private events through their account.
 
+---
 
-2. Create an Account
-As a user,
- I want to create an account,
- So that I can view, RSVP to, and participate in events.
-Acceptance Criteria:
-User can sign up using required fields (e.g., name, email, password).
+## 3. Create & Manage Events  
+**As the** event planner,  
+**I want** to create, edit, and manage events,  
+**So that** I can share opportunities with the community and enjoy activities with my friends.  
 
-
-User can log in to access personalized content (e.g., invited events).
-
-
-User can accept invitations to private events through their account.
-
-
-
-3. Create & Manage Events
-As the event planner,
- I want to create, edit, and manage events,
- So that I can share opportunities with the community and enjoy activities with my friends.
-Acceptance Criteria:
-User can create new events by entering key details (e.g., title, date, time, visibility).
-
-
-User can edit or delete events they created.
-
-
-Changes to events are reflected in the event list for all relevant users (e.g., invitees or the public).
+### Acceptance Criteria
+- User can **create new events** by entering key details (e.g., title, date, time, visibility).  
+- User can **edit or delete** events they created.  
+- Changes to events are **reflected in the event list** for all relevant users (e.g., invitees or the public).
