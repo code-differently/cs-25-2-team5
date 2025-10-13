@@ -18,7 +18,7 @@ Event organizers can create and manage events, track RSVPs, and keep attendees i
 - Public & private event visibility  
 - RSVP and invitation management through a single dashboard  
 - Event creation, editing, and organizer tools  
-- Real-time updates and RSVP notifications  
+ 
 
 ---
 
@@ -36,10 +36,10 @@ Event organizers can create and manage events, track RSVPs, and keep attendees i
 ### Steps
 ```bash
 # 1. Clone the repository
-git clone https://github.com/your-username/event-planner-app.git
+git clone https://github.com/code-differently/cs-25-2-team5.git
 
 # 2. Navigate into the project directory
-cd event-planner-app
+cd event-planner
 
 # 3. Install dependencies
 npm install
