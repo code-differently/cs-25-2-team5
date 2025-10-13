@@ -43,7 +43,7 @@
 ### Acceptance Criteria
 - User can **view all private event invitations** within their account dashboard under a single tab.  
 - Each invitation displays the user’s **RSVP status** (e.g., “Accepted” or “Not Responded”).  
-- User can **accept or decline** invitations 
+- User can **accept or decline** invitations.
 - **Event planners can see** which invitees have accepted or declined.
 
 ---
