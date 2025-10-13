@@ -4,7 +4,7 @@
 
 
 ## 🖼️ Screenshot
-![App Screenshot](./assets/screenshot.png)  
+<!-- ![App Screenshot](./assets/screenshot.png)   -->
 *Screenshot of the Event Dashboard showing event visibility and invitations.*
 
 ---
