@@ -34,8 +34,8 @@
 - User can **edit or delete** events they created.  
 - Changes to events are **reflected in the event list** for all relevant users (e.g., invitees or the public).
 
-
 ## 4. Accept Private Event Invitations  
+**As a** user,  
 **As a** user,  
 **I want** to view and respond to invitations to private events through my account,  
 **So that** I can confirm my attendance and stay informed about event details.  
