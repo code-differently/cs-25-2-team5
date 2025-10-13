@@ -22,9 +22,6 @@ Event organizers can create and manage events, track RSVPs, and keep attendees i
 
 ---
 
-## 🚀 Demo Link
-👉 [Live Demo](https://your-demo-link.com) *(replace with your actual deployment URL)*
-
 ---
 
 ## 🛠️ Installation Instructions
