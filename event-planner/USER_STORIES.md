@@ -34,7 +34,6 @@
 - User can **edit or delete** events they created.  
 - Changes to events are **reflected in the event list** for all relevant users (e.g., invitees or the public).
 
-# Event Planner App – User Stories & Acceptance Criteria
 
 ## 4. Accept Private Event Invitations  
 **As a** user,  
