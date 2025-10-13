@@ -34,7 +34,6 @@
 - User can **edit or delete** events they created.  
 - Changes to events are **reflected in the event list** for all relevant users (e.g., invitees or the public).
 
-# Event Planner App – User Stories & Acceptance Criteria
 
 ## 4. Accept Private Event Invitations  
 **As a** user,  
@@ -44,7 +43,7 @@
 ### Acceptance Criteria
 - User can **view all private event invitations** within their account dashboard under a single tab.  
 - Each invitation displays the user’s **RSVP status** (e.g., “Accepted” or “Not Responded”).  
-- User can **accept or decline** invitations 
+- User can **accept or decline** invitations.
 - **Event planners can see** which invitees have accepted or declined.
 
 ---
