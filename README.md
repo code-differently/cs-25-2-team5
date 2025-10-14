@@ -1,44 +1,45 @@
-# Comic Book Library (CBL)
+# 🗓️ Event Planner App
 
-A Java-based comic book management system for searching, filtering, and managing comic collections.
+## 📌 The Team
 
-## Problem
 
-Comic book collectors need an easy way to:
-- Search their collection by character, creator, or title
-- Find rare and valuable comics
-- Add new comics to their library
-
-## Solution
-
-Our CLI application provides:
-
-1. **Search & Filter** - Find comics by character, creator, title, genre, or publisher
-2. **Rare Comics Discovery** - Sort by rarity based on print count, grade, and age
-3. **Collection Management** - Add new comics with validation and duplicate prevention
-
-## How to Run
-
-**Prerequisites:** Java 21, Gradle
-
-```bash
-# Build and test
-./gradlew build test
-
-# Run the CLI application
-java -cp build/classes/java/main com.team5.cbl.cbl_app.ComicLibraryManager
-```
-
-## Future Improvements
-
-- **Web Application** - Migrate from CLI to modern web interface
-- **User Accounts** - Create personal accounts with login/registration
-- **Bookmarks & Favorites** - Save and organize your most liked comics
-- **Collection Statistics** - Track how many comics collected, genres, publishers, etc.
-- **Edit Comics** - Modify or update comics you've added to your collection
-- **Database Integration** - Add persistent storage with JPA/PostgreSQL
+## 🖼️ Screenshot
+<!-- ![App Screenshot](./assets/screenshot.png)   -->
+*Screenshot of the Event Dashboard showing event visibility and invitations.*
 
 ---
 
-**Team 5** - Code Society 25.2 Cohort
+## 📝 Description
+The **Event Planner App** is a platform for creating, managing, and attending events.  
+Users can browse both **public community events** and **private invitations**, RSVP directly through their dashboard, and receive real-time updates on event details.  
+Event organizers can create and manage events, track RSVPs, and keep attendees informed.
 
+**Key Features:**
+- Public & private event visibility  
+- RSVP and invitation management through a single dashboard  
+- Event creation, editing, and organizer tools  
+ 
+
+---
+
+---
+
+## 🛠️ Installation Instructions
+
+### Prerequisites
+- [Node.js](https://nodejs.org/) (v16+ recommended)  
+- npm or yarn
+
+### Steps
+```bash
+# 1. Clone the repository
+git clone https://github.com/code-differently/cs-25-2-team5.git
+
+# 2. Navigate into the project directory
+cd event-planner
+
+# 3. Install dependencies
+npm install
+
+# 4. Start the development server
+npm run dev

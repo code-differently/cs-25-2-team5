@@ -15,12 +15,11 @@
 ## 2. Create an Account  
 **As a** user,  
 **I want** to create an account,  
-**So that** I can view, RSVP to, and participate in events.  
+so that I can view my personalized events 
 
 ### Acceptance Criteria
 - User can **sign up** using required fields (e.g., name, email, password).  
 - User can **log in** to access personalized content (e.g., invited events).  
-- User can **accept invitations** to private events through their account.
 
 ---
 
@@ -33,3 +32,18 @@
 - User can **create new events** by entering key details (e.g., title, date, time, visibility).  
 - User can **edit or delete** events they created.  
 - Changes to events are **reflected in the event list** for all relevant users (e.g., invitees or the public).
+
+## 4. Accept Private Event Invitations  
+**As a** user,  
+**As a** user,  
+**I want** to view and respond to invitations to private events through my account,  
+**So that** I can confirm my attendance and stay informed about event details.  
+
+### Acceptance Criteria
+- User can **view all private event invitations** within their account dashboard under a single tab.  
+- Each invitation displays the user’s **RSVP status** (e.g., “Accepted” or “Not Responded”).  
+- User can **accept or decline** invitations.
+- **Event planners can see** which invitees have accepted or declined.
+
+
+
