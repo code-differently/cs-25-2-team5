@@ -2,7 +2,11 @@ import React from 'react';
 
 const HomePage: React.FC = () => {
   return (
-    <div className="w-[1109px] h-20 bg-zinc-300 rounded-3x1" />
+    <section>
+      <h1>Welcome to Event Planner</h1>
+      <p>Discover and create amazing events in your community!</p>
+      {/* Event list will go here */}
+    </section>
   );
 };
 
