@@ -5,6 +5,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import HomePage from './pages/HomePage.tsx';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import React from 'react';
+import Navbar from './components/Navbar.tsx';
 
 
 const queryClient = new QueryClient();
@@ -14,6 +15,10 @@ const router = createBrowserRouter([
     path: '/',
     element: <App />,
     children: [
+      {
+        path: '/',
+        element: <Navbar />,
+      },
       {
         path: '/',
         element: <HomePage />,
