@@ -44,6 +44,3 @@ so that I can view my personalized events
 - Each invitation displays the user’s **RSVP status** (e.g., “Accepted” or “Not Responded”).  
 - User can **accept or decline** invitations.
 - **Event planners can see** which invitees have accepted or declined.
-
-
-
