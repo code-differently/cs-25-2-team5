@@ -11,7 +11,7 @@ const EventList = () => {
     }}>
       <h2 style={{ 
         marginBottom: '1.5rem', 
-        color: '#333',
+        color: '#fff',
         textAlign: 'center' 
       }}>
         Upcoming Events
