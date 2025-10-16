@@ -1,6 +1,6 @@
 import React from "react";
 
-export const LoginPage: React.FC = () => {
+export const Login: React.FC = () => {
     return (
         <>
         <div style={{width: "100%", height: "100%", position: "relative", background: "white", overflow: "hidden", borderRadius: "19px"}}>
@@ -26,4 +26,4 @@ export const LoginPage: React.FC = () => {
     );
 }
 
-export default LoginPage;
+export default Login;
