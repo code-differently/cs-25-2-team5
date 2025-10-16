@@ -48,5 +48,11 @@
                 "terminal.integrated.profiles.linux": { "zsh": { "path": "/bin/zsh" } }
             }
 		}
-	}
+	},
+	"remoteEnv": {
+    "SUPABASE_DB_URL": "${localEnv:SUPABASE_DB_URL}",
+    "SUPABASE_DB_USER": "${localEnv:SUPABASE_DB_USER}",
+    "SUPABASE_DB_PASS": "${localEnv:SUPABASE_DB_PASS}"
+}
+
 }
