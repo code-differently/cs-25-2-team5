@@ -3,7 +3,7 @@ import './index.css';
 import App from './App.tsx';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import HomePage from './pages/HomePage.tsx';
-import { LoginPage } from './pages/LoginPage.tsx';
+import LoginPage from './pages/LoginPage.tsx';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import React from 'react';
 

@@ -1,19 +1,20 @@
 import './App.css'
 import { Outlet } from 'react-router-dom';
-import Navbar from './components/Navbar';
-import HomePage from './pages/HomePage';
+import Navigation from './components/navigation/Navigation';
+import { Footer } from './components/footer/Footer';
+
 
 function App() {
   return (
-    <div className="app">
-      <Navbar />
-      <HomePage />
-      <main className="app-main">
-        <Outlet />
-      </main>
-      
-      {/* Footer can go here if needed */}
-    </div>
+    <>
+      <Navigation />
+      <div className="main">
+        <div className="content">
+          <Outlet />
+        </div>
+      </div>
+      <Footer />
+    </>
   );
 }
 

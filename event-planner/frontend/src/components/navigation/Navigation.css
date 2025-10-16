@@ -1,0 +1,49 @@
+.navigation-bar {
+    width: 60%;
+    height: 75px;
+    background: #D9D9D9; 
+    border-radius: 21px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 2rem;
+    position: absolute;
+    top: 20px;
+}
+
+.navigation-top-menu {
+    display: flex;
+    list-style: none;
+    gap: 2rem;
+    margin: 0;
+    padding: 0;
+}
+
+.navigation-top-menu li a {
+    text-decoration: none;
+    color: #333;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.auth-buttons {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.auth-buttons > a {
+    text-decoration: none;
+    color:#333;
+    background-color: #44A5AA;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    border: 2px solid #44A5AA;
+    border-radius: 21px;
+    transition: all 0.3s ease;
+}
+
+.auth-buttons > a:hover {
+    background: #44A5AA;
+    color: white;
+}
