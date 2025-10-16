@@ -21,9 +21,10 @@ const EventList = () => {
         display: 'grid',
         gap: '1rem'
       }}>
-        {events.map((event, index) => (
+        {events.map((event) => (
           <Event 
-            key={index}
+            key={event.id}
+            id={event.id}
             title={event.title}
             location={event.location}
             owner={event.owner}
@@ -45,4 +46,4 @@ const EventList = () => {
   )
 }
 
-export default EventList
+export default EventList;
