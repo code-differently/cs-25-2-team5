@@ -1,4 +1,3 @@
-import React from 'react'
 import { events } from '../../types/types'
 import { Event } from './Event'
 

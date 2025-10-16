@@ -16,7 +16,7 @@ const Navigation: React.FC = () => {
       
       <div className="auth-buttons">
         <Link to="/login">Login</Link>
-        <Link to="/register">Register</Link>
+        {/* <Link to="/register">Register</Link>  */} {/* Add this back when the Register */}
       </div>
     </nav>
   );
