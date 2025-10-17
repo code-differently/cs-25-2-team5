@@ -5,37 +5,20 @@ export const Event = ({ id, title, location, owner, time }: EventType) => {
     return (
         <Link 
             to={`/event/${id}`}
-            style={{
-                textDecoration: 'none',
-                color: 'inherit',
-                display: 'block'
-            }}
+            style={{ textDecoration: 'none', color: 'inherit' }}
         >
-            <div 
-                style={{
-                    border: '1px solid #ddd',
-                    borderRadius: '8px',
-                    padding: '1rem',
-                    margin: '1rem 0',
-                    backgroundColor: '#f9f9f9',
-                    cursor: 'pointer',
-                    transition: 'all 0.2s ease'
-                }}
-                onMouseEnter={(e) => {
-                    e.currentTarget.style.backgroundColor = '#f0f0f0'
-                    e.currentTarget.style.transform = 'translateY(-2px)'
-                    e.currentTarget.style.boxShadow = '0 4px 8px rgba(0,0,0,0.1)'
-                }}
-                onMouseLeave={(e) => {
-                    e.currentTarget.style.backgroundColor = '#f9f9f9'
-                    e.currentTarget.style.transform = 'translateY(0)'
-                    e.currentTarget.style.boxShadow = 'none'
-                }}
-            >
-                <h3 style={{ margin: '0 0 0.5rem 0', color: '#333' }}>{title}</h3>
-                <p style={{ margin: '0.25rem 0', color: '#666' }}>📍 {location}</p>
-                <p style={{ margin: '0.25rem 0', color: '#666' }}>👤 {owner}</p>
-                <p style={{ margin: '0.25rem 0', color: '#666' }}>🕐 {time}</p>
+            <div style={{
+                padding: '1rem',
+                backgroundColor: 'white',
+                borderRadius: '4px',
+                border: '1px solid #eee',
+                cursor: 'pointer'
+            }}>
+                <h3 style={{ margin: '0 0 0.5rem 0' }}>{title}</h3>
+                <div style={{ fontSize: '0.9rem', color: '#666' }}>
+                    <div>📍 {location}</div>
+                    <div>👤 {owner} • 🕐 {time}</div>
+                </div>
             </div>
         </Link>
     )
