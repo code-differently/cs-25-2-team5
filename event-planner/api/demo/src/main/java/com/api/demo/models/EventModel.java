@@ -6,6 +6,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -25,8 +26,8 @@ public class EventModel {
     private Boolean isPublic;
     
     private LocalDateTime startTime;
-
-    private Set<User> guest;
+    @ManyToMany
+    private Set<User> guests;
     
 }
 
