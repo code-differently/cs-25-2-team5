@@ -1,0 +1,106 @@
+.header {
+    display: flex;
+    position: sticky;
+    justify-content: space-between;
+    align-items: center;
+    height: 130px;
+    padding: 0 40px;
+    top: 0;
+    z-index: 9999;
+    background-color: #cb997e;
+    box-shadow: 0 0 14px 0 #b88a71;
+    width: 100vw;
+    margin-left: 50%;
+    transform: translateX(-50%) translateY(-30px);
+    box-sizing: border-box;
+}
+
+.navigation-top-menu {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    list-style: none;
+    gap: 20px;
+    padding: 0 50px;
+    margin: 0;
+}
+
+
+
+.navigation-logo img {
+    height: 75px;
+}
+
+.navigation-top-menu li {
+    border-bottom: 2px solid transparent;
+    transition: border-bottom 0.3s ease;
+}
+
+.navigation-top-menu li:hover {
+    border-bottom: 2px solid #a5a58d;
+}
+
+.navigation-top-menu li a {
+    text-decoration: none;
+    color: #fff;
+    font-weight: 700;
+    transition: color 0.3s ease;
+}
+
+.auth-buttons {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.navigation-login-button {
+    border-radius: 10px;
+    color: white;
+    background-color: #a5a58d;
+    padding: 10px 20px;
+    text-decoration: none;
+    font-weight: 700;
+    transition: all 0.3s ease;
+}
+
+.navigation-login-button:hover {
+    background-color: #ddbea9;
+    color: white;
+}
+
+
+
+/* Responsive design */
+@media screen and (max-width: 1080px) {
+    .header {
+        padding: 0 20px;
+    }
+    
+    .navigation-top-menu {
+        gap: 15px;
+        padding: 0 30px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .header {
+        height: 100px;
+        padding: 0 15px;
+        flex-wrap: wrap;
+    }
+    
+    .navigation-logo img {
+        height: 60px;
+    }
+    
+    .navigation-top-menu {
+        gap: 10px;
+        padding: 0 20px;
+        flex-wrap: wrap;
+    }
+    
+    .navigation-login-button {
+        padding: 8px 15px;
+        font-size: 0.9rem;
+    }
+}
