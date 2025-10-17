@@ -6,6 +6,7 @@ const Navigation: React.FC = () => {
   const location = useLocation();
   const isLoginPage = location.pathname === '/login';
   // const isSignUpPage = location.pathname === '/signup';
+  const goBackHome = location.pathname === '/';
 
   return (
     <header className="header">
@@ -41,6 +42,11 @@ const Navigation: React.FC = () => {
           </Link>
         )}  */}
         {/* Implement sign up button when sign up page is ready */}
+        {isLoginPage && (
+          <Link className="navigation-home-button" to="/">
+            {goBackHome ? 'Refresh Home' : 'Go Back Home'}
+          </Link>
+        )}
       </div>
     </header>
   );
