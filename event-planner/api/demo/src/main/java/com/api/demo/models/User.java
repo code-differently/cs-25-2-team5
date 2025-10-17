@@ -7,6 +7,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,7 +15,8 @@ import lombok.NoArgsConstructor;
 @Data                   // Lombok: generates getters, setters, toString, equals, hashCode
 @AllArgsConstructor     // Lombok: constructor with all fields
 @NoArgsConstructor      // Lombok: no-args constructor (required by JPA)
-@Entity                 // Marks this class as a JPA entity
+@Entity
+@Table(name = "users")                 // Marks this class as a JPA entity
 public class User {
 
     @Id
