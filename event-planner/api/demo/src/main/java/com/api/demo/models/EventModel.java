@@ -1,5 +1,6 @@
 package com.api.demo.models;
 import java.time.LocalDateTime;
+import java.util.Set;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -24,5 +25,9 @@ public class EventModel {
     private Boolean isPublic;
     
     private LocalDateTime startTime;
+
+    private Set<User> guest;
+    
 }
+
 
