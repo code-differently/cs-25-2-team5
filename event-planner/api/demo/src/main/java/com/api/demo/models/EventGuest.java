@@ -27,6 +27,7 @@ public class EventGuest {
     @JoinColumn(name = "guest_id")
     private User guest;
 
+
     private RsvpStatus rsvpStatus;
 
 

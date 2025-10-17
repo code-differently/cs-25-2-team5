@@ -11,6 +11,7 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class EventGuestKey implements Serializable{
+    
     @Column(name = "event_id")
     private Long eventId;
     @Column(name = "guest_id")
