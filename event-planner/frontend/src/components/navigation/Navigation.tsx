@@ -5,6 +5,7 @@ import './Navigation.css';
 const Navigation: React.FC = () => {
   const location = useLocation();
   const isLoginPage = location.pathname === '/login';
+  // const isSignUpPage = location.pathname === '/signup';
 
   return (
     <header className="header">
@@ -27,13 +28,19 @@ const Navigation: React.FC = () => {
           </li>
         </ul>
       )}
-      
+
       <div className="auth-buttons">
         {!isLoginPage && (
           <Link className="navigation-login-button" to="/login">
             Login
           </Link>
         )}
+        {/* {!isSignUpPage && !isLoginPage && (
+          <Link className="navigation-signup-button" to="/signup">
+            Sign Up
+          </Link>
+        )}  */}
+        {/* Implement sign up button when sign up page is ready */}
       </div>
     </header>
   );
