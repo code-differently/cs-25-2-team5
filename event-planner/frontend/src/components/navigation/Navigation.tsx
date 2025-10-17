@@ -13,7 +13,10 @@ const Navigation: React.FC = () => {
         <img src="/evynt-logo.png" alt="Evynt Logo" />
       </a>
     </div>
-    <nav className="navigation-bar">
+    
+    {/* Only show navigation menu if not on login page */}
+    {!isLoginPage && (
+      <nav className="navigation-bar">
         <ul className="navigation-top-menu">
           <li>
             <a href="#">Discover</a> {/* Directs you to the community events */}
@@ -28,7 +31,8 @@ const Navigation: React.FC = () => {
           {/* <Link to="/register">Register</Link>  */} {/* Add this back when the Register */}
         </div>
       </nav>
-    </>
+    )}
+  </>
   );
 };
 
