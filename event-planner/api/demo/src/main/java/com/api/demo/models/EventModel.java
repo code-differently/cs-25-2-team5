@@ -20,6 +20,8 @@ public class EventModel {
     private String title;
     
     private String description;
+
+    private Boolean isPublic;
     
     private LocalDateTime startTime;
 }
