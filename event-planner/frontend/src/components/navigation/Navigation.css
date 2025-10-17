@@ -1,34 +1,39 @@
-.navigation-logo img {
-    position: absolute;
-    top: 36px;
-    left: 5px;
-    width: 150px;
-    min-width: 150px;
-    height: auto;
-    flex-shrink: 0;
-}
-
-.navigation-bar {
-    width: 400px;
-    height: 75px;
-    background: #ddbea9; 
-    border-radius: 21px;
+.header {
     display: flex;
-    align-items: center;
+    position: sticky;
     justify-content: space-between;
-    padding: 0 2rem;
-    position: absolute;
-    top: 20px;
-    left: 50%;
-    transform: translateX(-50%);
+    align-items: center;
+    height: 130px;
+    padding: 0 28px;
+    top: 0;
+    z-index: 9999;
+    background-color: #cb997e;
+    box-shadow: 0 0 14px 0 #b88a71;
 }
 
 .navigation-top-menu {
+    flex: 1;
     display: flex;
+    align-items: center;
     list-style: none;
-    gap: 2rem;
+    gap: 20px;
+    padding: 0 50px;
     margin: 0;
-    padding: 0;
+}
+
+
+
+.navigation-logo img {
+    height: 75px;
+}
+
+.navigation-top-menu li {
+    border-bottom: 2px solid transparent;
+    transition: border-bottom 0.3s ease;
+}
+
+.navigation-top-menu li:hover {
+    border-bottom: 2px solid #a5a58d;
 }
 
 .navigation-top-menu li a {
@@ -44,18 +49,54 @@
     align-items: center;
 }
 
-.auth-buttons > a {
-    text-decoration: none;
-    color: #fff;
+.navigation-login-button {
+    border-radius: 10px;
+    color: white;
     background-color: #a5a58d;
+    padding: 10px 20px;
+    text-decoration: none;
     font-weight: 700;
-    padding: 0.5rem 2rem;
-    border: 2px solid #a5a58d;
-    border-radius: 21px;
     transition: all 0.3s ease;
 }
 
-.auth-buttons > a:hover {
-    background: #a5a58d;
+.navigation-login-button:hover {
+    background-color: #ddbea9;
     color: white;
+}
+
+
+
+/* Responsive design */
+@media screen and (max-width: 1080px) {
+    .header {
+        padding: 0 20px;
+    }
+    
+    .navigation-top-menu {
+        gap: 15px;
+        padding: 0 30px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .header {
+        height: 100px;
+        padding: 0 15px;
+        flex-wrap: wrap;
+    }
+    
+    .navigation-logo img {
+        height: 60px;
+    }
+    
+    .navigation-top-menu {
+        gap: 10px;
+        padding: 0 20px;
+        flex-wrap: wrap;
+    }
+    
+    .navigation-login-button {
+        padding: 8px 15px;
+        font-size: 0.9rem;
+    }
 }

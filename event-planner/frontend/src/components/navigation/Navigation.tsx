@@ -7,32 +7,35 @@ const Navigation: React.FC = () => {
   const isLoginPage = location.pathname === '/login';
 
   return (
-    <>
-    <div className="navigation-logo">
-      <a href="/">
-        <img src="/evynt-logo.png" alt="Evynt Logo" />
-      </a>
-    </div>
-    
-    {/* Only show navigation menu if not on login page */}
-    {!isLoginPage && (
-      <nav className="navigation-bar">
+    <header className="header">
+      <div className="navigation-logo">
+        <Link to="/">
+          <img src="/evynt-logo.png" alt="Evynt Logo" />
+        </Link>
+      </div>
+      
+      {!isLoginPage && (
         <ul className="navigation-top-menu">
           <li>
-            <a href="#">Discover</a> {/* Directs you to the community events */}
+            <Link to="/">Home</Link>
           </li>
           <li>
-            <a href="#">About Us</a> {/* Placeholder or can actually make an about us page */}
+            <a href="#">Discover</a>
+          </li>
+          <li>
+            <a href="#">About Us</a>
           </li>
         </ul>
-
-        <div className="auth-buttons">
-          {!isLoginPage && <Link to="/login">Login</Link>}
-          {/* <Link to="/register">Register</Link>  */} {/* Add this back when the Register */}
-        </div>
-      </nav>
-    )}
-  </>
+      )}
+      
+      <div className="auth-buttons">
+        {!isLoginPage && (
+          <Link className="navigation-login-button" to="/login">
+            Login
+          </Link>
+        )}
+      </div>
+    </header>
   );
 };
 
