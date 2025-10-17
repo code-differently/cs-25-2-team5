@@ -1,9 +1,7 @@
-/* Satoshi font imports */
+/* Satoshi font imports - optimized for modern browsers */
 @font-face {
   font-family: 'Satoshi';
-  src: url('/fonts/Satoshi-Regular.woff2') format('woff2'),
-       url('/fonts/Satoshi-Regular.woff') format('woff'),
-       url('/fonts/Satoshi-Regular.ttf') format('truetype');
+  src: url('/fonts/Satoshi-Regular.woff2') format('woff2');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -11,19 +9,7 @@
 
 @font-face {
   font-family: 'Satoshi';
-  src: url('/fonts/Satoshi-Light.woff2') format('woff2'),
-       url('/fonts/Satoshi-Light.woff') format('woff'),
-       url('/fonts/Satoshi-Light.ttf') format('truetype');
-  font-weight: 300;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Satoshi';
-  src: url('/fonts/Satoshi-Bold.woff2') format('woff2'),
-       url('/fonts/Satoshi-Bold.woff') format('woff'),
-       url('/fonts/Satoshi-Bold.ttf') format('truetype');
+  src: url('/fonts/Satoshi-Bold.woff2') format('woff2');
   font-weight: 700;
   font-style: normal;
   font-display: swap;
@@ -31,19 +17,7 @@
 
 @font-face {
   font-family: 'Satoshi';
-  src: url('/fonts/Satoshi-Black.woff2') format('woff2'),
-       url('/fonts/Satoshi-Black.woff') format('woff'),
-       url('/fonts/Satoshi-Black.ttf') format('truetype');
-  font-weight: 900;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Satoshi';
-  src: url('/fonts/Satoshi-Italic.woff2') format('woff2'),
-       url('/fonts/Satoshi-Italic.woff') format('woff'),
-       url('/fonts/Satoshi-Italic.ttf') format('truetype');
+  src: url('/fonts/Satoshi-Italic.woff2') format('woff2');
   font-weight: 400;
   font-style: italic;
   font-display: swap;
@@ -51,20 +25,8 @@
 
 @font-face {
   font-family: 'Satoshi';
-  src: url('/fonts/Satoshi-BoldItalic.woff2') format('woff2'),
-       url('/fonts/Satoshi-BoldItalic.woff') format('woff'),
-       url('/fonts/Satoshi-BoldItalic.ttf') format('truetype');
+  src: url('/fonts/Satoshi-BoldItalic.woff2') format('woff2');
   font-weight: 700;
-  font-style: italic;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Satoshi';
-  src: url('/fonts/Satoshi-BlackItalic.woff2') format('woff2'),
-       url('/fonts/Satoshi-BlackItalic.woff') format('woff'),
-       url('/fonts/Satoshi-BlackItalic.ttf') format('truetype');
-  font-weight: 900;
   font-style: italic;
   font-display: swap;
 }
@@ -85,7 +47,7 @@
 }
 
 a {
-  font-weight: 500;
+  font-weight: 700;
   color: #646cff;
   text-decoration: inherit;
 }
@@ -111,7 +73,7 @@ button {
   border: 1px solid transparent;
   padding: 0.6em 1.2em;
   font-size: 1em;
-  font-weight: 500;
+  font-weight: 700;
   font-family: inherit;
   background-color: #1a1a1a;
   cursor: pointer;
