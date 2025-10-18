@@ -5,7 +5,7 @@ import './Navigation.css';
 const Navigation: React.FC = () => {
   const location = useLocation();
   const isLoginPage = location.pathname === '/login';
-  // const isSignUpPage = location.pathname === '/signup';
+  // Add Sign Up page check when sign up page is implemented
   const goBackHome = location.pathname === '/';
 
   return (
@@ -36,12 +36,9 @@ const Navigation: React.FC = () => {
             Login
           </Link>
         )}
-        {/* {!isSignUpPage && !isLoginPage && (
-          <Link className="navigation-signup-button" to="/signup">
-            Sign Up
-          </Link>
-        )}  */}
+        
         {/* Implement sign up button when sign up page is ready */}
+
         {isLoginPage && (
           <Link className="navigation-home-button" to="/">
             {goBackHome ? 'Refresh Home' : 'Go Back Home'}
