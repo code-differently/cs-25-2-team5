@@ -1,5 +1,5 @@
 .welcome-title {
-    margin-top: 80px;
+    margin-top: 20px; /* Reduced from 80px since we now have global header spacing */
 }
 
 
