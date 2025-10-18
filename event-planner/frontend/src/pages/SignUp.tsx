@@ -2,6 +2,7 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 
 type FormData = {
   firstName: string;
@@ -79,7 +80,7 @@ export default function SignUpPage() {
   };
 
   return (
-    <div className="min-h-screen grid place-items-center p-6">
+    <div>
       <form
         onSubmit={onSubmit}
         noValidate
@@ -139,6 +140,7 @@ export default function SignUpPage() {
           onChange={onChange}
           error={errors.password}
           autoComplete="new-password"
+          helpText="Password must be at least 8 characters long"
         />
 
         <Field
@@ -157,8 +159,15 @@ export default function SignUpPage() {
           disabled={submitting}
           className="mt-2 w-full h-11 rounded-xl font-semibold bg-black text-white dark:bg-white dark:text-black disabled:opacity-60 disabled:cursor-not-allowed"
         >
-          {submitting ? 'Submitting…' : 'Submit'}
+          {submitting ? 'Submitting…' : 'Sign Up'}
         </button>
+        
+        <p className="mt-4 text-sm text-center text-gray-600 dark:text-gray-400">
+          Already have an account?{' '}
+          <Link href="/login" className="text-blue-600 hover:underline dark:text-blue-400">
+            Log in
+          </Link>
+        </p>
       </form>
     </div>
   );
@@ -173,8 +182,9 @@ function Field(props: {
   error?: string;
   type?: string;
   autoComplete?: string;
+  helpText?: string;
 }) {
-  const { label, id, name, value, onChange, error, type = 'text', autoComplete } = props;
+  const { label, id, name, value, onChange, error, type = 'text', autoComplete, helpText } = props;
   return (
     <div className="mb-4">
       <label htmlFor={id} className="block text-sm font-medium mb-1">
@@ -188,10 +198,17 @@ function Field(props: {
         onChange={onChange}
         autoComplete={autoComplete}
         aria-invalid={!!error}
-        aria-describedby={error ? `${id}-error` : undefined}
+        aria-describedby={
+          error ? `${id}-error` : helpText ? `${id}-help` : undefined
+        }
         required
         className="w-full rounded-xl border border-zinc-300 dark:border-zinc-700 bg-transparent px-3 py-2 outline-none focus:ring-2 focus:ring-zinc-400"
       />
+      {helpText && (
+        <p id={`${id}-help`} className="mt-1 text-xs text-gray-600 dark:text-gray-400">
+          {helpText}
+        </p>
+      )}
       {error && (
         <p id={`${id}-error`} className="mt-1 text-xs text-red-600">
           {error}
