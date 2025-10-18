@@ -2,7 +2,7 @@
 'use client';
 
 import { useState } from 'react';
-import Link from 'next/link';
+import { Link } from 'react-router-dom';
 
 type FormData = {
   firstName: string;
@@ -84,18 +84,18 @@ export default function SignUpPage() {
       <form
         onSubmit={onSubmit}
         noValidate
-        className="w-full max-w-md rounded-2xl border border-zinc-200 dark:border-zinc-800 shadow-sm p-6 bg-white dark:bg-zinc-900"
+        className="signup-form"
         aria-describedby={errors.form ? 'form-error' : undefined}
       >
-        <h1 className="text-2xl font-bold mb-4">Sign Up</h1>
+        <h1 className="signup-title">Sign Up</h1>
 
         {errors.form && (
-          <p id="form-error" className="mb-3 text-sm text-red-600">
+          <p id="form-error" className="form-error">
             {errors.form}
           </p>
         )}
         {successMsg && (
-          <p role="status" className="mb-3 text-sm text-green-600">
+          <p role="status" className="success-message">
             {successMsg}
           </p>
         )}
@@ -157,14 +157,14 @@ export default function SignUpPage() {
         <button
           type="submit"
           disabled={submitting}
-          className="mt-2 w-full h-11 rounded-xl font-semibold bg-black text-white dark:bg-white dark:text-black disabled:opacity-60 disabled:cursor-not-allowed"
+          className="submit-button"
         >
           {submitting ? 'Submitting…' : 'Sign Up'}
         </button>
         
-        <p className="mt-4 text-sm text-center text-gray-600 dark:text-gray-400">
+        <p className="login-link-text">
           Already have an account?{' '}
-          <Link href="/login" className="text-blue-600 hover:underline dark:text-blue-400">
+          <Link to="/login" className="login-link">
             Log in
           </Link>
         </p>
@@ -186,8 +186,8 @@ function Field(props: {
 }) {
   const { label, id, name, value, onChange, error, type = 'text', autoComplete, helpText } = props;
   return (
-    <div className="mb-4">
-      <label htmlFor={id} className="block text-sm font-medium mb-1">
+    <div className="field-container">
+      <label htmlFor={id} className="field-label">
         {label}
       </label>
       <input
@@ -202,15 +202,15 @@ function Field(props: {
           error ? `${id}-error` : helpText ? `${id}-help` : undefined
         }
         required
-        className="w-full rounded-xl border border-zinc-300 dark:border-zinc-700 bg-transparent px-3 py-2 outline-none focus:ring-2 focus:ring-zinc-400"
+        className="field-input"
       />
       {helpText && (
-        <p id={`${id}-help`} className="mt-1 text-xs text-gray-600 dark:text-gray-400">
+        <p id={`${id}-help`} className="field-help">
           {helpText}
         </p>
       )}
       {error && (
-        <p id={`${id}-error`} className="mt-1 text-xs text-red-600">
+        <p id={`${id}-error`} className="field-error">
           {error}
         </p>
       )}
