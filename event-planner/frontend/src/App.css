@@ -37,7 +37,7 @@
 }
 
 .main {
-  padding-top: 130px; /* Add space for the sticky header (matches header height) */
+  padding-top: 10px; /* Add space for the sticky header (matches header height) */
 }
 
 .content {
