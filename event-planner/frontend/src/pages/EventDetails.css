@@ -1,13 +1,19 @@
 .event-details-container {
-  /* padding: 2rem; */
-  max-width: 600px;
-  margin: 0 auto;
-  color: #333;
-  height: 100vh;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
   font-family: 'Satoshi', sans-serif;
 }
 
 .event-not-found {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #f8f8f8;
   padding: 3rem 2rem;
   text-align: center;
   color: #333;
@@ -27,10 +33,14 @@
   padding: 3rem 2rem;
   border-radius: 8px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  height: inherit;
   font-family: 'Satoshi', sans-serif;
   display: flex;
   flex-direction: column;
+  width: auto;
+  max-width: 500px;
+  margin: 0 auto;
+  position: relative;
+  height: 100vh
 }
 
 .event-title {
@@ -62,10 +72,11 @@
 }
 
 .event-detail-button-group {
-  margin-top: auto;
   display: flex;
   justify-content: center;
   padding-top: 2rem;
+  margin-top: auto;
+  gap: 1rem;
 }
 
 .back-button {
@@ -78,7 +89,6 @@
   font-family: 'Satoshi', sans-serif;
   font-size: 14px;
   transition: all 0.2s ease;
-  margin: 1rem 20px;
   border: none;
   cursor: pointer;
   min-height: 44px;
@@ -100,7 +110,6 @@
   font-family: 'Satoshi', sans-serif;
   font-size: 14px;
   transition: all 0.2s ease;
-  margin: 1rem 20px;
   border: none;
   cursor: pointer;
   min-height: 44px;

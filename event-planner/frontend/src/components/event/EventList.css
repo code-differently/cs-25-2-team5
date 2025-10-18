@@ -1,6 +1,6 @@
 .event-list-container {
     padding: 2rem;
-    max-width: 600px;
+    max-width: 900px; /* Increased from 600px */
     margin: 0 auto;
 }
 
@@ -12,5 +12,6 @@
 .event-list {
   display: flex;
   flex-direction: row;
-  gap: 1rem;
+  gap: 2rem; /* Increased from 1rem */
+  flex-wrap: wrap; /* Allow wrapping for responsive design */
 }
