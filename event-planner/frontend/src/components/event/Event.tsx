@@ -1,25 +1,26 @@
 import { Link } from 'react-router-dom'
 import type { Event as EventType } from '../../types/types'
+import './Event.css'
 
-export const Event = ({ id, title, location, owner, time }: EventType) => {
-    return (
-        <Link 
-            to={`/event/${id}`}
-            style={{ textDecoration: 'none', color: 'inherit' }}
-        >
-            <div style={{
-                padding: '1rem',
-                backgroundColor: 'white',
-                borderRadius: '4px',
-                border: '1px solid #eee',
-                cursor: 'pointer'
-            }}>
-                <h3 style={{ margin: '0 0 0.5rem 0' }}>{title}</h3>
-                <div style={{ fontSize: '0.9rem', color: '#666' }}>
-                    <div>📍 {location}</div>
-                    <div>👤 {owner} • 🕐 {time}</div>
-                </div>
-            </div>
-        </Link>
-    )
+export const Event = ({ id, title, location, owner, time, imageUrl }: EventType) => {
+  return (
+    <Link to={`/event/${id}`} className="event-list-card-link">
+      <div className="event-list-card">
+        <div className="event-list-card-image-wrapper">
+          <img 
+            src={imageUrl || '/default-event-image.jpg'} 
+            alt={title}
+            className="event-list-card-image"
+          />
+        </div>
+        <div className="event-list-card-body">
+          <h3 className="event-list-card-title">{title}</h3>
+          <div className="event-list-card-details">
+            <div className="event-list-card-detail-row">{location}</div>
+            <div className="event-list-card-detail-row">{owner} • {time}</div>
+          </div>
+        </div>
+      </div>
+    </Link>
+  )
 }
