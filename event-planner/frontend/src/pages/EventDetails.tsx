@@ -48,7 +48,7 @@ export default function EventDetails() {
           
           <div className="event-image-container">
             <img 
-              src="/path-to-your-event-image.jpg" 
+              src="/dinner-table-setup.jpg" 
               alt={event.title} 
               className="event-image"
             />
