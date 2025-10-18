@@ -21,13 +21,6 @@ export default function EventDetails() {
 
   return (
     <div className="event-details-container">
-      <button 
-        className="back-button"
-        onClick={() => navigate('/')}
-      >
-        ← Back
-      </button>
-      
       <div className="event-card">
         <h1 className="event-title">
           {event.title}
@@ -47,7 +40,9 @@ export default function EventDetails() {
             <span>{event.time}</span>
           </div>
         </div>
-        
+        <button className="back-button" onClick={() => navigate('/')}>
+          ← Back
+        </button>
         <button className="rsvp-button">
           RSVP
         </button>
