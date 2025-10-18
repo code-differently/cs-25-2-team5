@@ -1,12 +1,15 @@
 .welcome-title {
-    margin-top: 20px; /* Reduced from 80px since we now have global header spacing */
+    font-weight: 700;
+    font-style: normal;
+    color: rgb(255, 255, 255);
+    font-kerning: none;
 }
 
 
 h1 {
     font-size: 2.5rem;
     color: #fff;
-    margin-bottom: .2rem;
+    margin-bottom: -0.8rem;
 }
 
 p {

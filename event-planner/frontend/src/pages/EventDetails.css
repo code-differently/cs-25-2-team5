@@ -22,28 +22,6 @@
   margin-bottom: 3rem;
 }
 
-.back-button {
-  border-radius: 8px;
-  color: white;
-  background-color: #a5a58d;
-  padding: 12px 24px;
-  text-decoration: none;
-  font-weight: 600;
-  font-family: 'Satoshi', sans-serif;
-  font-size: 14px;
-  transition: all 0.2s ease;
-  margin: 1rem 20px;
-  border: none;
-  cursor: pointer;
-  min-height: 44px;
-}
-
-.back-button:hover {
-  background-color: #939380;
-  color: white;
-  transform: translateY(-1px);
-}
-
 .event-card {
   background-color: white;
   padding: 3rem 2rem;
@@ -51,6 +29,8 @@
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   height: inherit;
   font-family: 'Satoshi', sans-serif;
+  display: flex;
+  flex-direction: column;
 }
 
 .event-title {
@@ -81,22 +61,54 @@
   line-height: 1.4;
 }
 
-.rsvp-button {
-  background-color: #a5a58d;
-  color: white;
-  border: none;
-  padding: 12px 24px;
+.event-detail-button-group {
+  margin-top: auto;
+  display: flex;
+  justify-content: center;
+  padding-top: 2rem;
+}
+
+.back-button {
   border-radius: 8px;
-  cursor: pointer;
-  font-size: 14px;
+  color: white;
+  background-color: #a5a58d;
+  padding: 12px 24px;
+  text-decoration: none;
   font-weight: 600;
   font-family: 'Satoshi', sans-serif;
+  font-size: 14px;
   transition: all 0.2s ease;
+  margin: 1rem 20px;
+  border: none;
+  cursor: pointer;
+  min-height: 44px;
+}
+
+.back-button:hover {
+  background-color: #939380;
+  color: white;
+  transform: translateY(-1px);
+}
+
+.rsvp-button {
+  border-radius: 8px;
+  color: white;
+  background-color: #a5a58d;
+  padding: 12px 24px;
+  text-decoration: none;
+  font-weight: 600;
+  font-family: 'Satoshi', sans-serif;
+  font-size: 14px;
+  transition: all 0.2s ease;
+  margin: 1rem 20px;
+  border: none;
+  cursor: pointer;
   min-height: 44px;
 }
 
 .rsvp-button:hover {
   background-color: #939380;
+  color: white;
   transform: translateY(-1px);
 }
 

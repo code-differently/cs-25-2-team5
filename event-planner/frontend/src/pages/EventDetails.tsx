@@ -40,12 +40,14 @@ export default function EventDetails() {
             <span>{event.time}</span>
           </div>
         </div>
-        <button className="back-button" onClick={() => navigate('/')}>
-          ← Back
-        </button>
-        <button className="rsvp-button">
-          RSVP
-        </button>
+        <div className='event-detail-button-group'>
+          <button className="back-button" onClick={() => navigate('/')}>
+            ← Back
+          </button>
+          <button className="rsvp-button">
+            RSVP
+          </button>
+        </div>
       </div>
     </div>
   )
