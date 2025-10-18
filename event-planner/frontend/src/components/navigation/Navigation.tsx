@@ -5,6 +5,8 @@ import './Navigation.css';
 const Navigation: React.FC = () => {
   const location = useLocation();
   const isLoginPage = location.pathname === '/login';
+  const isSignUpPage = location.pathname === '/signup';
+  const goBackHome = location.pathname === '/';
 
   return (
     <header className="header">
@@ -27,11 +29,21 @@ const Navigation: React.FC = () => {
           </li>
         </ul>
       )}
-      
+
       <div className="auth-buttons">
         {!isLoginPage && (
           <Link className="navigation-login-button" to="/login">
             Login
+          </Link>
+        )}
+        {!isSignUpPage && !isLoginPage && (
+          <Link className="navigation-signup-button" to="/signup">
+            Sign Up
+          </Link>
+        )}
+        {isLoginPage && (
+          <Link className="navigation-home-button" to="/">
+            {goBackHome ? 'Refresh Home' : 'Go Back Home'}
           </Link>
         )}
       </div>

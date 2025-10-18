@@ -11,7 +11,7 @@
     box-shadow: 0 0 14px 0 #b88a71;
     width: 100vw;
     margin-left: 50%;
-    transform: translateX(-50%) translateY(-30px);
+    transform: translateX(-50%);
     box-sizing: border-box;
 }
 
@@ -64,10 +64,39 @@
 }
 
 .navigation-login-button:hover {
-    background-color: #ddbea9;
+    background-color: #a5a58d;
     color: white;
 }
 
+.navigation-signup-button {
+    border-radius: 10px;
+    color: white;
+    background-color: #a5a58d;
+    padding: 10px 20px;
+    text-decoration: none;
+    font-weight: 700;
+    transition: all 0.3s ease;
+}
+
+.navigation-signup-button:hover {
+    background-color: #a5a58d;
+    color: white;
+}
+
+.navigation-home-button {
+    border-radius: 10px;
+    color: white;
+    background-color: #a5a58d;
+    padding: 10px 20px;
+    text-decoration: none;
+    font-weight: 700;
+    transition: all 0.3s ease;
+}
+
+.navigation-home-button:hover {
+    background-color: #a5a58d;
+    color: white;
+}
 
 
 /* Responsive design */
@@ -100,6 +129,16 @@
     }
     
     .navigation-login-button {
+        padding: 8px 15px;
+        font-size: 0.9rem;
+    }
+    
+    .navigation-signup-button {
+        padding: 8px 15px;
+        font-size: 0.9rem;
+    }
+
+    .navigation-home-button {
         padding: 8px 15px;
         font-size: 0.9rem;
     }
