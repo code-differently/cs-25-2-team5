@@ -1,6 +1,7 @@
 package com.api.demo.models;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -32,6 +33,7 @@ public class EventModel {
 
   @OneToMany(mappedBy = "event")
   private Set<EventGuest> eventGuests;
-  @ManyToOne
+  // lazy loading to prevent fetching organizer details unless needed to avoid circular references
+  @ManyToOne(fetch = FetchType.LAZY)
   private User organizer;
 }

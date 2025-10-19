@@ -36,8 +36,8 @@ public class User {
 
   @OneToMany(mappedBy = "guest")
   private Set<EventGuest> eventGuests;
-
-  @OneToMany(fetch = FetchType.LAZY, mappedBy = "organizer")
+  
+  @OneToMany( mappedBy = "organizer")
   private Set<EventModel> organizedEvents;
 
 
