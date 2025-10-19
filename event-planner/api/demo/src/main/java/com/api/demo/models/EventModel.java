@@ -33,6 +33,7 @@ public class EventModel {
 
   @OneToMany(mappedBy = "event")
   private Set<EventGuest> eventGuests;
+
   // lazy loading to prevent fetching organizer details unless needed to avoid circular references
   @ManyToOne(fetch = FetchType.LAZY)
   private User organizer;
