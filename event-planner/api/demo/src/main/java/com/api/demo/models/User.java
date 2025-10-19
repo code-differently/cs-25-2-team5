@@ -4,6 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Inheritance;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.util.Set;
@@ -16,6 +17,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor // Lombok: no-args constructor (required by JPA)
 @Entity
 @Table(name = "users") // Marks this class as a JPA entity
+@Inheritance
+
 public class User {
 
   @Id
