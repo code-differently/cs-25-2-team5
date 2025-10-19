@@ -23,6 +23,8 @@ public class HomeController {
         List<Map<String, Object>> endpoints = handlerMapping.getHandlerMethods().entrySet().stream()
                 .map(entry -> {
                     var info = new LinkedHashMap<String, Object>();
+                    String value = entry.getKey().getPatternsCondition() == null ?  "/" : entry.getKey().getPatternsCondition().getPatterns().toString();
+                    info.put("urlPattern", value);
                     info.put("methods", entry.getKey().getMethodsCondition().getMethods());
                     return info;
                 })
