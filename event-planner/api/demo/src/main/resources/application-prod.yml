@@ -1,4 +1,5 @@
 spring:
+  profiles: prod
   h2:
     console:
       enabled: true
@@ -16,4 +17,6 @@ spring:
       # Disable SQL initialization
       mode: never
   config:
+    active: 
+      on-profile: prod
     import: optional:file:.env.properties
