@@ -33,5 +33,5 @@ public class EventModel {
   @OneToMany(mappedBy = "event")
   private Set<EventGuest> eventGuests;
   @ManyToOne
-  private Event_Organizer organizer;
+  private User organizer;
 }

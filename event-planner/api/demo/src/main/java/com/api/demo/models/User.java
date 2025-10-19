@@ -1,5 +1,7 @@
 package com.api.demo.models;
 
+import jakarta.persistence.DiscriminatorColumn;
+import jakarta.persistence.DiscriminatorType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -17,8 +19,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor // Lombok: no-args constructor (required by JPA)
 @Entity
 @Table(name = "users") // Marks this class as a JPA entity
-@Inheritance
-
 public class User {
 
   @Id
@@ -31,6 +31,11 @@ public class User {
 
   @OneToMany(mappedBy = "guest")
   private Set<EventGuest> eventGuests;
+
+   @OneToMany(mappedBy = "organizer")
+    private Set<EventModel> organizedEvents;
+
+
 
   // Custom constructor (skip id, since DB will generate it)
   public User(String name, String email, String password) {
