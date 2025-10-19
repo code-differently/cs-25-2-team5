@@ -1,15 +1,21 @@
 package com.api.demo.models;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.util.Set;
+
+import org.hibernate.annotations.Fetch;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
 
 @Data // Lombok: generates getters, setters, toString, equals, hashCode
 @AllArgsConstructor // Lombok: constructor with all fields
@@ -21,13 +27,20 @@ public class User {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private int id;
-
+  @NonNull
   private String name;
+  @NonNull
   private String email;
+  @NonNull
   private String password;
 
   @OneToMany(mappedBy = "guest")
   private Set<EventGuest> eventGuests;
+  
+  @OneToMany( mappedBy = "organizer")
+  private Set<EventModel> organizedEvents;
+
+
 
   // Custom constructor (skip id, since DB will generate it)
   public User(String name, String email, String password) {
