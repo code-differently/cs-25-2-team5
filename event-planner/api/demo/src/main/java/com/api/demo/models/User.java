@@ -10,7 +10,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.util.Set;
 
-import org.hibernate.annotations.Fetch;
+
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -26,7 +26,7 @@ public class User {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private int id;
+  private Long id;
   @NonNull
   private String name;
   @NonNull
