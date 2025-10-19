@@ -6,4 +6,8 @@ import com.api.demo.models.User;
 
 public interface UserRepo extends JpaRepository<User, Long> {
 
+    User findById(int id);
+
+    User findByEmail(String email);
+
 }

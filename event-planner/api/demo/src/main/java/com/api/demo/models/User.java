@@ -1,6 +1,7 @@
 package com.api.demo.models;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -9,7 +10,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.util.Set;
 
-
+import org.hibernate.annotations.Fetch;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -36,7 +37,7 @@ public class User {
   @OneToMany(mappedBy = "guest")
   private Set<EventGuest> eventGuests;
 
-  @OneToMany(mappedBy = "organizer")
+  @OneToMany(fetch = FetchType.LAZY, mappedBy = "organizer")
   private Set<EventModel> organizedEvents;
 
 
