@@ -3,6 +3,7 @@
 
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import './SignUp.css';
 
 type FormData = {
   firstName: string;
@@ -80,25 +81,43 @@ export default function SignUpPage() {
   };
 
   return (
-    <div>
-      <form
-        onSubmit={onSubmit}
-        noValidate
-        className="signup-form"
-        aria-describedby={errors.form ? 'form-error' : undefined}
-      >
-        <h1 className="signup-title">Sign Up</h1>
+    <div className="signup-page">
+      {/* Left side - Image Section */}
+      <div className="signup-image-section">
+        <div className="signup-image-content">
+          <img 
+            src="/photoshoot.jpg" 
+            alt="Colorful photoshoot setup" 
+            className="signup-hero-image"
+          />
+          <div className="signup-image-text">
+            <h2>Join Our Community</h2>
+            <p>Create unforgettable events with our comprehensive planning tools</p>
+          </div>
+        </div>
+      </div>
 
-        {errors.form && (
-          <p id="form-error" className="form-error">
-            {errors.form}
-          </p>
-        )}
-        {successMsg && (
-          <p role="status" className="success-message">
-            {successMsg}
-          </p>
-        )}
+      {/* Right side - Form Section */}
+      <div className="signup-form-section">
+        <div className="signup-container">
+          <form
+            onSubmit={onSubmit}
+            noValidate
+            className="signup-form"
+            aria-describedby={errors.form ? 'form-error' : undefined}
+          >
+            <h1 className="signup-title">Sign Up</h1>
+
+            {errors.form && (
+              <p id="form-error" className="form-error">
+                {errors.form}
+              </p>
+            )}
+            {successMsg && (
+              <p role="status" className="success-message">
+                {successMsg}
+              </p>
+            )}
 
         <Field
           label="First name"
@@ -168,7 +187,9 @@ export default function SignUpPage() {
             Log in
           </Link>
         </p>
-      </form>
+          </form>
+        </div>
+      </div>
     </div>
   );
 }
