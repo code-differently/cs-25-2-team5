@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -32,4 +34,13 @@ public class UserController {
         return ResponseEntity.ok(userDTO);
     }
 
+    @PostMapping("/users")
+    public ResponseEntity<UserDTO> createUser(@RequestBody User user) {
+        User createdUser = userService.createUser(user);
+        UserDTO userDTO = UserDTO.builder()
+                .name(createdUser.getName())
+                .email(createdUser.getEmail())
+                .build();
+        return ResponseEntity.ok(userDTO);
+    }
 }
