@@ -11,7 +11,7 @@
     box-shadow: 0 0 14px 0 #b88a71;
     width: 100vw;
     margin-left: 50%;
-    transform: translateX(-50%) translateY(-30px);
+    transform: translateX(-50%);
     box-sizing: border-box;
 }
 
@@ -68,7 +68,7 @@
     color: white;
 }
 
-/* .navigation-signup-button {
+.navigation-signup-button {
     border-radius: 10px;
     color: white;
     background-color: #a5a58d;
@@ -80,8 +80,8 @@
 
 .navigation-signup-button:hover {
     background-color: #a5a58d;
-    color: white; 
-}*/
+    color: white;
+}
 
 .navigation-home-button {
     border-radius: 10px;

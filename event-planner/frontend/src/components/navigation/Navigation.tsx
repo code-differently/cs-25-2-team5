@@ -5,7 +5,7 @@ import './Navigation.css';
 const Navigation: React.FC = () => {
   const location = useLocation();
   const isLoginPage = location.pathname === '/login';
-  // const isSignUpPage = location.pathname === '/signup';
+  const isSignUpPage = location.pathname === '/signup';
   const goBackHome = location.pathname === '/';
 
   return (
@@ -18,9 +18,6 @@ const Navigation: React.FC = () => {
       
       {!isLoginPage && (
         <ul className="navigation-top-menu">
-          <li>
-            <Link to="/">Home</Link>
-          </li>
           <li>
             <a href="#">Discover</a>
           </li>
@@ -36,12 +33,11 @@ const Navigation: React.FC = () => {
             Login
           </Link>
         )}
-        {/* {!isSignUpPage && !isLoginPage && (
+        {!isSignUpPage && !isLoginPage && (
           <Link className="navigation-signup-button" to="/signup">
             Sign Up
           </Link>
-        )}  */}
-        {/* Implement sign up button when sign up page is ready */}
+        )}
         {isLoginPage && (
           <Link className="navigation-home-button" to="/">
             {goBackHome ? 'Refresh Home' : 'Go Back Home'}

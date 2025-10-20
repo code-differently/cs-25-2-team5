@@ -65,6 +65,9 @@ export const Login: React.FC = () => {
 
                             <a href="#" className="forgot-password-link">
                                 Forgot password?
+                            </a> 
+                            <a href="/signup" className="create-account-link">
+                                Don't have an account? Sign Up
                             </a>
                         </form>
                     </div>
