@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("api/v1/events")
 public class EventController {
 
-  @GetMapping
+  @GetMapping("/community")
   public List<EventModel> getAllCommunityEvents() {
     // Placeholder implementation
     return List.of();

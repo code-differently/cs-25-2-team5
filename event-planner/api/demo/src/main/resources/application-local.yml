@@ -1,0 +1,21 @@
+spring:
+  h2:
+    console:
+      enabled: true
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: postgres
+  jpa:
+    hibernate:
+      ddl-auto: update
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: true
+  sql:
+    init:
+      # Disable SQL initialization
+      mode: never
+  config:
+    active: 
+      on-profile: local
+    import: optional:file:.env.properties
