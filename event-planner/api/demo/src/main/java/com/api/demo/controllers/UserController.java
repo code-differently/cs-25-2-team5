@@ -1,5 +1,6 @@
 package com.api.demo.controllers;
 
+import com.api.demo.models.EventModel;
 import com.api.demo.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.api.demo.dtos.EventDTO;
 import com.api.demo.dtos.UserDTO;
 import com.api.demo.services.UserService;
 
@@ -34,7 +36,7 @@ public class UserController {
         return ResponseEntity.ok(userDTO);
     }
 
-    @PostMapping("/users")
+    @PostMapping("/")
     public ResponseEntity<UserDTO> createUser(@RequestBody User user) {
         User createdUser = userService.createUser(user);
         UserDTO userDTO = UserDTO.builder()
@@ -42,5 +44,17 @@ public class UserController {
                 .email(createdUser.getEmail())
                 .build();
         return ResponseEntity.ok(userDTO);
+    }
+
+    @PostMapping("/{userId}/events")
+    public ResponseEntity<EventDTO> createEventForUser(@PathVariable Long userId, @RequestBody EventModel event) {
+        EventModel createdEvent = userService.createEvent(event, userId);
+        EventDTO model = EventDTO.builder()
+                .title(createdEvent.getTitle())
+                .description(createdEvent.getDescription())
+                .startTime(createdEvent.getStartTime())
+                .eventType(createdEvent.getIsPublic() ? "Community" : "Private")
+                .build();
+        return ResponseEntity.ok(model);
     }
 }
