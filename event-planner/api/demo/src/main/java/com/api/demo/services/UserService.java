@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.api.demo.exceptions.UserNotFoundException;
+import com.api.demo.models.EventModel;
 import com.api.demo.models.User;
 import com.api.demo.repos.UserRepository;
 
@@ -28,6 +29,15 @@ public class UserService {
     public User getUserByEmail(String email) {
         return userRepository.findByEmail(email).orElseThrow(() -> new UserNotFoundException("User not found"));
     }
+
+    public EventModel createEvent(EventModel event,Long userId) {
+        User user = getUserById(userId);
+        event.setOrganizer(user);
+        user.getOrganizedEvents().add(event);
+        return eventService.createEvent(event);
+    }
+
+    
 
      
 
