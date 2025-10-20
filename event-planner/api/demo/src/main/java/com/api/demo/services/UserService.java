@@ -21,7 +21,7 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public User getUserById(Integer id) {
+    public User getUserById(Long id) {
         return userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User not found"));
     }
 

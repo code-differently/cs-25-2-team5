@@ -36,7 +36,7 @@ public class UserServiceTest {
     @BeforeEach
     void setUp() {
         testUser = new User();
-        testUser.setId(1);
+        testUser.setId(1L);
         testUser.setName("John Doe");
         testUser.setEmail("john@example.com");
         testUser.setPassword("password123");
@@ -46,7 +46,7 @@ public class UserServiceTest {
     @DisplayName("Should return user when valid ID is provided")
     void shouldReturnUser_WhenValidIdProvided() {
         // Given
-        Integer userId = 1;
+        Long userId = 1L;
         when(userRepository.findById(userId)).thenReturn(Optional.of(testUser));
         
         // When
@@ -63,7 +63,7 @@ public class UserServiceTest {
     @DisplayName("Should throw UserNotFoundException when user ID does not exist")
     void shouldThrowUserNotFoundException_WhenUserIdDoesNotExist() {
         // Given
-        Integer nonExistentId = 999;
+        Long nonExistentId = 999L;
         when(userRepository.findById(nonExistentId)).thenReturn(Optional.empty());
         
         // When & Then
@@ -76,7 +76,7 @@ public class UserServiceTest {
     @DisplayName("Should handle null ID appropriately")
     void shouldHandleNullId_Appropriately() {
         // Given
-        Integer nullId = null;
+        Long nullId = null;
         
         // When & Then - This will likely throw a different exception (like IllegalArgumentException)
         // depending on how Spring Data JPA handles null IDs, but we test that it doesn't succeed
@@ -89,15 +89,15 @@ public class UserServiceTest {
     void shouldReturnUserWithCorrectProperties_WhenUserExists() {
         // Given
         User expectedUser = new User();
-        expectedUser.setId(42);
+        expectedUser.setId(42L);
         expectedUser.setName("Jane Smith");
         expectedUser.setEmail("jane.smith@example.com");
         expectedUser.setPassword("securePassword");
         
-        when(userRepository.findById(42)).thenReturn(Optional.of(expectedUser));
+        when(userRepository.findById(42L)).thenReturn(Optional.of(expectedUser));
         
         // When
-        User actualUser = userService.getUserById(42);
+        User actualUser = userService.getUserById(42L);
         
         // Then
         assertThat(actualUser)
