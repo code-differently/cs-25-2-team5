@@ -1,10 +1,9 @@
 package com.api.demo.services;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.api.demo.models.EventModel;
 import com.api.demo.repos.EventModelRepo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 @Service
 public class EventService {

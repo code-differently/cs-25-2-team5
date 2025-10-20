@@ -1,8 +1,9 @@
 package com.api.demo.services;
 
+import com.api.demo.models.EventModel;
+import com.api.demo.repos.EventModelRepo;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,18 +12,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
-import com.api.demo.models.EventModel;
-import com.api.demo.repos.EventModelRepo;
 @SpringBootTest
 @ActiveProfiles("test")
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class EventServiceTest {
 
-  @Autowired
-  private EventModelRepo eventModelRepo;
+  @Autowired private EventModelRepo eventModelRepo;
 
-  @Autowired
-  private EventService eventService;
+  @Autowired private EventService eventService;
 
   @BeforeEach
   public void setUp() {
