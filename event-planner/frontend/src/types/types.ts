@@ -53,5 +53,14 @@ export const events: Event[] = [
         owner: "Emily Davis",
         time: "2025-12-15T18:00:00Z",
         imageUrl: "/outdoor-event.jpg"
+    },
+    {
+        id: "6",
+        title: "Code Differently Capstone Presentation",
+        description: "Capstone presentation for the Code Differently program showcasing our projects and learnings.",
+        location: "Community Education Building, Wilmington DE",
+        owner: "Team 5",
+        time: "2025-10-27T17:00:00Z",
+        imageUrl: "/teamwork.jpg"
     }
 ]
