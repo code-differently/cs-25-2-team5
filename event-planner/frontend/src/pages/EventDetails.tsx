@@ -26,8 +26,7 @@ export default function EventDetails() {
           <div className="event-info-section">
             <h1 className="event-title">{event.title}</h1>
             <p className="event-description">
-              Join us for an unforgettable experience. This event brings together 
-              community members for a memorable gathering.
+              {event.description}
             </p>
             
             <div className="event-info-details">
@@ -48,7 +47,7 @@ export default function EventDetails() {
           
           <div className="event-image-container">
             <img 
-              src="/dinner-table-setup.jpg" 
+              src={event.imageUrl || "/dinner-table-setup.jpg"} 
               alt={event.title} 
               className="event-image"
             />

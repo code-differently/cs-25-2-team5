@@ -5,7 +5,7 @@
     background-color: #f8f8f8;
 }
 
-/* Left side - Image Section */
+/* Right side - Image Section */
 .login-image-section {
     display: flex;
     align-items: center;
@@ -60,7 +60,7 @@
     line-height: 1.6;
 }
 
-/* Right side - Form Section */
+/* Left side - Form Section */
 .login-form-section {
     background: #ffffff;
     display: flex;
@@ -178,6 +178,22 @@
 }
 
 .forgot-password-link:hover {
+    color: #939380;
+    text-decoration: underline;
+}
+
+.create-account-link {
+    color: #a5a58d;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    font-family: 'Satoshi', sans-serif;
+    transition: color 0.2s ease;
+    text-align: center;
+    margin-top: 0.5rem;
+}
+
+.create-account-link:hover {
     color: #939380;
     text-decoration: underline;
 }
