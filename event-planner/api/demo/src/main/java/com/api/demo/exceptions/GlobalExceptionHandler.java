@@ -57,7 +57,8 @@ public class GlobalExceptionHandler {
   }
 
   @ExceptionHandler(HttpMessageNotReadableException.class)
-  public ResponseEntity<Map<String, Object>> handleJsonParseError(HttpMessageNotReadableException ex) {
+  public ResponseEntity<Map<String, Object>> handleJsonParseError(
+      HttpMessageNotReadableException ex) {
     Map<String, Object> errorResponse = new HashMap<>();
     errorResponse.put("error", "Invalid JSON");
     errorResponse.put("message", "Invalid input data format");

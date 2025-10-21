@@ -15,7 +15,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
 
 @Data // Lombok: generates getters, setters, toString, equals, hashCode
 @AllArgsConstructor // Lombok: constructor with all fields
@@ -35,7 +34,7 @@ public class User {
 
   @NotBlank(message = "Name is required")
   private String name;
-  
+
   @Email(message = "Email should be valid")
   @NotBlank(message = "Email is required")
   private String email;
