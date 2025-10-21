@@ -6,6 +6,9 @@ import java.io.Serializable;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+/*
+ * Composite key for EventGuest entity representing the association between an event and a guest.
+ */
 @Embeddable
 @Data
 @AllArgsConstructor
