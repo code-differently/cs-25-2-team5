@@ -46,7 +46,7 @@ public class User {
   @Size(min = 8, message = "Password must be at least 8 characters long")
   private String password;
 
-  @OneToMany(mappedBy = "guest")
+  @OneToMany(mappedBy = "guest",cascade = CascadeType.ALL)
   private Set<EventGuest> eventGuests;
 
   @OneToMany(mappedBy = "organizer", cascade = CascadeType.ALL)

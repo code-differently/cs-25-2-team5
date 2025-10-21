@@ -20,6 +20,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @Table(name = "event_guests")
+@AllArgsConstructor
 @Builder
 public class EventGuest {
 
