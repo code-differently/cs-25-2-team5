@@ -7,6 +7,9 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import java.util.Set;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -30,10 +33,15 @@ public class User {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @NotBlank(message = "Name is required") 
+  @NotBlank(message = "Name is required")
   private String name;
-  @NonNull private String email;
-  @NonNull private String password;
+  
+  @Email(message = "Email should be valid")
+  @NotBlank(message = "Email is required")
+  private String email;
+
+  @Size(min = 8, message = "Password must be at least 8 characters long")
+  private String password;
 
   @OneToMany(mappedBy = "guest")
   private Set<EventGuest> eventGuests;
