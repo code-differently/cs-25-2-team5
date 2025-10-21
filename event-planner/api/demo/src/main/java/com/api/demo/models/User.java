@@ -15,7 +15,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-
+/*
+ * User entity representing a user in the event planning application.
+ * Includes validation annotations and relationships to events.
+ */
 @Data // Lombok: generates getters, setters, toString, equals, hashCode
 @AllArgsConstructor // Lombok: constructor with all fields
 @NoArgsConstructor // Lombok: no-args constructor (required by JPA)

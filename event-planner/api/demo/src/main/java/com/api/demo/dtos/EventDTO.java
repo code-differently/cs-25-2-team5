@@ -9,6 +9,9 @@ import lombok.EqualsAndHashCode;
 @Builder
 @Data
 @EqualsAndHashCode(exclude = {"guests", "organizer"})
+/*
+ * Data Transfer Object for Event entity to expose event information.
+ */
 public class EventDTO {
 
   private String title;
