@@ -1,5 +1,6 @@
 package com.api.demo.services;
 
+import com.api.demo.exceptions.EventNotFoundException;
 import com.api.demo.models.EventModel;
 import com.api.demo.repos.EventModelRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,9 @@ public class EventService {
     return eventRepository.findAllByIsPublicTrue();
   }
 
-  public EventModel getEventById(int id) {
-    return eventRepository.findById(id);
+  public EventModel getEventById(Long id) {
+    return eventRepository
+        .findById(id)
+        .orElseThrow(() -> new EventNotFoundException("Event not found with id: " + id));
   }
 }
