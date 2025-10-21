@@ -57,8 +57,12 @@ public class EventGuestService {
    *
    * @param eventGuest the EventGuest to save
    * @return the saved EventGuest
+   * @throws IllegalArgumentException if eventGuest is null
    */
   public EventGuest saveEventGuest(EventGuest eventGuest) {
+    if (eventGuest == null) {
+      throw new IllegalArgumentException("EventGuest cannot be null");
+    }
     return eventGuestRepo.save(eventGuest);
   }
 
@@ -67,8 +71,12 @@ public class EventGuestService {
    *
    * @param eventId the event ID
    * @param guestId the guest ID
+   * @throws IllegalArgumentException if eventId or guestId is null
    */
   public void deleteEventGuest(Long eventId, Long guestId) {
+    if (eventId == null || guestId == null) {
+      throw new IllegalArgumentException("EventId and GuestId cannot be null");
+    }
     EventGuestKey key = new EventGuestKey(eventId, guestId);
     eventGuestRepo.deleteById(key);
   }
