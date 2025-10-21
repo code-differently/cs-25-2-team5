@@ -13,4 +13,5 @@ public interface EventGuestRepo extends JpaRepository<EventGuest, EventGuestKey>
 
   Iterable<EventGuest> findAllByEventGuestKeyGuestId(Long guestId);
   Optional<EventGuest> findByEventGuestKey(EventGuestKey eventGuestKey);
+  
 }
