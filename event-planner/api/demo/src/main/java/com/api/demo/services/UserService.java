@@ -4,6 +4,10 @@ import com.api.demo.exceptions.UserNotFoundException;
 import com.api.demo.models.EventModel;
 import com.api.demo.models.User;
 import com.api.demo.repos.UserRepository;
+
+import java.util.List;
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -51,5 +55,10 @@ public class UserService {
     user.getOrganizedEvents().add(event);
     event.setOrganizer(user);
     return eventService.createEvent(event);
+  }
+
+  public Set<User> getAllUsersFromEmails(Set<String> emails) {
+    return userRepository.findAllByEmailIn(emails);
+
   }
 }
