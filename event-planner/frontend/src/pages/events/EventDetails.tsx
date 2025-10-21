@@ -1,5 +1,5 @@
 import { useParams, useNavigate } from 'react-router-dom'
-import { events } from '../types/types'
+import { events } from '../../types/types'
 import './EventDetails.css'
 
 export default function EventDetails() {
