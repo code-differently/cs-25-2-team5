@@ -12,6 +12,7 @@ import com.api.demo.dtos.UserDTO;
 import com.api.demo.models.EventGuest;
 import com.api.demo.models.EventGuestKey;
 import com.api.demo.models.EventModel;
+import com.api.demo.models.RsvpStatus;
 import com.api.demo.models.User;
 import com.api.demo.repos.EventGuestRepo;
 
@@ -37,11 +38,12 @@ public class EventGuestService {
             }
             Set<EventGuest> eventGuests = new HashSet<>();
             for(User user:guestsObjects) {
-                EventGuest newGuest = EventGuest.builder().eventGuestKey(new EventGuestKey(user.getId(), event.getId())).build();
+                EventGuest newGuest = EventGuest.builder().eventGuestKey(new EventGuestKey(user.getId(), event.getId())).rsvpStatus(RsvpStatus.PENDING).build();
+                eventGuestRepo.save(newGuest);
             }
             event.setEventGuests(eventGuests);
             event.setOrganizer(organizer);
-            
+            return eventService.createEvent(event);
 
     }
     
