@@ -1,9 +1,44 @@
 package com.api.demo.services;
+
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import org.springframework.stereotype.Service;
+
+import com.api.demo.dtos.UserDTO;
+import com.api.demo.models.EventGuest;
+import com.api.demo.models.EventModel;
+import com.api.demo.models.User;
+import com.api.demo.repos.EventGuestRepo;
+
+
 @Service
 public class EventGuestService {
 
+    private final EventGuestRepo eventGuestRepo;
+    private UserService userService;
+    private EventService eventService;
+
+    public EventGuestService(EventGuestRepo eventGuestRepo,UserService userService,EventService eventService) {
+        this.eventGuestRepo = eventGuestRepo;
+        this.userService = userService;
+        this.eventService= eventService;
+    }
+    // create a new event guest set the rsvp status by default 
+    public EventModel addGuestsToEvent(Long userId,EventModel event,List<UserDTO> guests) {
+            User organizer = userService.getUserById(userId);
+            Set<User> guestsObjects = new HashSet<>();
+            for(UserDTO user:guests) {
+               guestsObjects.add(userService.getUserByEmail(user.getEmail()));
+            }
+            
+    }
     
+
+
     
     
 
