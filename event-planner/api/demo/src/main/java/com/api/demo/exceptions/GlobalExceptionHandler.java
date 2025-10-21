@@ -10,6 +10,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+
 /*
  * Global exception handler for the API.
  * Handles various exceptions and returns appropriate HTTP responses.
@@ -18,7 +19,7 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
  */
 @ControllerAdvice
 public class GlobalExceptionHandler {
-  
+
   @ExceptionHandler(UserNotFoundException.class)
   public ResponseEntity<Map<String, Object>> handleUserNotFound(UserNotFoundException ex) {
     Map<String, Object> errorResponse = new HashMap<>();
