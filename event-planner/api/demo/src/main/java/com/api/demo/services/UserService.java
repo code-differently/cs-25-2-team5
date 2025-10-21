@@ -8,6 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+/*
+ * Service class for managing User-related operations.
+ */
 @Service
 public class UserService {
   private UserRepository userRepository;
@@ -35,6 +38,13 @@ public class UserService {
         .orElseThrow(() -> new UserNotFoundException("User not found"));
   }
 
+  /*
+   * Creates an event and associates it with the user identified by userId.
+   * @param event   The event to be created.
+   * @param userId  The ID of the user organizing the event.
+   * @return The created EventModel.
+   * Uses @Transactional to ensure database integrity during the operation.
+   */
   @Transactional
   public EventModel createEvent(EventModel event, Long userId) {
     User user = getUserById(userId);
