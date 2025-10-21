@@ -47,22 +47,21 @@ public class UserController {
     }
 
     @PostMapping("/{userId}/events")
-    public ResponseEntity<EventModel> createEventForUser(@PathVariable Long userId, @RequestBody EventModel event) {
+    public ResponseEntity<EventDTO> createEventForUser(@PathVariable Long userId, @RequestBody EventModel event) {
         EventModel createdEvent = userService.createEvent(event, userId);
-        // System.out.println(createdEvent);
-        // User organizer = createdEvent.getOrganizer();
-        // UserDTO organizerDTO = UserDTO.builder()
-        //         .name(organizer.getName())
-        //         .email(organizer.getEmail())
-        //         .build();
+        User organizer = createdEvent.getOrganizer();
+        UserDTO organizerDTO = UserDTO.builder()
+                .name(organizer.getName())
+                .email(organizer.getEmail())
+                .build();
 
-        // EventDTO model = EventDTO.builder()
-        //         .title(createdEvent.getTitle())
-        //         .description(createdEvent.getDescription())
-        //         .startTime(createdEvent.getStartTime())
-        //         .eventType(createdEvent.getIsPublic() ? "Community" : "Private")
-        //         // .organizer(organizerDTO)
-        //         .build();
-        return ResponseEntity.ok(createdEvent);
+        EventDTO model = EventDTO.builder()
+                .title(createdEvent.getTitle())
+                .description(createdEvent.getDescription())
+                .startTime(createdEvent.getStartTime())
+                .eventType(createdEvent.getIsPublic() ? "Community" : "Private")
+                .organizer(organizerDTO)
+                .build();
+        return ResponseEntity.ok(model);
     }
 }
