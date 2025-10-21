@@ -1,12 +1,21 @@
 .footer-container {
-    padding: 20px;
-    text-align: center;
-    background-color: #f8f8f8;
-    border-top: 1px solid #e7e7e7;
-    margin-top: 20px;
+    display: flex;
+    position: sticky;
+    justify-content: space-around;
+    align-items: center;
+    height: 75px;
+    padding: 0 40px;
+    top: 0;
+    z-index: 9999;
+    background-color: #cb997e;
+    box-shadow: 0 0 14px 0 #b88a71;
+    width: 100vw;
+    margin-left: 50%;
+    transform: translateX(-50%);
+    box-sizing: border-box;
 }
 
 .footer-text {
     margin: 5px 0;
-    color: #333;
+    color: #fff;
 }

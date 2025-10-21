@@ -1,7 +1,7 @@
 package com.api.demo.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -11,12 +11,14 @@ import jakarta.persistence.Table;
 import java.time.LocalDateTime;
 import java.util.Set;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Data
 @NoArgsConstructor
 @Table(name = "events")
+@EqualsAndHashCode(exclude = {"eventGuests", "organizer"})
 public class EventModel {
 
   @Id
@@ -34,7 +36,5 @@ public class EventModel {
   @OneToMany(mappedBy = "event")
   private Set<EventGuest> eventGuests;
 
-  // lazy loading to prevent fetching organizer details unless needed to avoid circular references
-  @ManyToOne(fetch = FetchType.LAZY)
-  private User organizer;
+  @ManyToOne @JsonBackReference private User organizer;
 }
