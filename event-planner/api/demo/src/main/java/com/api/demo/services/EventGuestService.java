@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.api.demo.dtos.UserDTO;
 import com.api.demo.models.EventGuest;
+import com.api.demo.models.EventGuestKey;
 import com.api.demo.models.EventModel;
 import com.api.demo.models.User;
 import com.api.demo.repos.EventGuestRepo;
@@ -34,7 +35,14 @@ public class EventGuestService {
             for(UserDTO user:guests) {
                guestsObjects.add(userService.getUserByEmail(user.getEmail()));
             }
+            Set<EventGuest> eventGuests = new HashSet<>();
+            for(User user:guestsObjects) {
+                EventGuest newGuest = EventGuest.builder().eventGuestKey(new EventGuestKey(user.getId(), event.getId())).build();
+            }
+            event.setEventGuests(eventGuests);
+            event.setOrganizer(organizer);
             
+
     }
     
 
