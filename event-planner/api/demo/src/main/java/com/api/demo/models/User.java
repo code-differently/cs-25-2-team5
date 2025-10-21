@@ -5,13 +5,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.util.Set;
-
-
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -23,14 +19,19 @@ import lombok.NonNull;
 @NoArgsConstructor // Lombok: no-args constructor (required by JPA)
 @Entity
 @Table(name = "users") // Marks this class as a JPA entity
-@EqualsAndHashCode(exclude = {"organizedEvents", "eventGuests"}) // Avoids circular references in equals and hashCode
+@EqualsAndHashCode(
+    exclude = {
+      "organizedEvents",
+      "eventGuests"
+    }) // Avoids circular references in equals and hashCode
 public class User {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @NonNull private String name;
+  @NotBlank(message = "Name is required") 
+  private String name;
   @NonNull private String email;
   @NonNull private String password;
 
