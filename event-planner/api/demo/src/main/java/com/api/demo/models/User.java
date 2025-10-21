@@ -1,7 +1,7 @@
 package com.api.demo.models;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -14,6 +14,7 @@ import java.util.Set;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
@@ -22,6 +23,7 @@ import lombok.NonNull;
 @NoArgsConstructor // Lombok: no-args constructor (required by JPA)
 @Entity
 @Table(name = "users") // Marks this class as a JPA entity
+@EqualsAndHashCode(exclude = {"organizedEvents", "eventGuests"}) // Avoids circular references in equals and hashCode
 public class User {
 
   @Id
@@ -35,7 +37,7 @@ public class User {
   @OneToMany(mappedBy = "guest")
   private Set<EventGuest> eventGuests;
 
-  @OneToMany(mappedBy = "organizer")
+  @OneToMany(mappedBy = "organizer", cascade = CascadeType.ALL)
   private Set<EventModel> organizedEvents;
 
   // Custom constructor (skip id, since DB will generate it)

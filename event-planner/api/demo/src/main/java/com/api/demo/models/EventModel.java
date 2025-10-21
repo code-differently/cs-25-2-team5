@@ -10,13 +10,18 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.time.LocalDateTime;
 import java.util.Set;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Data
 @NoArgsConstructor
 @Table(name = "events")
+@EqualsAndHashCode(exclude = {"eventGuests", "organizer"})
 public class EventModel {
 
   @Id
@@ -34,7 +39,8 @@ public class EventModel {
   @OneToMany(mappedBy = "event")
   private Set<EventGuest> eventGuests;
 
-  // lazy loading to prevent fetching organizer details unless needed to avoid circular references
-  @ManyToOne(fetch = FetchType.LAZY)
+
+  @ManyToOne
+  @JsonBackReference
   private User organizer;
 }
