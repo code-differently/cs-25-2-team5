@@ -44,3 +44,8 @@ out/
 .Trashes
 ehthumbs.db
 Thumbs.db
+
+### Event Planner Specific ###
+.DS_Store
+event-planner/.DS_Store
+event-planner/api/.DS_Store
