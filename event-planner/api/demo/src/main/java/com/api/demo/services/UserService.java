@@ -2,6 +2,7 @@ package com.api.demo.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.api.demo.exceptions.UserNotFoundException;
 import com.api.demo.models.EventModel;
@@ -29,11 +30,11 @@ public class UserService {
     public User getUserByEmail(String email) {
         return userRepository.findByEmail(email).orElseThrow(() -> new UserNotFoundException("User not found"));
     }
-
+    @Transactional
     public EventModel createEvent(EventModel event,Long userId) {
         User user = getUserById(userId);
-        event.setOrganizer(user);
         user.getOrganizedEvents().add(event);
+        event.setOrganizer(user);
         return eventService.createEvent(event);
     }
 

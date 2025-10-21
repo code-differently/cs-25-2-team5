@@ -26,7 +26,7 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/users/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<UserDTO> getUserById(@PathVariable Long id) {
         User user = userService.getUserById(id);
         UserDTO userDTO = UserDTO.builder()
@@ -47,14 +47,22 @@ public class UserController {
     }
 
     @PostMapping("/{userId}/events")
-    public ResponseEntity<EventDTO> createEventForUser(@PathVariable Long userId, @RequestBody EventModel event) {
+    public ResponseEntity<EventModel> createEventForUser(@PathVariable Long userId, @RequestBody EventModel event) {
         EventModel createdEvent = userService.createEvent(event, userId);
-        EventDTO model = EventDTO.builder()
-                .title(createdEvent.getTitle())
-                .description(createdEvent.getDescription())
-                .startTime(createdEvent.getStartTime())
-                .eventType(createdEvent.getIsPublic() ? "Community" : "Private")
-                .build();
-        return ResponseEntity.ok(model);
+        // System.out.println(createdEvent);
+        // User organizer = createdEvent.getOrganizer();
+        // UserDTO organizerDTO = UserDTO.builder()
+        //         .name(organizer.getName())
+        //         .email(organizer.getEmail())
+        //         .build();
+
+        // EventDTO model = EventDTO.builder()
+        //         .title(createdEvent.getTitle())
+        //         .description(createdEvent.getDescription())
+        //         .startTime(createdEvent.getStartTime())
+        //         .eventType(createdEvent.getIsPublic() ? "Community" : "Private")
+        //         // .organizer(organizerDTO)
+        //         .build();
+        return ResponseEntity.ok(createdEvent);
     }
 }

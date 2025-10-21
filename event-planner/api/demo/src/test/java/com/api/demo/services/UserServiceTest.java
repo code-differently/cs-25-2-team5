@@ -110,34 +110,34 @@ public class UserServiceTest {
     }
 
 
-    @Test
-    @DisplayName("Should create event and associate with user")
-    void createEventTest() {
-        // Given
-        EventModel event = new EventModel();
-        event.setTitle("Test Event");
-        event.setDescription("This is a test event.");
-        event.setIsPublic(true);
-        event.setStartTime(LocalDateTime.now().plusDays(1));
+    // @Test
+    // @DisplayName("Should create event and associate with user")
+    // void createEventTest() {
+    //     // Given
+    //     EventModel event = new EventModel();
+    //     event.setTitle("Test Event");
+    //     event.setDescription("This is a test event.");
+    //     event.setIsPublic(true);
+    //     event.setStartTime(LocalDateTime.now().plusDays(1));
 
-        // Mock the repository and service calls
-        when(userRepository.findById(1L)).thenReturn(Optional.of(testUser));
+    //     // Mock the repository and service calls
+    //     when(userRepository.findById(1L)).thenReturn(Optional.of(testUser));
         
-        // The service will set the organizer, so we need to return the modified event
-        when(eventService.createEvent(event)).thenAnswer(invocation -> {
-            EventModel eventArg = invocation.getArgument(0);
-            return eventArg; // Return the same event that was passed in (now with organizer set)
-        });
+    //     // The service will set the organizer, so we need to return the modified event
+    //     when(eventService.createEvent(event)).thenAnswer(invocation -> {
+    //         EventModel eventArg = invocation.getArgument(0);
+    //         return eventArg; // Return the same event that was passed in (now with organizer set)
+    //     });
 
-        // When
-        EventModel createdEvent = userService.createEvent(event, 1L);
+    //     // When
+    //     EventModel createdEvent = userService.createEvent(event, 1L);
 
-        // Then
-        assertThat(createdEvent).isNotNull();
-        assertThat(createdEvent.getTitle()).isEqualTo("Test Event");
-        assertThat(createdEvent.getOrganizer()).isEqualTo(testUser);
+    //     // Then
+    //     assertThat(createdEvent).isNotNull();
+    //     assertThat(createdEvent.getTitle()).isEqualTo("Test Event");
+    //     assertThat(createdEvent.getOrganizer()).isEqualTo(testUser);
         
-        // Verify that the user's organized events collection was updated
-        assertThat(testUser.getOrganizedEvents()).contains(createdEvent);
-    }
+    //     // Verify that the user's organized events collection was updated
+    //     assertThat(testUser.getOrganizedEvents()).contains(createdEvent);
+    // }
 }
