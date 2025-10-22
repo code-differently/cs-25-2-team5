@@ -16,6 +16,8 @@ import com.api.demo.models.RsvpStatus;
 import com.api.demo.models.User;
 import com.api.demo.repos.EventGuestRepo;
 
+import jakarta.transaction.Transactional;
+
 
 @Service
 public class EventGuestService {
@@ -30,6 +32,7 @@ public class EventGuestService {
         this.eventService= eventService;
     }
     // create a new event guest set the rsvp status by default 
+    @Transactional
     public EventModel createEventWithGuests(Long userId,EventModel event,Set<String> emails) {
             User organizer = userService.getUserById(userId);
             Set<User> usersFromEmails = userService.getAllUsersFromEmails(emails);
@@ -44,6 +47,7 @@ public class EventGuestService {
                 .build();
                 eventGuestRepo.save(newGuest);
             }
+            event.setOrganizer(organizer);
             return eventService.createEvent(event);
 
     }
