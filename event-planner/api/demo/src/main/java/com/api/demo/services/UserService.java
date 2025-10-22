@@ -56,6 +56,7 @@ public class UserService {
     User user = getUserById(userId);
     user.getOrganizedEvents().add(event);
     event.setOrganizer(user);
+    event.setIsPublic(true);
     event.setEventGuests(new HashSet<EventGuest>());
     return eventService.createEvent(event);
   }
