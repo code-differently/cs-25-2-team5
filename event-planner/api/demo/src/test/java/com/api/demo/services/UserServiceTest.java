@@ -2,12 +2,18 @@ package com.api.demo.services;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
 import com.api.demo.exceptions.UserNotFoundException;
+import com.api.demo.models.EventModel;
 import com.api.demo.models.User;
 import com.api.demo.repos.UserRepository;
+import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -17,7 +23,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("UserService - getUserById Tests")
+@DisplayName("User Service Test")
 public class UserServiceTest {
 
   @Mock private UserRepository userRepository;
@@ -101,34 +107,95 @@ public class UserServiceTest {
     assertThat(actualUser).usingRecursiveComparison().isEqualTo(expectedUser);
   }
 
-  // @Test
-  // @DisplayName("Should create event and associate with user")
-  // void createEventTest() {
-  //     // Given
-  //     EventModel event = new EventModel();
-  //     event.setTitle("Test Event");
-  //     event.setDescription("This is a test event.");
-  //     event.setIsPublic(true);
-  //     event.setStartTime(LocalDateTime.now().plusDays(1));
+  @Test
+  @DisplayName("Should create event and associate with user")
+  void createEventTest() {
+    // Given
+    EventModel event = new EventModel();
+    event.setTitle("Test Event");
+    event.setDescription("This is a test event.");
+    event.setIsPublic(true);
+    event.setStartTime(LocalDateTime.now().plusDays(1));
 
-  //     // Mock the repository and service calls
-  //     when(userRepository.findById(1L)).thenReturn(Optional.of(testUser));
+    // Mock the repository and service calls
+    when(userRepository.findById(1L)).thenReturn(Optional.of(testUser));
 
-  //     // The service will set the organizer, so we need to return the modified event
-  //     when(eventService.createEvent(event)).thenAnswer(invocation -> {
-  //         EventModel eventArg = invocation.getArgument(0);
-  //         return eventArg; // Return the same event that was passed in (now with organizer set)
-  //     });
+    // The service will set the organizer, so we need to return the modified event
+    when(eventService.createEvent(event))
+        .thenAnswer(
+            invocation -> {
+              EventModel eventArg = invocation.getArgument(0);
+              return eventArg; // Return the same event that was passed in (now with organizer set)
+            });
 
-  //     // When
-  //     EventModel createdEvent = userService.createEvent(event, 1L);
+    // When
+    EventModel createdEvent = userService.createPublicEvent(event, 1L);
 
-  //     // Then
-  //     assertThat(createdEvent).isNotNull();
-  //     assertThat(createdEvent.getTitle()).isEqualTo("Test Event");
-  //     assertThat(createdEvent.getOrganizer()).isEqualTo(testUser);
+    // Then
+    assertThat(createdEvent).isNotNull();
+    assertThat(createdEvent.getTitle()).isEqualTo("Test Event");
+    assertThat(createdEvent.getOrganizer()).isEqualTo(testUser);
 
-  //     // Verify that the user's organized events collection was updated
-  //     assertThat(testUser.getOrganizedEvents()).contains(createdEvent);
-  // }
+    // Verify that the user's organized events collection was updated
+    assertThat(testUser.getOrganizedEvents()).contains(createdEvent);
+  }
+
+  @Test
+  @DisplayName("Find all users by email emails found")
+  public void getAllUsersFromEmailsTest_shouldReturnSetOfUsers() {
+    // Given
+    User user1 = new User();
+    user1.setEmail("jane.smith@example.com");
+    User user2 = new User();
+    user2.setEmail("john.doe@example.com");
+    User user3 = new User();
+    user3.setEmail("tyrone.johnson@example.com");
+    var emails = new HashSet<String>();
+    emails.add("jane.smith@example.com");
+    emails.add("john.doe@example.com");
+    emails.add("tyrone.johnson@example.com");
+    // When
+    when(userRepository.findAllByEmailIn(emails)).thenReturn(Set.of(user1, user2, user3));
+    Set<User> users = userService.getAllUsersFromEmails(emails);
+    Set<String> userEmails = users.stream().map(User::getEmail).collect(Collectors.toSet());
+    // Then
+    assertEquals(users.size(), emails.size());
+    assertEquals(emails, userEmails);
+  }
+
+  @Test
+  @DisplayName("Find all users by email,email input with different cases")
+  public void getAllUsersFromEmailsTest_shouldReturnSetOfUsersIgnoringCase() {
+    User user1 = new User();
+    user1.setEmail("jane.smith@example.com");
+    User user2 = new User();
+    user2.setEmail("john.doe@example.com");
+    User user3 = new User();
+    user3.setEmail("tyrone.johnson@example.com");
+    var expectedEmails = new HashSet<String>();
+    expectedEmails.add("Jane.Smith@example.com");
+    expectedEmails.add("John.Doe@example.com");
+    expectedEmails.add("Tyrone.Johnson@example.com");
+
+    when(userRepository.findAllByEmailIn(expectedEmails)).thenReturn(Set.of(user1, user2, user3));
+
+    Set<User> users = userService.getAllUsersFromEmails(expectedEmails);
+    Set<String> userEmails = users.stream().map(User::getEmail).collect(Collectors.toSet());
+
+    assertEquals(users.size(), expectedEmails.size());
+    assertEquals(
+        expectedEmails.stream().map(String::toLowerCase).collect(Collectors.toSet()), userEmails);
+  }
+
+  @Test
+  @DisplayName("Find all users by email, no emails found ")
+  public void getAllUsersFromEmailsTest_shouldReturnEmptySet() {
+    var expectedEmails = new HashSet<String>();
+    expectedEmails.add("Jane.Smith@example.com");
+    expectedEmails.add("John.Doe@example.com");
+    expectedEmails.add("Tyrone.Johnson@example.com");
+    when(userRepository.findAllByEmailIn(expectedEmails)).thenReturn(Set.of());
+    Set<User> users = userService.getAllUsersFromEmails(expectedEmails);
+    assertEquals(users.size(), 0);
+  }
 }

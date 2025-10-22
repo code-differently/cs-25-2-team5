@@ -157,7 +157,7 @@ public class UserControllerTest {
     createdEvent.setStartTime(LocalDateTime.of(2025, 12, 25, 10, 0));
     createdEvent.setOrganizer(testUser);
 
-    when(userService.createEvent(eventToCreate, userId)).thenReturn(createdEvent);
+    when(userService.createPublicEvent(eventToCreate, userId)).thenReturn(createdEvent);
 
     // When & Then
     mockMvc
@@ -194,7 +194,7 @@ public class UserControllerTest {
     createdPrivateEvent.setStartTime(LocalDateTime.of(2025, 12, 25, 10, 0));
     createdPrivateEvent.setOrganizer(testUser);
 
-    when(userService.createEvent(privateEvent, userId)).thenReturn(createdPrivateEvent);
+    when(userService.createPublicEvent(privateEvent, userId)).thenReturn(createdPrivateEvent);
 
     // When & Then
     mockMvc
@@ -215,7 +215,7 @@ public class UserControllerTest {
     EventModel event = new EventModel();
     event.setTitle("Test Event");
 
-    when(userService.createEvent(event, nonExistentUserId))
+    when(userService.createPublicEvent(event, nonExistentUserId))
         .thenThrow(new UserNotFoundException("User not found"));
 
     // When & Then

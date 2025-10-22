@@ -39,7 +39,7 @@ public class EventServiceTest {
   @Test
   public void testGetAllPublicEvents() {
     // Act
-    Iterable<EventModel> result = eventService.getAllPublicEvents();
+    Iterable<EventModel> result = eventService.getCommunityEvents();
 
     // Assert
     Assertions.assertNotNull(result);

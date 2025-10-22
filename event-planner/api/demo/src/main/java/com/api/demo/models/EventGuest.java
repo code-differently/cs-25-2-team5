@@ -6,18 +6,21 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.MapsId;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /*
  * Entity representing the association between an event and a guest, including RSVP status.
  * Uses a composite key defined in EventGuestKey.
- *
  */
 @Entity
 @Data
 @NoArgsConstructor
 @Table(name = "event_guests")
+@AllArgsConstructor
+@Builder
 public class EventGuest {
 
   @EmbeddedId private EventGuestKey eventGuestKey;

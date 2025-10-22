@@ -5,12 +5,14 @@ import jakarta.persistence.Embeddable;
 import java.io.Serializable;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /*
  * Composite key for EventGuest entity representing the association between an event and a guest.
  */
 @Embeddable
 @Data
+@NoArgsConstructor
 @AllArgsConstructor
 public class EventGuestKey implements Serializable {
 

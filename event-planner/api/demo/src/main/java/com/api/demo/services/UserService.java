@@ -1,9 +1,12 @@
 package com.api.demo.services;
 
 import com.api.demo.exceptions.UserNotFoundException;
+import com.api.demo.models.EventGuest;
 import com.api.demo.models.EventModel;
 import com.api.demo.models.User;
 import com.api.demo.repos.UserRepository;
+import java.util.HashSet;
+import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,6 +36,7 @@ public class UserService {
   }
 
   public User getUserByEmail(String email) {
+    email = email.toLowerCase();
     return userRepository
         .findByEmail(email)
         .orElseThrow(() -> new UserNotFoundException("User not found"));
@@ -42,14 +46,22 @@ public class UserService {
    * Creates an event and associates it with the user identified by userId.
    * @param event   The event to be created.
    * @param userId  The ID of the user organizing the event.
+   *
    * @return The created EventModel.
+   *
    * Uses @Transactional to ensure database integrity during the operation.
    */
   @Transactional
-  public EventModel createEvent(EventModel event, Long userId) {
+  public EventModel createPublicEvent(EventModel event, Long userId) {
     User user = getUserById(userId);
     user.getOrganizedEvents().add(event);
     event.setOrganizer(user);
+    event.setIsPublic(true);
+    event.setEventGuests(new HashSet<EventGuest>());
     return eventService.createEvent(event);
+  }
+
+  public Set<User> getAllUsersFromEmails(Set<String> emails) {
+    return userRepository.findAllByEmailIn(emails);
   }
 }
