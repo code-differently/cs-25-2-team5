@@ -2,11 +2,13 @@ package com.api.demo.controllers;
 
 import com.api.demo.dtos.EventDTO;
 import com.api.demo.dtos.UserDTO;
+import com.api.demo.dtos.UserInviteDTO;
 import com.api.demo.models.EventModel;
 import com.api.demo.models.User;
 import com.api.demo.services.UserService;
 import jakarta.validation.Valid;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -64,5 +66,9 @@ public class UserController {
             .guests(guests)
             .build();
     return ResponseEntity.ok(model);
+  }
+  @GetMapping("/{userId}/events")
+  public ResponseEntity<List<UserInviteDTO>> getEventInvitedTo(@PathVariable Long userId) {
+    return ResponseEntity.ok(userService.getAllInvitedEvents(userId));
   }
 }
