@@ -53,6 +53,13 @@ const EventForm: React.FC = () => {
                     <label htmlFor="event-image-url">Image URL</label>
                     <input id="event-image-url" type="text" className="event-form-input" value={imageUrl} onChange={e => setImageUrl(e.target.value)} placeholder="Event Image URL" required />
                 </div>
+                <div className="form-group">
+                    <label htmlFor="visibility">Visibility</label>
+                    <select id="visibility" name="visibility" className="event-form-select">
+                        <option value="public">Public</option>
+                        <option value="private">Private</option>
+                    </select>
+                </div>
                 <button type="submit" className="event-form-button">Create Event</button>
             </form>
             </div>

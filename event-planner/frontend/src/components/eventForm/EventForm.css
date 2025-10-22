@@ -161,6 +161,25 @@
     line-height: 1.6;
 }
 
+.event-form-select {
+    padding: 12px 16px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: 'Satoshi', sans-serif;
+    background-color: #fff;
+    color: #333;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    margin-top: 4px;
+    appearance: none;
+    cursor: pointer;
+}
+.event-form-select:focus {
+    outline: none;
+    border-color: #a5a58d;
+    box-shadow: 0 0 0 3px rgba(165, 165, 141, 0.1);
+}
+
 @media (max-width: 768px) {
     .create-event-page {
         grid-template-columns: 1fr;
