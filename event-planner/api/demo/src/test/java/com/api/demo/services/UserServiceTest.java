@@ -199,6 +199,14 @@ public class UserServiceTest {
   @Test
   @DisplayName("Find all users by email, no emails found ")
   public void getAllUsersFromEmailsTest_shouldReturnEmptySet() {
+    var expectedEmails = new HashSet<String>();
+    expectedEmails.add("Jane.Smith@example.com");
+    expectedEmails.add("John.Doe@example.com");
+    expectedEmails.add("Tyrone.Johnson@example.com");
+    when(userRepository.findAllByEmailIn(expectedEmails)).thenReturn(Set.of());
+    Set<User> users = userService.getAllUsersFromEmails(expectedEmails);
+    assertEquals(users.size(), 0);
+    
 
   }
 
