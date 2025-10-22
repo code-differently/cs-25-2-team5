@@ -18,15 +18,14 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
   Set<User> findAllByEmailIn(Set<String> emails);
 
-  // @Query("""
-  //       SELECT new com.api.demo.dto.UserEventInviteDto(
-  //           u.email, u.name, e.title, e.description, e.isPublic, e.startTime
-  //       )
-  //       FROM EventGuest eg
-  //       JOIN eg.guest u
-  //       JOIN eg.event e
-  //       WHERE u.id = :userId
-  //   """)
-  // List<UserInviteDTO> findAllUserInvitedEvents(Long userId);
+  @Query("""
+        SELECT 
+            u.email, u.name, e.title, e.description, e.isPublic, e.startTime
+        FROM EventGuest eg
+        JOIN eg.guest u
+        JOIN eg.event e
+        WHERE u.id = :userId
+    """)
+  List<UserInviteDTO> findAllUserInvitedEvents(Long userId);
   
 }
