@@ -48,6 +48,7 @@ public class UserController {
       @PathVariable Long userId, @RequestBody EventModel event) {
     EventModel createdEvent = userService.createPublicEvent(event, userId);
     User organizer = createdEvent.getOrganizer();
+    
     UserDTO organizerDTO =
         UserDTO.builder().name(organizer.getName()).email(organizer.getEmail()).build();
 
