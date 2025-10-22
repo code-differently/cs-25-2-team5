@@ -7,7 +7,7 @@ import Login from './pages/login/Login.tsx';
 import EventDetailsPage from './pages/events/EventDetails.tsx';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import React from 'react';
-import SignUp from './pages/SignUp.tsx';
+import SignUp from './pages/signup/SignUp.tsx';
 import About from './pages/About.tsx';
 
 
