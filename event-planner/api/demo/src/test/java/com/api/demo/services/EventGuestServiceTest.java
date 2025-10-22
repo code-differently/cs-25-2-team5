@@ -195,6 +195,7 @@ public class EventGuestServiceTest {
         EventModel expectedCreatedEvent = new EventModel();
         expectedCreatedEvent.setId(1L);
         expectedCreatedEvent.setOrganizer(testOrganizer);
+        expectedCreatedEvent.setIsPublic(false);
 
         // Mock service calls
         when(userService.getUserById(organizerId)).thenReturn(testOrganizer);
