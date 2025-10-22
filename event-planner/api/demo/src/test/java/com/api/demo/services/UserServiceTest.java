@@ -25,6 +25,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
+@DisplayName("User Service Test")
 public class UserServiceTest {
 
   @Mock private UserRepository userRepository;
@@ -147,9 +148,9 @@ public class UserServiceTest {
     User user1 = new User();
     user1.setEmail("jane.smith@example.com");
     User user2 = new User();
-    user1.setEmail("john.doe@example.com");
+    user2.setEmail("john.doe@example.com");
     User user3 = new User();
-    user1.setEmail("tyrone.johnson@example.com");
+    user3.setEmail("tyrone.johnson@example.com");
     var emails = new HashSet<String>();
     emails.add("jane.smith@example.com");
     emails.add("john.doe@example.com");
@@ -164,15 +165,16 @@ public class UserServiceTest {
     .collect(Collectors.toSet());
     // Then
     assertEquals(users.size(),emails.size());
-    assertEquals(users, userEmails);
+    assertEquals(emails, userEmails);
   }
+
   @Test
   @DisplayName("Find all users by email,email input with different cases")
   public void getAllUsersFromEmailsTest_shouldReturnSetOfUsersIgnoringCase() {
     var emails = new HashSet<String>();
-    emails.add("jane.smith@example.com");
-    emails.add("john.doe@example.com");
-    emails.add("tyrone.johnson@example.com");
+    emails.add("Jane.Smith@example.com");
+    emails.add("John.Doe@example.com");
+    emails.add("Tyrone.Johnson@example.com");
     
 
 
