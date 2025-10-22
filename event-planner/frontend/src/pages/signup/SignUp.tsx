@@ -7,13 +7,7 @@ import './SignUp.css';
 import { useSignUp } from '@clerk/clerk-react';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-type FormData = {
-  firstName: string;
-  lastName: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
-};
+import Field from '../../components/field/Field';
 
 type FormErrors = Partial<Record<keyof FormData, string>> & { form?: string };
 
@@ -275,51 +269,6 @@ export default function SignUpPage() {
           </form>
         </div>
       </div>
-    </div>
-  );
-}
-
-function Field(props: {
-  label: string;
-  id: string;
-  name: keyof FormData;
-  value: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  error?: string;
-  type?: string;
-  autoComplete?: string;
-  helpText?: string;
-}) {
-  const { label, id, name, value, onChange, error, type = 'text', autoComplete, helpText } = props;
-  return (
-    <div className="field-container">
-      <label htmlFor={id} className="field-label">
-        {label}
-      </label>
-      <input
-        id={id}
-        name={name}
-        type={type}
-        value={value}
-        onChange={onChange}
-        autoComplete={autoComplete}
-        aria-invalid={!!error}
-        aria-describedby={
-          error ? `${id}-error` : helpText ? `${id}-help` : undefined
-        }
-        required
-        className="field-input"
-      />
-      {helpText && (
-        <p id={`${id}-help`} className="field-help">
-          {helpText}
-        </p>
-      )}
-      {error && (
-        <p id={`${id}-error`} className="field-error">
-          {error}
-        </p>
-      )}
     </div>
   );
 }

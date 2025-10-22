@@ -64,3 +64,23 @@ export const events: Event[] = [
         imageUrl: "/teamwork.jpg"
     }
 ]
+
+export type FormData = {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+};
+
+export type FieldProps =  {
+  label: string;
+  id: string;
+  name: keyof FormData ;
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  error?: string;
+  type?: string;
+  autoComplete?: string;
+  helpText?: string;
+}
