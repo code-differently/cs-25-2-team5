@@ -38,6 +38,10 @@ public class UserService {
         .orElseThrow(() -> new UserNotFoundException("User not found"));
   }
 
+  public User getUserById(int id) {
+    return getUserById((long) id);
+  }
+
   public User getUserByEmail(String email) {
     email = email.toLowerCase();
     return userRepository

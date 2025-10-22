@@ -42,7 +42,7 @@ public class EventGuestService {
 
             for(User user:usersFromEmails) {
                 EventGuest newGuest = EventGuest.builder()
-                .eventGuestKey(new EventGuestKey(user.getId(), event.getId()))
+                .eventGuestKey(new EventGuestKey(event.getId(), (long) user.getId()))
                 .rsvpStatus(RsvpStatus.PENDING)
                 .event(event)
                 .guest(user)
@@ -63,25 +63,58 @@ public class EventGuestService {
      * Create a new Event Guest using those Ids and save it to the database and update the event
      * Will be a post mapping in controller
      */
-    public EventGuest addNewGuestToEvent(Long eventId) {
-        return null;
-
-    }
-
-    /*
-     * Get the user from their email
-     * find and event guest based on that key
-     * Delete them from the database
-     */
-    public Boolean removeGuestFromEventLong(String email,Long eventId) {
+public EventGuest addNewGuestToEvent(Long eventId, String guestEmail) {
+    // Get the event
+    EventModel event = eventService.getEventById(eventId);
+    
+    // Get the guest user by email
+    User guest = userService.getUserByEmail(guestEmail);
+    
+    // Create EventGuestKey
+    EventGuestKey key = new EventGuestKey(eventId, (long) guest.getId());
+    
+    // Create new EventGuest
+    EventGuest newGuest = EventGuest.builder()
+        .eventGuestKey(key)
+        .rsvpStatus(RsvpStatus.PENDING)
+        .event(event)
+        .guest(guest)
+        .build();
+    
+    return eventGuestRepo.save(newGuest);
+}
+    public Boolean removeGuestFromEvent(String email,Long eventId) {
+       try {
+        // Get user by email
+        User user = userService.getUserByEmail(email);
+        
+        // Create the composite key
+        EventGuestKey key = new EventGuestKey(eventId, (long) user.getId());
+        
+        // Check if the event guest exists
+        if (eventGuestRepo.existsById(key)) {
+            eventGuestRepo.deleteById(key);
             return true;
-
+        }
+        return false;
+    } catch (Exception e) {
+        return false;
+    }
     }
 
-    public RsvpStatus setStatus(EventGuestKey guest,RsvpStatus status) {
-        return null;
-    }
- 
+    /**
+     * Update RSVP status for an event guest
+     */
+    @Transactional
+    public RsvpStatus setStatus(EventGuestKey guestKey, RsvpStatus status) {
+    return eventGuestRepo.findById(guestKey)
+        .map(eventGuest -> {
+            eventGuest.setRsvpStatus(status);
+            EventGuest saved = eventGuestRepo.save(eventGuest);
+            return saved.getRsvpStatus();
+        })
+        .orElseThrow(() -> new RuntimeException("EventGuest not found"));
+}
 
     
 
