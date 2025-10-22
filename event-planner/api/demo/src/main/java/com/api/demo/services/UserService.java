@@ -65,6 +65,5 @@ public class UserService {
 
   public Set<User> getAllUsersFromEmails(Set<String> emails) {
     return userRepository.findAllByEmailIn(emails);
-
   }
 }

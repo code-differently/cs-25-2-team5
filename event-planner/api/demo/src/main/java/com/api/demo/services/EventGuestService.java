@@ -46,8 +46,10 @@ public class EventGuestService {
                 .guest(user)
                 .build();
                 eventGuestRepo.save(newGuest);
+                eventGuests.add(newGuest);
             }
             event.setOrganizer(organizer);
+            event.setEventGuests(eventGuests);
             return eventService.createEvent(event);
 
     }

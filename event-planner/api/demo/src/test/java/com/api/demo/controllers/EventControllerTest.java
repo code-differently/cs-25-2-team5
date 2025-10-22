@@ -57,7 +57,7 @@ class EventControllerTest {
     List<EventModel> mockEvents = Arrays.asList(event1, event2);
 
     // Tell the mock service what to return when getAllPublicEvents() is called
-    when(eventService.getAllPublicEvents()).thenReturn(mockEvents);
+    when(eventService.getCommunityEvents()).thenReturn(mockEvents);
 
     // ACT & ASSERT - Make the API call and check the response
     mockMvc
@@ -70,13 +70,13 @@ class EventControllerTest {
         .andExpect(jsonPath("$[1].title", is("Community Event 2")));
 
     // Verify that the service method was called exactly once
-    verify(eventService, times(1)).getAllPublicEvents();
+    verify(eventService, times(1)).getCommunityEvents();
   }
 
   @Test
   void getAllCommunityEvents_ShouldReturnEmptyList_WhenNoEvents() throws Exception {
     // ARRANGE - Tell mock service to return empty list
-    when(eventService.getAllPublicEvents()).thenReturn(List.of());
+    when(eventService.getCommunityEvents()).thenReturn(List.of());
 
     // ACT & ASSERT - Call endpoint and verify empty response
     mockMvc
@@ -85,7 +85,7 @@ class EventControllerTest {
         .andExpect(jsonPath("$", hasSize(0))); // But with 0 events
 
     // Verify the service was called
-    verify(eventService, times(1)).getAllPublicEvents();
+    verify(eventService, times(1)).getCommunityEvents();
   }
 
   // TEST 3: Directly test the controller method (without HTTP)
@@ -93,13 +93,13 @@ class EventControllerTest {
   void getAllCommunityEvents_ShouldCallServiceMethod() {
     // ARRANGE - Create fake events
     List<EventModel> mockEvents = Arrays.asList(new EventModel(), new EventModel());
-    when(eventService.getAllPublicEvents()).thenReturn(mockEvents);
+    when(eventService.getCommunityEvents()).thenReturn(mockEvents);
 
     // ACT - Call the controller method directly
     List<EventModel> result = eventController.getAllCommunityEvents();
 
     // ASSERT - Check that service was called and result has correct size
-    verify(eventService, times(1)).getAllPublicEvents();
+    verify(eventService, times(1)).getCommunityEvents();
     assert result.size() == 2;
   }
 }
