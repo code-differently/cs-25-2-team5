@@ -8,6 +8,7 @@ import { useSignUp } from '@clerk/clerk-react';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import Field from '../../components/field/Field';
+import { type FormData } from '../../types/types';
 
 type FormErrors = Partial<Record<keyof FormData, string>> & { form?: string };
 
@@ -94,53 +95,6 @@ export default function SignUpPage() {
       console.error(JSON.stringify(err, null, 2))
     }
   }
-
-  const validate = (data: FormData): FormErrors => {
-    const e: FormErrors = {};
-    if (!data.firstName.trim()) e.firstName = 'First name is required';
-    if (!data.lastName.trim()) e.lastName = 'Last name is required';
-    
-    // More robust email validation
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(data.email)) e.email = 'Enter a valid email';
-    
-    if (data.password.length < 8) e.password = 'Password must be at least 8 characters';
-    if (data.password !== data.confirmPassword) e.confirmPassword = 'Passwords do not match';
-    
-    return e;
-  };
-
-  const onSubmit = async (evt: React.FormEvent) => {
-    evt.preventDefault();
-    setSuccessMsg(null);
-
-    const v = validate(form);
-    if (Object.keys(v).length) {
-      setErrors(v);
-      return;
-    }
-
-    try {
-      setSubmitting(true);
-      // TODO: swap this with your real API endpoint
-      // Example POST:
-      // const res = await fetch('/api/auth/signup', {
-      //   method: 'POST',
-      //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify(form),
-      // });
-      // if (!res.ok) throw new Error('Failed to sign up');
-
-      // For now, just simulate success:
-      await new Promise((r) => setTimeout(r, 600));
-      setSuccessMsg('Thanks! Your signup has been recorded.');
-      setForm({ firstName: '', lastName: '', email: '', password: '', confirmPassword: '' });
-    } catch (err: unknown) {
-      setErrors({ form: (err as Error)?.message || 'Something went wrong' });
-    } finally {
-      setSubmitting(false);
-    }
-  };
 
   if (verifying) {
     return (
