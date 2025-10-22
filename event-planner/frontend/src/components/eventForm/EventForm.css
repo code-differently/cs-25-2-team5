@@ -1,0 +1,218 @@
+.create-event-page {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    background-color: #f8f8f8;
+}
+
+.event-form-section {
+    background: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+
+}
+
+.event-form-container {
+    width: 100%;
+    max-width: 450px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.event-form-header {
+    text-align: center;
+    margin-bottom: 2rem;
+    font-size: 2rem;
+    font-family: 'Satoshi', sans-serif;
+    font-weight: 700;
+    color: #333;
+}
+
+.event-form {
+    width: 100%;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-group label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+    font-family: 'Satoshi', sans-serif;
+}
+
+.event-form-input {
+    padding: 12px 16px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: 'Satoshi', sans-serif;
+    background-color: #fff;
+    color: #333;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.event-form-input:focus {
+    outline: none;
+    border-color: #a5a58d;
+    box-shadow: 0 0 0 3px rgba(165, 165, 141, 0.1);
+}
+
+.event-form-input::placeholder {
+    color: #999;
+}
+
+.event-form-input[type="datetime-local"] {
+    color: #333;
+    background-color: #fff;
+}
+
+.event-form-input[type="datetime-local"]:focus {
+    color: #333;
+}
+
+.event-form-button {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: 'Satoshi', sans-serif;
+    background-color: #a5a58d;
+    color: white;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    min-height: 44px;
+    margin-top: 0.5rem;
+}
+
+.event-form-button:hover {
+    background-color: #939380;
+    transform: translateY(-1px);
+}
+
+.event-form-button:active {
+    transform: translateY(0);
+}
+
+.event-image-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.event-image-content {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+}
+
+.event-hero-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    z-index: 1;
+}
+
+.event-image-text {
+    position: relative;
+    text-align: center;
+    color: white;
+    z-index: 3;
+    padding: 2rem;
+}
+
+.event-image-text h2 {
+    font-size: 2.5rem;
+    font-family: 'Satoshi', sans-serif;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: white;
+}
+
+.event-image-text p {
+    font-size: 1.1rem;
+    font-family: 'Satoshi', sans-serif;
+    font-weight: 400;
+    opacity: 0.9;
+    max-width: 300px;
+    line-height: 1.6;
+}
+
+@media (max-width: 768px) {
+    .create-event-page {
+        grid-template-columns: 1fr;
+        grid-template-rows: 40vh 1fr;
+    }
+    .event-image-section {
+        grid-row: 1;
+    }
+    .event-form-section {
+        grid-row: 2;
+        padding: 1rem;
+    }
+    .event-hero-image {
+        opacity: 0.25;
+    }
+    .event-image-text h2 {
+        font-size: 1.8rem;
+        margin-bottom: 0.5rem;
+    }
+    .event-image-text p {
+        font-size: 0.9rem;
+        max-width: 250px;
+    }
+    .event-form-container {
+        max-width: 100%;
+        padding: 1.5rem;
+    }
+    .event-form-header {
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .create-event-page {
+        grid-template-rows: 35vh 1fr;
+    }
+    .event-form-section {
+        padding: 0.5rem;
+    }
+    .event-form-container {
+        padding: 1rem;
+    }
+    .event-form-header {
+        font-size: 1.2rem;
+    }
+    .event-hero-image {
+        opacity: 0.2;
+    }
+    .event-image-text h2 {
+        font-size: 1.5rem;
+    }
+    .event-image-text p {
+        font-size: 0.8rem;
+    }
+}
