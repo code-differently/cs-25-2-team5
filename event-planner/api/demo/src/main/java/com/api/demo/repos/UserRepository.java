@@ -26,5 +26,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
         JOIN eg.event e
         WHERE u.id = :userId
     """)
-  List<UserInviteDTO> findAllUserEvents(Long userId);
+  List<UserInviteDTO> findAllUserInvitedEvents(Long userId);
 }

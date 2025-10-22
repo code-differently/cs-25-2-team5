@@ -1,5 +1,6 @@
 package com.api.demo.services;
 
+import com.api.demo.dtos.UserInviteDTO;
 import com.api.demo.exceptions.UserNotFoundException;
 import com.api.demo.models.EventGuest;
 import com.api.demo.models.EventModel;
@@ -66,5 +67,10 @@ public class UserService {
 
   public Set<User> getAllUsersFromEmails(Set<String> emails) {
     return userRepository.findAllByEmailIn(emails);
+  }
+
+  public List<UserInviteDTO> getAllInvitedEvents(Long userId) {
+    return userRepository.findAllUserInvitedEvents(userId);
+
   }
 }
