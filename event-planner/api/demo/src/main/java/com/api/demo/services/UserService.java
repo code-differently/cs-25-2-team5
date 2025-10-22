@@ -1,10 +1,12 @@
 package com.api.demo.services;
 
 import com.api.demo.exceptions.UserNotFoundException;
+import com.api.demo.models.EventGuest;
 import com.api.demo.models.EventModel;
 import com.api.demo.models.User;
 import com.api.demo.repos.UserRepository;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -50,10 +52,11 @@ public class UserService {
    * Uses @Transactional to ensure database integrity during the operation.
    */
   @Transactional
-  public EventModel createEvent(EventModel event, Long userId) {
+  public EventModel createPublicEvent(EventModel event, Long userId) {
     User user = getUserById(userId);
     user.getOrganizedEvents().add(event);
     event.setOrganizer(user);
+    event.setEventGuests(new HashSet<EventGuest>());
     return eventService.createEvent(event);
   }
 
