@@ -6,10 +6,8 @@ import com.api.demo.models.EventModel;
 import com.api.demo.models.User;
 import com.api.demo.services.UserService;
 import jakarta.validation.Valid;
-
 import java.util.HashSet;
 import java.util.Set;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
