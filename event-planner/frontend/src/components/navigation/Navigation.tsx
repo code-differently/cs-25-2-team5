@@ -24,6 +24,9 @@ const Navigation: React.FC = () => {
           <li>
             <a href="#">About Us</a>
           </li>
+          <li>
+            <Link to="/invitations">Invitations</Link>
+          </li>
         </ul>
       )}
 
