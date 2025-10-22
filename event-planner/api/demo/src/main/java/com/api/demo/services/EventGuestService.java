@@ -37,7 +37,9 @@ public class EventGuestService {
             User organizer = userService.getUserById(userId);
             Set<User> usersFromEmails = userService.getAllUsersFromEmails(emails);
             event.setIsPublic(false);
+            
             Set<EventGuest> eventGuests = new HashSet<>();
+
             for(User user:usersFromEmails) {
                 EventGuest newGuest = EventGuest.builder()
                 .eventGuestKey(new EventGuestKey(user.getId(), event.getId()))
@@ -48,6 +50,7 @@ public class EventGuestService {
                 eventGuestRepo.save(newGuest);
                 eventGuests.add(newGuest);
             }
+
             event.setOrganizer(organizer);
             event.setEventGuests(eventGuests);
             return eventService.createEvent(event);

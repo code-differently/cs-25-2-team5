@@ -6,6 +6,10 @@ import com.api.demo.models.EventModel;
 import com.api.demo.models.User;
 import com.api.demo.services.UserService;
 import jakarta.validation.Valid;
+
+import java.util.HashSet;
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -48,10 +52,10 @@ public class UserController {
       @PathVariable Long userId, @RequestBody EventModel event) {
     EventModel createdEvent = userService.createPublicEvent(event, userId);
     User organizer = createdEvent.getOrganizer();
-    
+
     UserDTO organizerDTO =
         UserDTO.builder().name(organizer.getName()).email(organizer.getEmail()).build();
-
+    Set<UserDTO> guests = new HashSet<>();
     EventDTO model =
         EventDTO.builder()
             .title(createdEvent.getTitle())
@@ -59,6 +63,7 @@ public class UserController {
             .startTime(createdEvent.getStartTime())
             .eventType(createdEvent.getIsPublic() ? "Community" : "Private")
             .organizer(organizerDTO)
+            .guests(guests)
             .build();
     return ResponseEntity.ok(model);
   }

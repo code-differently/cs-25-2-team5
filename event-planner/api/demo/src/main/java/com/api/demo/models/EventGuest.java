@@ -14,7 +14,6 @@ import lombok.NoArgsConstructor;
 /*
  * Entity representing the association between an event and a guest, including RSVP status.
  * Uses a composite key defined in EventGuestKey.
- *
  */
 @Entity
 @Data
