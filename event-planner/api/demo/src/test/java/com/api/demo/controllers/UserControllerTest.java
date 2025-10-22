@@ -5,6 +5,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import com.api.demo.dtos.UserInviteDTO;
 import com.api.demo.exceptions.GlobalExceptionHandler;
 import com.api.demo.exceptions.UserNotFoundException;
 import com.api.demo.models.EventModel;
@@ -13,6 +14,7 @@ import com.api.demo.services.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -232,5 +234,25 @@ public class UserControllerTest {
   void getUserById_ShouldHandleMalformedId() throws Exception {
     // When & Then
     mockMvc.perform(get("/api/v1/users/{id}", "invalid-id")).andExpect(status().isBadRequest());
+  }
+
+  @Test
+  @DisplayName("GET /api/v1/users/{id}/events - should return user events")
+  void getUserInvitedEvents_ShouldReturnUserEvents() throws Exception {
+    UserInviteDTO u1 = UserInviteDTO.builder().name("user 1").title("Title 2").build();
+    UserInviteDTO u2 = UserInviteDTO.builder().name("user 2").title("Title 2").build();
+    UserInviteDTO u3 = UserInviteDTO.builder().name("user 3").title("Title 3").build();
+
+    when(userService.getAllInvitedEvents(1L)).thenReturn(List.of(u1, u2, u3));
+    mockMvc
+        .perform(get("/api/v1/users/{userId}/events", 1))
+        .andExpect(status().isOk())
+        .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+        .andExpect(jsonPath("$[0].name").value("user 1"))
+        .andExpect(jsonPath("$[0].title").value("Title 2"))
+        .andExpect(jsonPath("$[1].name").value("user 2"))
+        .andExpect(jsonPath("$[1].title").value("Title 2"))
+        .andExpect(jsonPath("$[2].name").value("user 3"))
+        .andExpect(jsonPath("$[2].title").value("Title 3"));
   }
 }

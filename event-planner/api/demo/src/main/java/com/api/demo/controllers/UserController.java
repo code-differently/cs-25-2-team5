@@ -67,6 +67,7 @@ public class UserController {
             .build();
     return ResponseEntity.ok(model);
   }
+
   @GetMapping("/{userId}/events")
   public ResponseEntity<List<UserInviteDTO>> getEventInvitedTo(@PathVariable Long userId) {
     return ResponseEntity.ok(userService.getAllInvitedEvents(userId));
