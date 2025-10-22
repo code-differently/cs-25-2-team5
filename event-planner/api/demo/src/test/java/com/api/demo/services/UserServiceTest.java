@@ -10,7 +10,10 @@ import com.api.demo.models.User;
 import com.api.demo.repos.UserRepository;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -135,5 +138,22 @@ public class UserServiceTest {
       assertThat(testUser.getOrganizedEvents()).contains(createdEvent);
   }
 
-  
+
+  @Test
+  @DisplayName("Find all users by email emails found")
+  public void getAllUsersFromEmailsTest_shouldReturnSetOfUsers() {
+    var emails = new HashSet<String>();
+    emails.add("jane.smith@example.com");
+    emails.add("John.Doe@example.com");
+    emails.add("Tyrone.johnson@example.com");
+
+  }
+
+  @Test
+  @DisplayName("Find all users by email, no emails found found")
+  public void getAllUsersFromEmailsTest_shouldReturnEmptySet() {
+
+  }
+
+
 }
