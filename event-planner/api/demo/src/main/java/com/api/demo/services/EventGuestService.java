@@ -37,7 +37,7 @@ public class EventGuestService {
             User organizer = userService.getUserById(userId);
             Set<User> usersFromEmails = userService.getAllUsersFromEmails(emails);
             event.setIsPublic(false);
-            
+
             Set<EventGuest> eventGuests = new HashSet<>();
 
             for(User user:usersFromEmails) {
@@ -56,6 +56,35 @@ public class EventGuestService {
             return eventService.createEvent(event);
 
     }
+    /*
+     * 
+     * Get the Event by the Id 
+     * Get the Organizer
+     * Create a new Event Guest using those Ids and save it to the database and update the event
+     * Will be a post mapping in controller
+     */
+    public EventGuest addNewGuestToEvent(Long eventId) {
+        return null;
+
+    }
+
+    /*
+     * Get the user from their email
+     * find and event guest based on that key
+     * Delete them from the database
+     */
+    public Boolean removeGuestFromEventLong(String email,Long eventId) {
+            return true;
+
+    }
+
+    public RsvpStatus setStatus(EventGuestKey guest,RsvpStatus status) {
+        return null;
+    }
+ 
+
+    
+
 
 
     
