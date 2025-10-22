@@ -19,8 +19,8 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 public class UserService {
-  private UserRepository userRepository;
-  private EventService eventService;
+  private final UserRepository userRepository;
+  private final EventService eventService;
 
   @Autowired
   public UserService(UserRepository userRepository, EventService eventService) {
@@ -36,10 +36,6 @@ public class UserService {
     return userRepository
         .findById(id)
         .orElseThrow(() -> new UserNotFoundException("User not found"));
-  }
-
-  public User getUserById(int id) {
-    return getUserById((long) id);
   }
 
   public User getUserByEmail(String email) {
