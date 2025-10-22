@@ -30,19 +30,20 @@ public class EventGuestService {
         this.eventService= eventService;
     }
     // create a new event guest set the rsvp status by default 
-    public EventModel addGuestsToEvent(Long userId,EventModel event,List<UserDTO> guests) {
+    public EventModel createEventWithGuests(Long userId,EventModel event,Set<String> emails) {
             User organizer = userService.getUserById(userId);
-            Set<User> guestsObjects = new HashSet<>();
-            for(UserDTO user:guests) {
-               guestsObjects.add(userService.getUserByEmail(user.getEmail()));
-            }
+            Set<User> usersFromEmails = userService.getAllUsersFromEmails(emails);
+            event.setIsPublic(false);
             Set<EventGuest> eventGuests = new HashSet<>();
-            for(User user:guestsObjects) {
-                EventGuest newGuest = EventGuest.builder().eventGuestKey(new EventGuestKey(user.getId(), event.getId())).rsvpStatus(RsvpStatus.PENDING).build();
+            for(User user:usersFromEmails) {
+                EventGuest newGuest = EventGuest.builder()
+                .eventGuestKey(new EventGuestKey(user.getId(), event.getId()))
+                .rsvpStatus(RsvpStatus.PENDING)
+                .event(event)
+                .guest(user)
+                .build();
                 eventGuestRepo.save(newGuest);
             }
-            event.setEventGuests(eventGuests);
-            event.setOrganizer(organizer);
             return eventService.createEvent(event);
 
     }
