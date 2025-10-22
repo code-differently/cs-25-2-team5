@@ -2,6 +2,7 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '3.5.6'
     id 'io.spring.dependency-management' version '1.1.7'
+    id 'com.diffplug.spotless' version '7.0.0.BETA4' 
 }
 
 group = 'com.api'
@@ -28,11 +29,19 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'me.paulschwarz:spring-dotenv:4.0.0'
     runtimeOnly 'com.h2database:h2'
+    runtimeOnly 'org.postgresql:postgresql'
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-}
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'  
+    testRuntimeOnly 'com.h2database:h2'  
 
 tasks.named('test') {
     useJUnitPlatform()
+}
+spotless {
+    java {
+        googleJavaFormat('1.22.0').aosp()
+    }
+}
 }
