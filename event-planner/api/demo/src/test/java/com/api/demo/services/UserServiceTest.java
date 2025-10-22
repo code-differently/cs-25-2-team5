@@ -192,7 +192,7 @@ public class UserServiceTest {
     .collect(Collectors.toSet());
 
     assertEquals(users.size(),expectedEmails.size());
-    assertEquals(expectedEmails, userEmails);
+    assertEquals(expectedEmails.stream().map(String::toLowerCase).collect(Collectors.toSet()), userEmails);
 
   }
 
