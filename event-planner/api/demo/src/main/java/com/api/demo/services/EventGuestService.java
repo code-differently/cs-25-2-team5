@@ -1,14 +1,12 @@
 package com.api.demo.services;
 
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.api.demo.dtos.UserDTO;
 import com.api.demo.models.EventGuest;
 import com.api.demo.models.EventGuestKey;
 import com.api.demo.models.EventModel;
@@ -23,9 +21,10 @@ import jakarta.transaction.Transactional;
 public class EventGuestService {
 
     private final EventGuestRepo eventGuestRepo;
-    private UserService userService;
-    private EventService eventService;
+    private final UserService userService;
+    private final EventService eventService;
 
+@Autowired
     public EventGuestService(EventGuestRepo eventGuestRepo,UserService userService,EventService eventService) {
         this.eventGuestRepo = eventGuestRepo;
         this.userService = userService;
@@ -83,8 +82,7 @@ public EventGuest addNewGuestToEvent(Long eventId, String guestEmail) {
     
     return eventGuestRepo.save(newGuest);
 }
-    public Boolean removeGuestFromEvent(String email,Long eventId) {
-       try {
+    public Boolean removeGuestFromEvent(String email, Long eventId) {
         // Get user by email
         User user = userService.getUserByEmail(email);
         
@@ -97,9 +95,6 @@ public EventGuest addNewGuestToEvent(Long eventId, String guestEmail) {
             return true;
         }
         return false;
-    } catch (Exception e) {
-        return false;
-    }
     }
 
     /**
