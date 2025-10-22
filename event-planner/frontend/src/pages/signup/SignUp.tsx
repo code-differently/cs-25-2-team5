@@ -3,6 +3,7 @@
 
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useSignUp } from '@clerk/clerk-react';
 import './SignUp.css';
 
 type FormData = {
@@ -16,6 +17,9 @@ type FormData = {
 type FormErrors = Partial<Record<keyof FormData, string>> & { form?: string };
 
 export default function SignUpPage() {
+
+  const { isLoaded, signUp } = useSignUp();
+   const [verifying, setVerifying] = useState(false)
   const [form, setForm] = useState<FormData>({
     firstName: '',
     lastName: '',
@@ -23,6 +27,36 @@ export default function SignUpPage() {
     password: '',
     confirmPassword: '',
   });
+
+  if (!isLoaded) return <div>Loading...</div>
+
+    // Start the sign-up process using the email and password provided
+    const handleSignUp = async()=> (
+      try {
+      await signUp.create({
+        emailAddress:form.email,
+        password:form.password,
+      })
+
+      // Send the user an email with the verification code
+      await signUp.prepareEmailAddressVerification({
+        strategy: 'email_code',
+      })
+
+      // Set 'verifying' true to display second form
+      // and capture the OTP code
+      setVerifying(true)
+    } catch (err: any) {
+      // See https://clerk.com/docs/guides/development/custom-flows/error-handling
+      // for more info on error handling
+      console.error(JSON.stringify(err, null, 2))
+    }
+
+    );
+    
+
+
+  
   const [errors, setErrors] = useState<FormErrors>({});
   const [submitting, setSubmitting] = useState(false);
   const [successMsg, setSuccessMsg] = useState<string | null>(null);
