@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.api.demo.dtos.UserDTO;
@@ -25,7 +26,8 @@ public class EventGuestService {
     private final EventGuestRepo eventGuestRepo;
     private UserService userService;
     private EventService eventService;
-
+    
+    @Autowired
     public EventGuestService(EventGuestRepo eventGuestRepo,UserService userService,EventService eventService) {
         this.eventGuestRepo = eventGuestRepo;
         this.userService = userService;

@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
+import com.api.demo.dtos.UserInviteDTO;
 import com.api.demo.exceptions.UserNotFoundException;
 import com.api.demo.models.EventModel;
 import com.api.demo.models.User;
@@ -12,6 +13,7 @@ import com.api.demo.repos.UserRepository;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -209,6 +211,20 @@ public class UserServiceTest {
     
 
   }
+
+  // @Test
+  // @DisplayName("Test get all events a user has been invitied to")
+  // public void getUserInvitedEvents() {
+  //   Long userId = 1L;
+  //       List<UserInviteDTO> expectedInvites = List.of(
+  //         UserInviteDTO.builder().email("john.doe@example.com").description("Description 1").title("Event 1").is_public(null)
+  //           new UserInviteDTO("", "John Doe", "Event 1", "Description 1", true, LocalDateTime.now().plusDays(1)),
+  //           new UserInviteDTO("john.doe@example.com", "John Doe", "Event 2", "Description 2", false, LocalDateTime.now().plusDays(2))
+  //       );
+        
+
+
+  // }
 
 
 }
