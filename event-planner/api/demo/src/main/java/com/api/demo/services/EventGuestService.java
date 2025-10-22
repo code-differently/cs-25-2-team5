@@ -108,7 +108,7 @@ public EventGuest addNewGuestToEvent(Long eventId, String guestEmail) {
             EventGuest saved = eventGuestRepo.save(eventGuest);
             return saved.getRsvpStatus();
         })
-        .orElseThrow(() -> new new EventGuestNotFoundException(guestKey));
+        .orElseThrow(() -> new EventGuestNotFoundException(guestKey));
 }
 
     
