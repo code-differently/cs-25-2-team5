@@ -2,6 +2,7 @@ package com.api.demo.services;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
 import com.api.demo.exceptions.UserNotFoundException;
@@ -13,6 +14,7 @@ import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -23,7 +25,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("UserService - getUserById Tests")
 public class UserServiceTest {
 
   @Mock private UserRepository userRepository;
@@ -142,15 +143,43 @@ public class UserServiceTest {
   @Test
   @DisplayName("Find all users by email emails found")
   public void getAllUsersFromEmailsTest_shouldReturnSetOfUsers() {
+    // Given
+    User user1 = new User();
+    user1.setEmail("jane.smith@example.com");
+    User user2 = new User();
+    user1.setEmail("john.doe@example.com");
+    User user3 = new User();
+    user1.setEmail("tyrone.johnson@example.com");
     var emails = new HashSet<String>();
     emails.add("jane.smith@example.com");
-    emails.add("John.Doe@example.com");
-    emails.add("Tyrone.johnson@example.com");
+    emails.add("john.doe@example.com");
+    emails.add("tyrone.johnson@example.com");
+    // When
+    when(userRepository.findAllByEmailIn(emails))
+    .thenReturn(Set.of(user1,user2,user3));
+    Set<User> users = userService.getAllUsersFromEmails(emails);
+    Set<String> userEmails = users
+    .stream()
+    .map(User::getEmail)
+    .collect(Collectors.toSet());
+    // Then
+    assertEquals(users.size(),emails.size());
+    assertEquals(users, userEmails);
+  }
+  @Test
+  @DisplayName("Find all users by email,email input with different cases")
+  public void getAllUsersFromEmailsTest_shouldReturnSetOfUsersIgnoringCase() {
+    var emails = new HashSet<String>();
+    emails.add("jane.smith@example.com");
+    emails.add("john.doe@example.com");
+    emails.add("tyrone.johnson@example.com");
+    
+
 
   }
 
   @Test
-  @DisplayName("Find all users by email, no emails found found")
+  @DisplayName("Find all users by email, no emails found ")
   public void getAllUsersFromEmailsTest_shouldReturnEmptySet() {
 
   }
