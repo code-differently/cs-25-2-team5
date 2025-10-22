@@ -3,11 +3,10 @@
 
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useSignUp } from '@clerk/clerk-react';
-import { useNavigate } from 'react-router-dom';
 import './SignUp.css';
+import { useSignUp } from '@clerk/clerk-react';
 import React from 'react';
-
+import { useNavigate } from 'react-router-dom';
 type FormData = {
   firstName: string;
   lastName: string;
@@ -19,14 +18,6 @@ type FormData = {
 type FormErrors = Partial<Record<keyof FormData, string>> & { form?: string };
 
 export default function SignUpPage() {
-
-  const { isLoaded, signUp , setActive } = useSignUp();
-  const [errors, setErrors] = useState<FormErrors>({});
-  const [submitting, setSubmitting] = useState(false);
-  const [successMsg, setSuccessMsg] = useState<string | null>(null);
-  const [verifying, setVerifying] = useState(false)
-  const [code, setCode] = React.useState('')
-  const navigate = useNavigate()
   const [form, setForm] = useState<FormData>({
     firstName: '',
     lastName: '',
@@ -34,89 +25,13 @@ export default function SignUpPage() {
     password: '',
     confirmPassword: '',
   });
-
-  type FormData = {
-  firstName: string;
-  lastName: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
-};
-  if (!isLoaded) return <div>Loading...</div>
-
-    // Start the sign-up process using the email and password provided
-  //   const handleSignUp = async() => {
-
-  //       try {
-  //       await signUp.create({
-  //         emailAddress:form.email,
-  //         password:form.password,
-  //       })
-
-  //       // Send the user an email with the verification code
-  //       await signUp.prepareEmailAddressVerification({
-  //         strategy: 'email_code',
-  //       })
-
-  //       // Set 'verifying' true to display second form
-  //       // and capture the OTP code
-  //       setVerifying(true)
-  //     } catch (err: any) {
-  //       // See https://clerk.com/docs/guides/development/custom-flows/error-handling
-  //       // for more info on error handling
-  //       console.error(JSON.stringify(err, null, 2))
-  //     }
-
-  //   };
-
-  //   const handleVerification = async(e:React.FormEvent)=>  {
-  //       e.preventDefault();
-  //       if (!isLoaded) return <div>Loading...</div>
-  //       try {
-  //     // Use the code the user provided to attempt verification
-  //     const signUpAttempt = await signUp.attemptEmailAddressVerification({
-  //       code,
-  //     })
-
-  //     // If verification was completed, set the session to active
-  //     // and redirect the user
-  //     if (signUpAttempt.status === 'complete') {
-  //       await setActive({
-  //         session: signUpAttempt.createdSessionId,
-  //         navigate: async ({ session }) => {
-  //           if (session?.currentTask) {
-  //             // Check for session tasks and navigate to custom UI to help users resolve them
-  //             // See https://clerk.com/docs/guides/development/custom-flows/overview#session-tasks
-  //             console.log(session?.currentTask)
-  //             router.push('/sign-up/tasks')
-  //             return
-  //           }
-
-  //           router.push('/')
-  //         },
-  //       })
-  //     } else {
-  //       // If the status is not complete, check why. User may need to
-  //       // complete further steps.
-  //       console.error('Sign-up attempt not complete:', signUpAttempt)
-  //       console.error('Sign-up attempt status:', signUpAttempt.status)
-  //     }
-  //   } catch (err: any) {
-  //     // See https://clerk.com/docs/guides/development/custom-flows/error-handling
-  //     // for more info on error handling
-  //     console.error(JSON.stringify(err, null, 2))
-  //   }
-  // }
-      
-    
-}
-
-
-    
-
-
-  
-  
+  const [errors, setErrors] = useState<FormErrors>({});
+  const [submitting, setSubmitting] = useState(false);
+  const [successMsg, setSuccessMsg] = useState<string | null>(null);
+  const { isLoaded, signUp, setActive } = useSignUp();
+  const navigate = useNavigate();
+  const [code, setCode] = React.useState('')
+ const [verifying, setVerifying] = React.useState(false)
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target as { name: keyof FormData; value: string };
@@ -124,7 +39,127 @@ export default function SignUpPage() {
     setErrors((e) => ({ ...e, [name]: undefined, form: undefined }));
   };
 
-  
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+
+    if (!isLoaded) return <div>Loading...</div>
+
+    // Start the sign-up process using the email and password provided
+    try {
+      await signUp.create({
+        emailAddress:form.email,
+        password:form.password
+      })
+
+      // Send the user an email with the verification code
+      await signUp.prepareEmailAddressVerification({
+        strategy: 'email_code',
+      })
+
+      // Set 'verifying' true to display second form
+      // and capture the OTP code
+      setVerifying(true)
+    } catch (err: any) {
+      // See https://clerk.com/docs/guides/development/custom-flows/error-handling
+      // for more info on error handling
+      console.error(JSON.stringify(err, null, 2))
+    }
+  }
+
+  const handleVerify = async (e: React.FormEvent) => {
+    e.preventDefault()
+
+    if (!isLoaded) return <div>Loading...</div>
+
+    try {
+      // Use the code the user provided to attempt verification
+      const signUpAttempt = await signUp.attemptEmailAddressVerification({
+        code,
+      })
+
+      // If verification was completed, set the session to active
+      // and redirect the user
+      if (signUpAttempt.status === 'complete') {
+        await setActive({
+          session: signUpAttempt.createdSessionId,
+          navigate: async ({ session }) => {
+            
+
+            navigate('/')
+          },
+        })
+      } else {
+        // If the status is not complete, check why. User may need to
+        // complete further steps.
+        console.error('Sign-up attempt not complete:', signUpAttempt)
+        console.error('Sign-up attempt status:', signUpAttempt.status)
+      }
+    } catch (err: any) {
+      // See https://clerk.com/docs/guides/development/custom-flows/error-handling
+      // for more info on error handling
+      console.error(JSON.stringify(err, null, 2))
+    }
+  }
+
+  const validate = (data: FormData): FormErrors => {
+    const e: FormErrors = {};
+    if (!data.firstName.trim()) e.firstName = 'First name is required';
+    if (!data.lastName.trim()) e.lastName = 'Last name is required';
+    
+    // More robust email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(data.email)) e.email = 'Enter a valid email';
+    
+    if (data.password.length < 8) e.password = 'Password must be at least 8 characters';
+    if (data.password !== data.confirmPassword) e.confirmPassword = 'Passwords do not match';
+    
+    return e;
+  };
+
+  const onSubmit = async (evt: React.FormEvent) => {
+    evt.preventDefault();
+    setSuccessMsg(null);
+
+    const v = validate(form);
+    if (Object.keys(v).length) {
+      setErrors(v);
+      return;
+    }
+
+    try {
+      setSubmitting(true);
+      // TODO: swap this with your real API endpoint
+      // Example POST:
+      // const res = await fetch('/api/auth/signup', {
+      //   method: 'POST',
+      //   headers: { 'Content-Type': 'application/json' },
+      //   body: JSON.stringify(form),
+      // });
+      // if (!res.ok) throw new Error('Failed to sign up');
+
+      // For now, just simulate success:
+      await new Promise((r) => setTimeout(r, 600));
+      setSuccessMsg('Thanks! Your signup has been recorded.');
+      setForm({ firstName: '', lastName: '', email: '', password: '', confirmPassword: '' });
+    } catch (err: unknown) {
+      setErrors({ form: (err as Error)?.message || 'Something went wrong' });
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  if (verifying) {
+    return (
+      <>
+        <h1>Verify your email</h1>
+        <form onSubmit={handleVerify}>
+          <label id="code">Enter your verification code</label>
+          <input value={code} id="code" name="code" onChange={(e) => setCode(e.target.value)} />
+          <button type="submit">Verify</button>
+        </form>
+      </>
+    )
+  }
 
 
 
@@ -149,7 +184,7 @@ export default function SignUpPage() {
       <div className="signup-form-section">
         <div className="signup-container">
           <form
-            onSubmit={onSubmit}
+            onSubmit={handleSubmit}
             noValidate
             className="signup-form"
             aria-describedby={errors.form ? 'form-error' : undefined}
@@ -220,6 +255,8 @@ export default function SignUpPage() {
           error={errors.confirmPassword}
           autoComplete="new-password"
         />
+
+        <div id="clerk-captcha" />
 
         <button
           type="submit"
