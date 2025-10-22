@@ -171,12 +171,28 @@ public class UserServiceTest {
   @Test
   @DisplayName("Find all users by email,email input with different cases")
   public void getAllUsersFromEmailsTest_shouldReturnSetOfUsersIgnoringCase() {
-    var emails = new HashSet<String>();
-    emails.add("Jane.Smith@example.com");
-    emails.add("John.Doe@example.com");
-    emails.add("Tyrone.Johnson@example.com");
-    
+    User user1 = new User();
+    user1.setEmail("jane.smith@example.com");
+    User user2 = new User();
+    user2.setEmail("john.doe@example.com");
+    User user3 = new User();
+    user3.setEmail("tyrone.johnson@example.com");
+    var expectedEmails = new HashSet<String>();
+    expectedEmails.add("Jane.Smith@example.com");
+    expectedEmails.add("John.Doe@example.com");
+    expectedEmails.add("Tyrone.Johnson@example.com");
 
+    when(userRepository.findAllByEmailIn(expectedEmails))
+    .thenReturn(Set.of(user1,user2,user3));
+
+    Set<User> users = userService.getAllUsersFromEmails(expectedEmails);
+    Set<String> userEmails = users
+    .stream()
+    .map(User::getEmail)
+    .collect(Collectors.toSet());
+
+    assertEquals(users.size(),expectedEmails.size());
+    assertEquals(expectedEmails, userEmails);
 
   }
 
