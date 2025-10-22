@@ -69,8 +69,8 @@ public class UserService {
     return userRepository.findAllByEmailIn(emails);
   }
 
-  // public List<UserInviteDTO> getAllInvitedEvents(Long userId) {
-  //   return userRepository.findAllUserInvitedEvents(userId);
+  public List<UserInviteDTO> getAllInvitedEvents(Long userId) {
+    return userRepository.findAllUserInvitedEvents(userId);
 
-  // }
+  }
 }
