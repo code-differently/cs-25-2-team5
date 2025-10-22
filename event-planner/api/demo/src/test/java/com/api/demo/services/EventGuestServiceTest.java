@@ -26,6 +26,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.api.demo.exceptions.UserNotFoundException;
 import com.api.demo.models.EventGuest;
 import com.api.demo.models.EventGuestKey;
 import com.api.demo.models.EventModel;
@@ -254,19 +255,18 @@ class EventGuestServiceTest {
         }
 
         @Test
-        @DisplayName("Should return false when exception occurs")
-        void shouldReturnFalseWhenExceptionOccurs() {
+        @DisplayName("Should throw exception when user not found")
+        void shouldThrowExceptionWhenUserNotFound() {
             // Given
             String guestEmail = "guest@example.com";
             Long eventId = 1L;
             
-            when(userService.getUserByEmail(guestEmail)).thenThrow(new RuntimeException("User not found"));
+            when(userService.getUserByEmail(guestEmail)).thenThrow(new UserNotFoundException("User not found"));
 
-            // When
-            Boolean result = eventGuestService.removeGuestFromEvent(guestEmail, eventId);
-
-            // Then
-            assertThat(result).isFalse();
+            // When & Then
+            assertThatThrownBy(() -> eventGuestService.removeGuestFromEvent(guestEmail, eventId))
+                .isInstanceOf(UserNotFoundException.class)
+                .hasMessage("User not found");
             
             verify(userService).getUserByEmail(guestEmail);
             verify(eventGuestRepo, never()).existsById(any(EventGuestKey.class));
