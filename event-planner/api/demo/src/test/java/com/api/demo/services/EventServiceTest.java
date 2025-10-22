@@ -48,7 +48,4 @@ public class EventServiceTest {
     Assertions.assertEquals(2, resultList.size());
     Assertions.assertTrue(resultList.stream().allMatch(EventModel::getIsPublic));
   }
-
-
-  
 }
