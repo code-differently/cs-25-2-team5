@@ -34,7 +34,7 @@ public class UserController {
   @GetMapping("/{id}")
   public ResponseEntity<UserDTO> getUserById(@PathVariable Long id) {
     User user = userService.getUserById(id);
-    UserDTO userDTO = UserDTO.builder().name(user.getName()).email(user.getEmail()).build();
+    UserDTO userDTO = UserDTO.builder().name(user.getName()).email(user.getEmail()).id(user.getId()).build();
     return ResponseEntity.ok(userDTO);
   }
 
@@ -42,7 +42,7 @@ public class UserController {
   public ResponseEntity<UserDTO> createUser(@Valid @RequestBody User user) {
     User createdUser = userService.createUser(user);
     UserDTO userDTO =
-        UserDTO.builder().name(createdUser.getName()).email(createdUser.getEmail()).build();
+        UserDTO.builder().name(createdUser.getName()).email(createdUser.getEmail()).id(createdUser.getId()).build();
     return ResponseEntity.ok(userDTO);
   }
 
@@ -53,7 +53,7 @@ public class UserController {
     User organizer = createdEvent.getOrganizer();
 
     UserDTO organizerDTO =
-        UserDTO.builder().name(organizer.getName()).email(organizer.getEmail()).build();
+        UserDTO.builder().name(organizer.getName()).email(organizer.getEmail()).id(organizer.getId()).build();
     Set<UserDTO> guests = new HashSet<>();
     EventDTO model =
         EventDTO.builder()
@@ -76,7 +76,7 @@ public class UserController {
     User organizer = updatedEvent.getOrganizer();
 
     UserDTO organizerDTO =
-        UserDTO.builder().name(organizer.getName()).email(organizer.getEmail()).build();
+        UserDTO.builder().name(organizer.getName()).email(organizer.getEmail()).id(organizer.getId()).build();
     Set<UserDTO> guests = new HashSet<>();
     EventDTO eventDTO =
         EventDTO.builder()
