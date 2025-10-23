@@ -9,13 +9,11 @@ import com.api.demo.exceptions.UserNotFoundException;
 import com.api.demo.models.EventModel;
 import com.api.demo.models.User;
 import com.api.demo.repos.UserRepository;
-
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -112,34 +110,35 @@ public class UserServiceTest {
   @Test
   @DisplayName("Should create event and associate with user")
   void createEventTest() {
-      // Given
-      EventModel event = new EventModel();
-      event.setTitle("Test Event");
-      event.setDescription("This is a test event.");
-      event.setIsPublic(true);
-      event.setStartTime(LocalDateTime.now().plusDays(1));
+    // Given
+    EventModel event = new EventModel();
+    event.setTitle("Test Event");
+    event.setDescription("This is a test event.");
+    event.setIsPublic(true);
+    event.setStartTime(LocalDateTime.now().plusDays(1));
 
-      // Mock the repository and service calls
-      when(userRepository.findById(1L)).thenReturn(Optional.of(testUser));
+    // Mock the repository and service calls
+    when(userRepository.findById(1L)).thenReturn(Optional.of(testUser));
 
-      // The service will set the organizer, so we need to return the modified event
-      when(eventService.createEvent(event)).thenAnswer(invocation -> {
-          EventModel eventArg = invocation.getArgument(0);
-          return eventArg; // Return the same event that was passed in (now with organizer set)
-      });
+    // The service will set the organizer, so we need to return the modified event
+    when(eventService.createEvent(event))
+        .thenAnswer(
+            invocation -> {
+              EventModel eventArg = invocation.getArgument(0);
+              return eventArg; // Return the same event that was passed in (now with organizer set)
+            });
 
-      // When
-      EventModel createdEvent = userService.createPublicEvent(event, 1L);
+    // When
+    EventModel createdEvent = userService.createPublicEvent(event, 1L);
 
-      // Then
-      assertThat(createdEvent).isNotNull();
-      assertThat(createdEvent.getTitle()).isEqualTo("Test Event");
-      assertThat(createdEvent.getOrganizer()).isEqualTo(testUser);
+    // Then
+    assertThat(createdEvent).isNotNull();
+    assertThat(createdEvent.getTitle()).isEqualTo("Test Event");
+    assertThat(createdEvent.getOrganizer()).isEqualTo(testUser);
 
-      // Verify that the user's organized events collection was updated
-      assertThat(testUser.getOrganizedEvents()).contains(createdEvent);
+    // Verify that the user's organized events collection was updated
+    assertThat(testUser.getOrganizedEvents()).contains(createdEvent);
   }
-
 
   @Test
   @DisplayName("Find all users by email emails found")
@@ -156,15 +155,11 @@ public class UserServiceTest {
     emails.add("john.doe@example.com");
     emails.add("tyrone.johnson@example.com");
     // When
-    when(userRepository.findAllByEmailIn(emails))
-    .thenReturn(Set.of(user1,user2,user3));
+    when(userRepository.findAllByEmailIn(emails)).thenReturn(Set.of(user1, user2, user3));
     Set<User> users = userService.getAllUsersFromEmails(emails);
-    Set<String> userEmails = users
-    .stream()
-    .map(User::getEmail)
-    .collect(Collectors.toSet());
+    Set<String> userEmails = users.stream().map(User::getEmail).collect(Collectors.toSet());
     // Then
-    assertEquals(users.size(),emails.size());
+    assertEquals(users.size(), emails.size());
     assertEquals(emails, userEmails);
   }
 
@@ -182,18 +177,14 @@ public class UserServiceTest {
     expectedEmails.add("John.Doe@example.com");
     expectedEmails.add("Tyrone.Johnson@example.com");
 
-    when(userRepository.findAllByEmailIn(expectedEmails))
-    .thenReturn(Set.of(user1,user2,user3));
+    when(userRepository.findAllByEmailIn(expectedEmails)).thenReturn(Set.of(user1, user2, user3));
 
     Set<User> users = userService.getAllUsersFromEmails(expectedEmails);
-    Set<String> userEmails = users
-    .stream()
-    .map(User::getEmail)
-    .collect(Collectors.toSet());
+    Set<String> userEmails = users.stream().map(User::getEmail).collect(Collectors.toSet());
 
-    assertEquals(users.size(),expectedEmails.size());
-    assertEquals(expectedEmails.stream().map(String::toLowerCase).collect(Collectors.toSet()), userEmails);
-
+    assertEquals(users.size(), expectedEmails.size());
+    assertEquals(
+        expectedEmails.stream().map(String::toLowerCase).collect(Collectors.toSet()), userEmails);
   }
 
   @Test
@@ -206,9 +197,5 @@ public class UserServiceTest {
     when(userRepository.findAllByEmailIn(expectedEmails)).thenReturn(Set.of());
     Set<User> users = userService.getAllUsersFromEmails(expectedEmails);
     assertEquals(users.size(), 0);
-    
-
   }
-
-
 }

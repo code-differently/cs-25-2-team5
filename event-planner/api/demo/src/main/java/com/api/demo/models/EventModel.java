@@ -1,7 +1,6 @@
 package com.api.demo.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -35,7 +34,7 @@ public class EventModel {
 
   private LocalDateTime startTime;
 
-  @OneToMany(mappedBy = "event",cascade = CascadeType.ALL)
+  @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
   private Set<EventGuest> eventGuests;
 
   @ManyToOne @JsonBackReference private User organizer;

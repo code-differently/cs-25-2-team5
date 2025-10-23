@@ -46,7 +46,7 @@ public class User {
   @Size(min = 8, message = "Password must be at least 8 characters long")
   private String password;
 
-  @OneToMany(mappedBy = "guest",cascade = CascadeType.ALL)
+  @OneToMany(mappedBy = "guest", cascade = CascadeType.ALL)
   private Set<EventGuest> eventGuests;
 
   @OneToMany(mappedBy = "organizer", cascade = CascadeType.ALL)
@@ -65,7 +65,6 @@ public class User {
       throw new IllegalArgumentException("Invalid email format");
     }
     this.email = email.toLowerCase();
-
   }
 
   public void setPassword(String password) {

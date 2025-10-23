@@ -20,7 +20,8 @@ public class EventService {
   }
 
   public EventModel getEventById(Long eventId) {
-    return eventModelRepo.findById(eventId)
+    return eventModelRepo
+        .findById(eventId)
         .orElseThrow(() -> new RuntimeException("Event not found with id: " + eventId));
   }
 
