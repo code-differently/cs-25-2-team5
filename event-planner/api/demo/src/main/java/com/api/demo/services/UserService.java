@@ -1,11 +1,13 @@
 package com.api.demo.services;
 
+import com.api.demo.dtos.UserInviteDTO;
 import com.api.demo.exceptions.UserNotFoundException;
 import com.api.demo.models.EventGuest;
 import com.api.demo.models.EventModel;
 import com.api.demo.models.User;
 import com.api.demo.repos.UserRepository;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -63,5 +65,9 @@ public class UserService {
 
   public Set<User> getAllUsersFromEmails(Set<String> emails) {
     return userRepository.findAllByEmailIn(emails);
+  }
+
+  public List<UserInviteDTO> getAllInvitedEvents(Long userId) {
+    return userRepository.findAllUserInvitedEvents(userId);
   }
 }

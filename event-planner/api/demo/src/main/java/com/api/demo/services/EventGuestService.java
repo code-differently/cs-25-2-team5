@@ -1,5 +1,6 @@
 package com.api.demo.services;
 
+import com.api.demo.exceptions.EventGuestNotFoundException;
 import com.api.demo.models.EventGuest;
 import com.api.demo.models.EventGuestKey;
 import com.api.demo.models.EventModel;
@@ -39,7 +40,7 @@ public class EventGuestService {
     for (User user : usersFromEmails) {
       EventGuest newGuest =
           EventGuest.builder()
-              .eventGuestKey(new EventGuestKey(event.getId(), (long) user.getId()))
+              .eventGuestKey(new EventGuestKey(user.getId(), event.getId()))
               .rsvpStatus(RsvpStatus.PENDING)
               .event(event)
               .guest(user)
@@ -68,7 +69,7 @@ public class EventGuestService {
     User guest = userService.getUserByEmail(guestEmail);
 
     // Create EventGuestKey
-    EventGuestKey key = new EventGuestKey(eventId, (long) guest.getId());
+    EventGuestKey key = new EventGuestKey(eventId,guest.getId());
 
     // Create new EventGuest
     EventGuest newGuest =
@@ -87,7 +88,7 @@ public class EventGuestService {
     User user = userService.getUserByEmail(email);
 
     // Create the composite key
-    EventGuestKey key = new EventGuestKey(eventId, (long) user.getId());
+    EventGuestKey key = new EventGuestKey(eventId, user.getId());
 
     // Check if the event guest exists
     if (eventGuestRepo.existsById(key)) {
@@ -108,6 +109,6 @@ public class EventGuestService {
               EventGuest saved = eventGuestRepo.save(eventGuest);
               return saved.getRsvpStatus();
             })
-        .orElseThrow(() -> new EventGuestNotFoundException(guestKey));
+        .orElseThrow(() -> new EventGuestNotFoundException("EventGuest not found with key: " + guestKey));
   }
 }

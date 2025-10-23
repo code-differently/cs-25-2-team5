@@ -5,11 +5,15 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.anySet;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import com.api.demo.exceptions.EventGuestNotFoundException;
 import com.api.demo.exceptions.UserNotFoundException;
 import com.api.demo.models.EventGuest;
 import com.api.demo.models.EventGuestKey;
@@ -35,15 +39,14 @@ import org.mockito.junit.jupiter.MockitoExtension;
 class EventGuestServiceTest {
 
   @Mock private EventGuestRepo eventGuestRepo;
-
   @Mock private UserService userService;
-
   @Mock private EventService eventService;
-
   @InjectMocks private EventGuestService eventGuestService;
 
   private User testUser;
   private User testOrganizer;
+  private User testGuest1;
+  private User testGuest2;
   private EventModel testEvent;
   private EventGuest testEventGuest;
   private EventGuestKey testEventGuestKey;
@@ -58,13 +61,30 @@ class EventGuestServiceTest {
     testOrganizer.setName("John Organizer");
     testOrganizer.setEmail("organizer@example.com");
     testOrganizer.setPassword("password123");
+    testOrganizer.setOrganizedEvents(new HashSet<>());
 
-    // Create test user
+    // Create test user (main guest)
     testUser = new User();
     testUser.setId(2L);
     testUser.setName("Jane Guest");
     testUser.setEmail("guest@example.com");
     testUser.setPassword("password123");
+    testUser.setEventGuests(new HashSet<>());
+
+    // Create additional test guests
+    testGuest1 = new User();
+    testGuest1.setId(2L);
+    testGuest1.setName("Jane Guest");
+    testGuest1.setEmail("guest1@example.com");
+    testGuest1.setPassword("password123");
+    testGuest1.setEventGuests(new HashSet<>());
+
+    testGuest2 = new User();
+    testGuest2.setId(3L);
+    testGuest2.setName("Bob Guest");
+    testGuest2.setEmail("guest2@example.com");
+    testGuest2.setPassword("password123");
+    testGuest2.setEventGuests(new HashSet<>());
 
     // Create test event
     testEvent = new EventModel();
@@ -73,6 +93,8 @@ class EventGuestServiceTest {
     testEvent.setDescription("Test Description");
     testEvent.setStartTime(LocalDateTime.now().plusDays(1));
     testEvent.setOrganizer(testOrganizer);
+    testEvent.setIsPublic(true); // Will be set to false by the method
+    testEvent.setEventGuests(new HashSet<>());
 
     // Create test EventGuestKey
     testEventGuestKey = new EventGuestKey(1L, 2L);
@@ -94,12 +116,7 @@ class EventGuestServiceTest {
     // Create test users set
     testUsers = new HashSet<>();
     testUsers.add(testUser);
-
-    User testUser2 = new User();
-    testUser2.setId(3L);
-    testUser2.setName("Bob Guest");
-    testUser2.setEmail("guest2@example.com");
-    testUsers.add(testUser2);
+    testUsers.add(testGuest2);
   }
 
   @Nested
@@ -124,11 +141,68 @@ class EventGuestServiceTest {
       assertThat(result).isNotNull();
       assertThat(result.getIsPublic()).isFalse();
       assertThat(result.getOrganizer()).isEqualTo(testOrganizer);
+      assertEquals("Test Event", result.getTitle());
+      assertEquals("Test Description", result.getDescription());
 
       verify(userService).getUserById(organizerId);
       verify(userService).getAllUsersFromEmails(testEmails);
       verify(eventGuestRepo, times(2)).save(any(EventGuest.class)); // 2 users in testUsers
       verify(eventService).createEvent(testEvent);
+    }
+
+    @Test
+    @DisplayName("Should set correct RSVP status for all guests")
+    void shouldSetPendingRsvpStatusForAllGuests() {
+      // Given
+      Long organizerId = 1L;
+      Set<User> guestUsers = Set.of(testGuest1, testGuest2);
+      
+      EventModel expectedCreatedEvent = new EventModel();
+      expectedCreatedEvent.setId(1L);
+      expectedCreatedEvent.setOrganizer(testOrganizer);
+
+      when(userService.getUserById(organizerId)).thenReturn(testOrganizer);
+      when(userService.getAllUsersFromEmails(testEmails)).thenReturn(guestUsers);
+      when(eventService.createEvent(any(EventModel.class))).thenReturn(expectedCreatedEvent);
+
+      // When
+      EventModel result = eventGuestService.createEventWithGuests(organizerId, testEvent, testEmails);
+
+      // Then
+      assertNotNull(result);
+      
+      // Verify that event guests were created with PENDING status
+      verify(eventGuestRepo, times(2)).save(any(EventGuest.class));
+    }
+
+    @Test
+    @DisplayName("Should handle single guest correctly")
+    void shouldCreateEventWithSingleGuest() {
+      // Given
+      Long organizerId = 1L;
+      Set<String> singleGuestEmail = Set.of("guest1@example.com");
+      Set<User> singleGuestUser = Set.of(testGuest1);
+      
+      EventModel expectedCreatedEvent = new EventModel();
+      expectedCreatedEvent.setId(1L);
+      expectedCreatedEvent.setOrganizer(testOrganizer);
+
+      when(userService.getUserById(organizerId)).thenReturn(testOrganizer);
+      when(userService.getAllUsersFromEmails(singleGuestEmail)).thenReturn(singleGuestUser);
+      when(eventService.createEvent(any(EventModel.class))).thenReturn(expectedCreatedEvent);
+
+      // When
+      EventModel result = eventGuestService.createEventWithGuests(organizerId, testEvent, singleGuestEmail);
+
+      // Then
+      assertNotNull(result);
+      assertEquals(testOrganizer, result.getOrganizer());
+      
+      // Verify only one guest was saved
+      verify(eventGuestRepo, times(1)).save(any(EventGuest.class));
+      verify(userService).getUserById(organizerId);
+      verify(userService).getAllUsersFromEmails(singleGuestEmail);
+      verify(eventService).createEvent(any(EventModel.class));
     }
 
     @Test
@@ -149,8 +223,63 @@ class EventGuestServiceTest {
 
       // Then
       assertThat(result).isNotNull();
+      assertFalse(result.getIsPublic()); // Should still be set to false
       verify(eventGuestRepo, never()).save(any(EventGuest.class));
       verify(eventService).createEvent(testEvent);
+    }
+
+    @Test
+    @DisplayName("Should set event to private (isPublic = false)")
+    void shouldSetEventToPrivate() {
+      // Given
+      Long organizerId = 1L;
+      Set<User> guestUsers = Set.of(testGuest1);
+      
+      // Start with a public event
+      testEvent.setIsPublic(true);
+      
+      EventModel expectedCreatedEvent = new EventModel();
+      expectedCreatedEvent.setId(1L);
+      expectedCreatedEvent.setIsPublic(false);
+      expectedCreatedEvent.setOrganizer(testOrganizer);
+
+      when(userService.getUserById(organizerId)).thenReturn(testOrganizer);
+      when(userService.getAllUsersFromEmails(anySet())).thenReturn(guestUsers);
+      when(eventService.createEvent(any(EventModel.class))).thenReturn(expectedCreatedEvent);
+
+      // When
+      EventModel result = eventGuestService.createEventWithGuests(organizerId, testEvent, testEmails);
+
+      // Then
+      assertNotNull(result);
+      assertFalse(result.getIsPublic()); // Should be set to false regardless of original value
+    }
+
+    @Test
+    @DisplayName("Should set organizer correctly")
+    void shouldSetOrganizerCorrectly() {
+      // Given
+      Long organizerId = 1L;
+      Set<User> guestUsers = Set.of(testGuest1);
+      
+      EventModel expectedCreatedEvent = new EventModel();
+      expectedCreatedEvent.setId(1L);
+      expectedCreatedEvent.setOrganizer(testOrganizer);
+
+      when(userService.getUserById(organizerId)).thenReturn(testOrganizer);
+      when(userService.getAllUsersFromEmails(anySet())).thenReturn(guestUsers);
+      when(eventService.createEvent(any(EventModel.class))).thenReturn(expectedCreatedEvent);
+
+      // When
+      EventModel result = eventGuestService.createEventWithGuests(organizerId, testEvent, testEmails);
+
+      // Then
+      assertNotNull(result);
+      assertEquals(testOrganizer, result.getOrganizer());
+      assertEquals("John Organizer", result.getOrganizer().getName());
+      assertEquals("organizer@example.com", result.getOrganizer().getEmail());
+      
+      verify(userService).getUserById(organizerId);
     }
   }
 
@@ -310,8 +439,8 @@ class EventGuestServiceTest {
 
       // When & Then
       assertThatThrownBy(() -> eventGuestService.setStatus(testEventGuestKey, newStatus))
-          .isInstanceOf(RuntimeException.class)
-          .hasMessage("EventGuest not found");
+          .isInstanceOf(EventGuestNotFoundException.class)
+          .hasMessage("EventGuest not found with key: " + testEventGuestKey);
 
       verify(eventGuestRepo).findById(testEventGuestKey);
       verify(eventGuestRepo, never()).save(any(EventGuest.class));
