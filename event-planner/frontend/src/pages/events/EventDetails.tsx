@@ -13,6 +13,7 @@ export default function EventDetails() {
     const fetchEvent = async () => {
       const response = await fetch(`${API_URL}/events/${id}`)
       const data = await response.json();
+      console.log({data}.data);
       setEvent({data}.data)
     }
 

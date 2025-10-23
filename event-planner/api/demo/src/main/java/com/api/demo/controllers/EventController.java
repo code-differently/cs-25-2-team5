@@ -40,6 +40,12 @@ public class EventController {
                 .startTime(event.getStartTime())
                 .id(event.getId())
                 .eventType(event.getIsPublic() ? "Community" : "Private")
+                .organizer(
+                    UserDTO.builder()
+                        .id(event.getOrganizer().getId())
+                        .name(event.getOrganizer().getName())
+                        .email(event.getOrganizer().getEmail())
+                        .build())
                 .build();
         })
         .collect(Collectors.toList());
