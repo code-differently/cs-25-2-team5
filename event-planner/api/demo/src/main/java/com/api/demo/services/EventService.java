@@ -24,6 +24,11 @@ public class EventService {
     return eventModelRepo.findAllByIsPublicTrue();
   }
 
+  public EventModel getEventById(Long id) {
+    return eventModelRepo.findById(id)
+        .orElseThrow(() -> new EventNotFoundException("Event not found with id: " + id));
+  }
+
   public EventModel updateEvent(Long id, EventModel updatedEventInfo) {
     EventModel event = eventModelRepo.findById(id)
         .orElseThrow(() -> new EventNotFoundException("Event not found"));
