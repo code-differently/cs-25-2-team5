@@ -4,10 +4,12 @@ import './EventList.css'
 
 const EventList = () => {
   const [events, setEvents] = useState([])
+  const API_URL = import.meta.env.VITE_API_URL
+  console.log("API URL:", API_URL);
 
   useEffect(() => {
     const fetchEvents = async () => {
-      const response = await fetch('http://localhost:8080/api/v1/events/community')
+      const response = await fetch(`${API_URL}/events/community`)
       const data = await response.json()
       console.log(data);
       setEvents(data)

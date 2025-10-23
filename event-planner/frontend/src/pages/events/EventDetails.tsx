@@ -48,7 +48,7 @@ export default function EventDetails() {
               </div>
               <div className="event-detail-group">
                 <div className="event-detail-label">Host</div>
-                <div className="event-detail-item">{event.owner}</div>
+                <div className="event-detail-item">{event.organizer.name}</div>
               </div>
               <div className="event-detail-group">
                 <div className="event-detail-label">Time</div>
