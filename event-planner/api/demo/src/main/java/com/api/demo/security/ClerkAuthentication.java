@@ -1,27 +1,24 @@
-package com.api.demo.security;
+// package com.api.demo.security;
 
-import org.springframework.security.authentication.AbstractAuthenticationToken;
+// import org.springframework.security.authentication.AbstractAuthenticationToken;
 
-public class ClerkAuthentication extends AbstractAuthenticationToken {
+// public class ClerkAuthentication extends AbstractAuthenticationToken {
 
-    private final String userId;
+//   private final String userId;
 
-    public ClerkAuthentication(String userId,boolean authenticated) {
-        super(null);
-        this.userId = userId;
-        setAuthenticated(authenticated); 
-    }
+//   public ClerkAuthentication(String userId, boolean authenticated) {
+//     super(null);
+//     this.userId = userId;
+//     setAuthenticated(authenticated);
+//   }
 
-    @Override
-    public Object getCredentials() {
-        return null;
+//   @Override
+//   public Object getCredentials() {
+//     return null;
+//   }
 
-
-    }
-
-    @Override
-    public Object getPrincipal() {
-        return userId;
-    }
-
-}
+//   @Override
+//   public Object getPrincipal() {
+//     return userId;
+//   }
+// }
