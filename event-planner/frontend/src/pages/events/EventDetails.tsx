@@ -63,9 +63,6 @@ export default function EventDetails() {
           <button className="back-button" onClick={() => navigate('/')}>
             ← Back
           </button>
-          <button className="rsvp-button">
-            RSVP Now
-          </button>
         </div>
       </div>
     </div>
