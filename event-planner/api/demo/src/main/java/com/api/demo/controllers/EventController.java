@@ -28,6 +28,7 @@ public class EventController {
   @GetMapping("/community")
   public List<EventModel> getAllCommunityEvents() {
     Iterable<EventModel> events = eventService.getCommunityEvents();
+    
     return (List<EventModel>) events;
   }
   

@@ -11,6 +11,7 @@ const EventList = () => {
     const fetchEvents = async () => {
       const response = await fetch(`${API_URL}/events/community`)
       const data = await response.json()
+      console.log(data);
       setEvents(data)
     }
 
