@@ -49,10 +49,6 @@ public class EventController {
             .eventType(event.getIsPublic() ? "Community" : "Private")
             .organizer(organizerDTO)
             .build();
-    if (event != null) {
-      return ResponseEntity.ok(eventDTO);
-    } else {
-      return ResponseEntity.notFound().build();
-    }
+    return ResponseEntity.ok(eventDTO);
   }
 }

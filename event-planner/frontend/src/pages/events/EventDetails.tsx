@@ -12,8 +12,7 @@ export default function EventDetails() {
   useEffect(() => {
     const fetchEvent = async () => {
       const response = await fetch(`${API_URL}/events/${id}`)
-      const data = await response.json()
-      console.log({data}.data);
+      const data = await response.json();
       setEvent({data}.data)
     }
 

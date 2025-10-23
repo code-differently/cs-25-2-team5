@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import './Login.css';
+import { useUser } from '@clerk/clerk-react';
 
 export const Login: React.FC = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-
+    const { isSignedIn, isLoaded, user } = useUser();
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
 
@@ -12,6 +13,8 @@ export const Login: React.FC = () => {
             email: email,
             password: password,
         };
+
+
 
         console.log('Login attempt:', loginData);
 
