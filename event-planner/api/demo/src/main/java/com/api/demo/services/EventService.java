@@ -20,6 +20,12 @@ public class EventService {
     return eventModelRepo.save(event);
   }
 
+  public EventModel getEventById(Long eventId) {
+    return eventModelRepo
+        .findById(eventId)
+        .orElseThrow(() -> new RuntimeException("Event not found with id: " + eventId));
+  }
+
   public Iterable<EventModel> getCommunityEvents() {
     return eventModelRepo.findAllByIsPublicTrue();
   }

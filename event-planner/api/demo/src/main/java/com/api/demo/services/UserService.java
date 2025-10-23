@@ -19,8 +19,8 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 public class UserService {
-  private UserRepository userRepository;
-  private EventService eventService;
+  private final UserRepository userRepository;
+  private final EventService eventService;
 
   @Autowired
   public UserService(UserRepository userRepository, EventService eventService) {

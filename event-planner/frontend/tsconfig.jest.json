@@ -1,0 +1,15 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "esModuleInterop": true,
+    "types": ["jest", "node", "@testing-library/jest-dom"],
+    "module": "ESNext"
+  },
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "**/*.test.ts",
+    "**/*.test.tsx"
+  ]
+}
