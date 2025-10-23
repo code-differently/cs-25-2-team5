@@ -23,4 +23,6 @@ describe('Home Page', () => {
     );
     expect(screen.getByText('Events')).toBeInTheDocument();
     });
+    
+    {/* Additional tests will be added after Authentication is implemented */}
 });
