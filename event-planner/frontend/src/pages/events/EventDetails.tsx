@@ -1,12 +1,24 @@
 import { useParams, useNavigate } from 'react-router-dom'
-import { events } from '../../types/types'
+
 import './EventDetails.css'
+import { useEffect } from 'react';
+import React from 'react';
 
 export default function EventDetails() {
-  const { id } = useParams<{ id: string }>()
-  const navigate = useNavigate()
-  
-  const event = events.find(e => e.id === id)
+  const { id } = useParams<{ id: string }>();
+  const [event, setEvent] = React.useState<any>(null);
+  const navigate = useNavigate();
+  useEffect(() => {
+    const fetchEvent = async () => {
+      const response = await fetch(`http://localhost:8080/api/v1/events/${id}`)
+      const data = await response.json()
+      console.log({data}.data);
+      setEvent({data}.data)
+    }
+
+    fetchEvent()
+  }, [id])
+
 
   if (!event) {
     return (
@@ -40,7 +52,7 @@ export default function EventDetails() {
               </div>
               <div className="event-detail-group">
                 <div className="event-detail-label">Time</div>
-                <div className="event-detail-item">{event.time}</div>
+                <div className="event-detail-item">{event.startTime}</div>
               </div>
             </div>
           </div>

@@ -1,8 +1,21 @@
-import { events } from '../../types/types'
 import { Event } from './Event'
+import { useState,useEffect } from 'react'
 import './EventList.css'
 
 const EventList = () => {
+  const [events, setEvents] = useState([])
+
+  useEffect(() => {
+    const fetchEvents = async () => {
+      const response = await fetch('http://localhost:8080/api/v1/events/community')
+      const data = await response.json()
+      console.log(data);
+      setEvents(data)
+    }
+
+    fetchEvents()
+  }, [])
+
   return (
     <div className="event-list-container">
       <h2 className="event-list-title">
