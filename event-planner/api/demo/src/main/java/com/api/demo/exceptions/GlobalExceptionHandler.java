@@ -31,6 +31,28 @@ public class GlobalExceptionHandler {
     return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
   }
 
+  @ExceptionHandler(EventNotFoundException.class)
+  public ResponseEntity<Map<String, Object>> handleEventNotFound(EventNotFoundException ex) {
+    Map<String, Object> errorResponse = new HashMap<>();
+    errorResponse.put("error", "Event Not Found");
+    errorResponse.put("message", ex.getMessage());
+    errorResponse.put("status", HttpStatus.NOT_FOUND.value());
+    errorResponse.put("timestamp", LocalDateTime.now());
+
+    return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
+  }
+
+  @ExceptionHandler(UnauthorizedAccessException.class)
+  public ResponseEntity<Map<String, Object>> handleUnauthorizedAccess(UnauthorizedAccessException ex) {
+    Map<String, Object> errorResponse = new HashMap<>();
+    errorResponse.put("error", "Unauthorized Access");
+    errorResponse.put("message", ex.getMessage());
+    errorResponse.put("status", HttpStatus.FORBIDDEN.value());
+    errorResponse.put("timestamp", LocalDateTime.now());
+
+    return ResponseEntity.status(HttpStatus.FORBIDDEN).body(errorResponse);
+  }
+
   @ExceptionHandler(MethodArgumentTypeMismatchException.class)
   public ResponseEntity<Map<String, Object>> handleTypeMismatch(
       MethodArgumentTypeMismatchException ex) {
