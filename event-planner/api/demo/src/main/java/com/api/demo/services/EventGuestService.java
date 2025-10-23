@@ -1,19 +1,23 @@
 package com.api.demo.services;
 
+import com.api.demo.exceptions.EventGuestNotFoundException;
 import com.api.demo.models.EventGuest;
 import com.api.demo.models.EventGuestKey;
+import com.api.demo.models.EventModel;
+import com.api.demo.models.RsvpStatus;
+import com.api.demo.models.User;
 import com.api.demo.repos.EventGuestRepo;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
+import jakarta.transaction.Transactional;
+import java.util.HashSet;
+import java.util.Set;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class EventGuestService {
 
   private final EventGuestRepo eventGuestRepo;
-
+  @Autowired
   public EventGuestService(EventGuestRepo eventGuestRepo) {
     this.eventGuestRepo = eventGuestRepo;
   }
