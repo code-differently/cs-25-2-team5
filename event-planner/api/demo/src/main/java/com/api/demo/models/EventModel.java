@@ -1,5 +1,6 @@
 package com.api.demo.models;
 
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -19,22 +20,23 @@ import lombok.NoArgsConstructor;
 @Table(name = "events")
 public class EventModel {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-  private String title;
+    private String title;
 
-  private String description;
+    private String description;
 
-  private Boolean isPublic;
+    private Boolean isPublic;
 
-  private LocalDateTime startTime;
+    private LocalDateTime startTime;
 
-  @OneToMany(mappedBy = "event")
-  private Set<EventGuest> eventGuests;
+    @Embedded private Location location;
 
-  // lazy loading to prevent fetching organizer details unless needed to avoid circular references
-  @ManyToOne(fetch = FetchType.LAZY)
-  private User organizer;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User organizer;
+
+    @OneToMany(mappedBy = "event")
+    private Set<EventGuest> eventGuests;
 }

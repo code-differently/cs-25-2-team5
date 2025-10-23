@@ -1,7 +1,8 @@
 package com.api.demo.services;
 
-import com.api.demo.config.LocationIQConfig;
+import com.api.demo.models.Location;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -12,13 +13,19 @@ public class LocationIQService {
     private static final org.slf4j.Logger log =
             org.slf4j.LoggerFactory.getLogger(LocationIQService.class);
 
-    private final LocationIQConfig locationConfig;
+    @Value("${locationiq.api.key}")
+    private String apiKey;
+
+    @Value("${locationiq.api.base-url}")
+    private String baseUrl;
+
     private final RestTemplate restTemplate;
+    private final LocationConverter locationConverter;
 
     @Autowired
-    public LocationIQService(LocationIQConfig locationConfig, RestTemplate restTemplate) {
-        this.locationConfig = locationConfig;
+    public LocationIQService(RestTemplate restTemplate, LocationConverter locationConverter) {
         this.restTemplate = restTemplate;
+        this.locationConverter = locationConverter;
     }
 
     /**
@@ -29,9 +36,9 @@ public class LocationIQService {
      */
     public String geocodeAddress(String address) {
         String url =
-                UriComponentsBuilder.fromHttpUrl(locationConfig.getBaseUrl())
+                UriComponentsBuilder.fromHttpUrl(baseUrl)
                         .path("/search.php")
-                        .queryParam("key", locationConfig.getApiKey())
+                        .queryParam("key", apiKey)
                         .queryParam("q", address)
                         .queryParam("format", "json")
                         .queryParam("limit", "1")
@@ -59,9 +66,9 @@ public class LocationIQService {
      */
     public String reverseGeocode(double latitude, double longitude) {
         String url =
-                UriComponentsBuilder.fromHttpUrl(locationConfig.getBaseUrl())
+                UriComponentsBuilder.fromHttpUrl(baseUrl)
                         .path("/reverse.php")
-                        .queryParam("key", locationConfig.getApiKey())
+                        .queryParam("key", apiKey)
                         .queryParam("lat", latitude)
                         .queryParam("lon", longitude)
                         .queryParam("format", "json")
@@ -81,7 +88,17 @@ public class LocationIQService {
         }
     }
 
-    public LocationIQConfig getLocationConfig() {
-        return locationConfig;
+    public Location geocodeToLocation(String address) {
+        log.info("Geocoding address to Location object: {}", address);
+
+        try {
+            String jsonResponse = geocodeAddress(address);
+            return locationConverter.fromLocationIQ(jsonResponse, address);
+        } catch (Exception e) {
+            log.error("Failed to geocode address: {}", address, e);
+            Location emptyLocation = new Location();
+            emptyLocation.setInputAddress(address);
+            return emptyLocation;
+        }
     }
 }
