@@ -14,14 +14,15 @@ public class ClerkAuthentication extends AbstractAuthenticationToken {
 
     @Override
     public Object getCredentials() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getCredentials'");
+        return null;
+
+
     }
 
     @Override
     public Object getPrincipal() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getPrincipal'");
+        return userId;
+
     }
 
 }
