@@ -33,19 +33,12 @@ public class EventController {
     Iterable<EventModel> events = eventService.getCommunityEvents();
     
     return StreamSupport.stream(events.spliterator(), false)
-        .map(event -> {
-            UserDTO organizerDTO = UserDTO.builder()
-                .name(event.getOrganizer().getName())
-                .email(event.getOrganizer().getEmail())
-                .id(event.getOrganizer().getId())
-                .build();
-                
+        .map(event -> {   
             return EventDTO.builder()
                 .title(event.getTitle())
                 .description(event.getDescription())
                 .startTime(event.getStartTime())
                 .eventType(event.getIsPublic() ? "Community" : "Private")
-                .organizer(organizerDTO)
                 .build();
         })
         .collect(Collectors.toList());
