@@ -46,6 +46,7 @@ public class EventController {
             .description(event.getDescription())
             .startTime(event.getStartTime())
             .eventType(event.getIsPublic() ? "Community" : "Private")
+            .organizer(organizerDTO)
             .build();
     if (event != null) {
       return ResponseEntity.ok(eventDTO);
