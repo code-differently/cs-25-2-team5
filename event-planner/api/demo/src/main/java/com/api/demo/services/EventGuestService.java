@@ -69,7 +69,7 @@ public class EventGuestService {
     User guest = userService.getUserByEmail(guestEmail);
 
     // Create EventGuestKey
-    EventGuestKey key = new EventGuestKey(eventId,guest.getId());
+    EventGuestKey key = new EventGuestKey(eventId, guest.getId());
 
     // Create new EventGuest
     EventGuest newGuest =
@@ -109,6 +109,7 @@ public class EventGuestService {
               EventGuest saved = eventGuestRepo.save(eventGuest);
               return saved.getRsvpStatus();
             })
-        .orElseThrow(() -> new EventGuestNotFoundException("EventGuest not found with key: " + guestKey));
+        .orElseThrow(
+            () -> new EventGuestNotFoundException("EventGuest not found with key: " + guestKey));
   }
 }

@@ -2,17 +2,18 @@ package com.api.demo.services;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.anySet;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 import com.api.demo.exceptions.EventGuestNotFoundException;
 import com.api.demo.exceptions.UserNotFoundException;
 import com.api.demo.models.EventGuest;
@@ -156,7 +157,7 @@ class EventGuestServiceTest {
       // Given
       Long organizerId = 1L;
       Set<User> guestUsers = Set.of(testGuest1, testGuest2);
-      
+
       EventModel expectedCreatedEvent = new EventModel();
       expectedCreatedEvent.setId(1L);
       expectedCreatedEvent.setOrganizer(testOrganizer);
@@ -166,11 +167,12 @@ class EventGuestServiceTest {
       when(eventService.createEvent(any(EventModel.class))).thenReturn(expectedCreatedEvent);
 
       // When
-      EventModel result = eventGuestService.createEventWithGuests(organizerId, testEvent, testEmails);
+      EventModel result =
+          eventGuestService.createEventWithGuests(organizerId, testEvent, testEmails);
 
       // Then
       assertNotNull(result);
-      
+
       // Verify that event guests were created with PENDING status
       verify(eventGuestRepo, times(2)).save(any(EventGuest.class));
     }
@@ -182,7 +184,7 @@ class EventGuestServiceTest {
       Long organizerId = 1L;
       Set<String> singleGuestEmail = Set.of("guest1@example.com");
       Set<User> singleGuestUser = Set.of(testGuest1);
-      
+
       EventModel expectedCreatedEvent = new EventModel();
       expectedCreatedEvent.setId(1L);
       expectedCreatedEvent.setOrganizer(testOrganizer);
@@ -192,12 +194,13 @@ class EventGuestServiceTest {
       when(eventService.createEvent(any(EventModel.class))).thenReturn(expectedCreatedEvent);
 
       // When
-      EventModel result = eventGuestService.createEventWithGuests(organizerId, testEvent, singleGuestEmail);
+      EventModel result =
+          eventGuestService.createEventWithGuests(organizerId, testEvent, singleGuestEmail);
 
       // Then
       assertNotNull(result);
       assertEquals(testOrganizer, result.getOrganizer());
-      
+
       // Verify only one guest was saved
       verify(eventGuestRepo, times(1)).save(any(EventGuest.class));
       verify(userService).getUserById(organizerId);
@@ -234,10 +237,10 @@ class EventGuestServiceTest {
       // Given
       Long organizerId = 1L;
       Set<User> guestUsers = Set.of(testGuest1);
-      
+
       // Start with a public event
       testEvent.setIsPublic(true);
-      
+
       EventModel expectedCreatedEvent = new EventModel();
       expectedCreatedEvent.setId(1L);
       expectedCreatedEvent.setIsPublic(false);
@@ -248,7 +251,8 @@ class EventGuestServiceTest {
       when(eventService.createEvent(any(EventModel.class))).thenReturn(expectedCreatedEvent);
 
       // When
-      EventModel result = eventGuestService.createEventWithGuests(organizerId, testEvent, testEmails);
+      EventModel result =
+          eventGuestService.createEventWithGuests(organizerId, testEvent, testEmails);
 
       // Then
       assertNotNull(result);
@@ -261,7 +265,7 @@ class EventGuestServiceTest {
       // Given
       Long organizerId = 1L;
       Set<User> guestUsers = Set.of(testGuest1);
-      
+
       EventModel expectedCreatedEvent = new EventModel();
       expectedCreatedEvent.setId(1L);
       expectedCreatedEvent.setOrganizer(testOrganizer);
@@ -271,14 +275,15 @@ class EventGuestServiceTest {
       when(eventService.createEvent(any(EventModel.class))).thenReturn(expectedCreatedEvent);
 
       // When
-      EventModel result = eventGuestService.createEventWithGuests(organizerId, testEvent, testEmails);
+      EventModel result =
+          eventGuestService.createEventWithGuests(organizerId, testEvent, testEmails);
 
       // Then
       assertNotNull(result);
       assertEquals(testOrganizer, result.getOrganizer());
       assertEquals("John Organizer", result.getOrganizer().getName());
       assertEquals("organizer@example.com", result.getOrganizer().getEmail());
-      
+
       verify(userService).getUserById(organizerId);
     }
   }
