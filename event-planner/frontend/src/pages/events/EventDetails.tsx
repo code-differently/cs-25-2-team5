@@ -7,10 +7,11 @@ import React from 'react';
 export default function EventDetails() {
   const { id } = useParams<{ id: string }>();
   const [event, setEvent] = React.useState<any>(null);
+  const API_URL = import.meta.env.VITE_API_URL
   const navigate = useNavigate();
   useEffect(() => {
     const fetchEvent = async () => {
-      const response = await fetch(`http://localhost:8080/api/v1/events/${id}`)
+      const response = await fetch(`${API_URL}/events/${id}`)
       const data = await response.json()
       console.log({data}.data);
       setEvent({data}.data)
