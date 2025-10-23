@@ -1,5 +1,6 @@
 package com.api.demo.services;
 
+import com.api.demo.exceptions.EventGuestNotFoundException;
 import com.api.demo.models.EventGuest;
 import com.api.demo.models.EventGuestKey;
 import com.api.demo.models.EventModel;
@@ -16,8 +17,8 @@ import org.springframework.stereotype.Service;
 public class EventGuestService {
 
   private final EventGuestRepo eventGuestRepo;
-  private UserService userService;
-  private EventService eventService;
+  private final UserService userService;
+  private final EventService eventService;
 
   @Autowired
   public EventGuestService(
@@ -60,20 +61,55 @@ public class EventGuestService {
    * Create a new Event Guest using those Ids and save it to the database and update the event
    * Will be a post mapping in controller
    */
-  public EventGuest addNewGuestToEvent(Long eventId) {
-    return null;
+  public EventGuest addNewGuestToEvent(Long eventId, String guestEmail) {
+    // Get the event
+    EventModel event = eventService.getEventById(eventId);
+
+    // Get the guest user by email
+    User guest = userService.getUserByEmail(guestEmail);
+
+    // Create EventGuestKey
+    EventGuestKey key = new EventGuestKey(eventId, guest.getId());
+
+    // Create new EventGuest
+    EventGuest newGuest =
+        EventGuest.builder()
+            .eventGuestKey(key)
+            .rsvpStatus(RsvpStatus.PENDING)
+            .event(event)
+            .guest(guest)
+            .build();
+
+    return eventGuestRepo.save(newGuest);
   }
 
-  /*
-   * Get the user from their email
-   * find and event guest based on that key
-   * Delete them from the database
-   */
-  public Boolean removeGuestFromEventLong(String email, Long eventId) {
-    return true;
+  public Boolean removeGuestFromEvent(String email, Long eventId) {
+    // Get user by email
+    User user = userService.getUserByEmail(email);
+
+    // Create the composite key
+    EventGuestKey key = new EventGuestKey(eventId, user.getId());
+
+    // Check if the event guest exists
+    if (eventGuestRepo.existsById(key)) {
+      eventGuestRepo.deleteById(key);
+      return true;
+    }
+    return false;
   }
 
-  public RsvpStatus setStatus(EventGuestKey guest, RsvpStatus status) {
-    return null;
+  /** Update RSVP status for an event guest */
+  @Transactional
+  public RsvpStatus setStatus(EventGuestKey guestKey, RsvpStatus status) {
+    return eventGuestRepo
+        .findById(guestKey)
+        .map(
+            eventGuest -> {
+              eventGuest.setRsvpStatus(status);
+              EventGuest saved = eventGuestRepo.save(eventGuest);
+              return saved.getRsvpStatus();
+            })
+        .orElseThrow(
+            () -> new EventGuestNotFoundException("EventGuest not found with key: " + guestKey));
   }
 }

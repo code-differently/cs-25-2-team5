@@ -5,6 +5,7 @@ import { SignedIn, UserButton } from "@clerk/clerk-react";
 
 const Navigation: React.FC = () => {
   const location = useLocation();
+  const isAuthenticated = true;
   const isLoginPage = location.pathname === '/login';
   const isSignUpPage = location.pathname === '/signup';
   const goBackHome = location.pathname === '/';
@@ -28,7 +29,26 @@ const Navigation: React.FC = () => {
         </ul>
       )}
 
+      {!isAuthenticated && !isLoginPage && !isSignUpPage && (
+        <>
+          <Link className="navigation-login-button" to="/login">
+            Login
+          </Link>
+          <Link className="navigation-signup-button" to="/signup">
+            Sign Up
+          </Link>
+        </>
+      )}
+
+      {/* Auth Buttons Section */}
       <div className="auth-buttons">
+        {isAuthenticated && !isLoginPage && !isSignUpPage && (
+        <>
+          <Link className="navigation-create-event-button" to="/createEvent">
+            Create Event
+          </Link>
+        </>
+        )}
         {!isLoginPage && (
           <Link className="navigation-login-button" to="/login">
             Login
