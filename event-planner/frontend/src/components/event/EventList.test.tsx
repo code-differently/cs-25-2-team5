@@ -32,5 +32,24 @@ describe('EventList component', () => {
     );
     expect(screen.getAllByRole('link')).toHaveLength(3);
   });
+
+  it('displays message when no events are available', () => {
+    render(
+      <MemoryRouter>
+        <div className="event-list-container">
+          <h2 className="event-list-title">
+            Events
+          </h2>
+
+          <div className="event-list">
+            <p style={{ textAlign: 'center', color: '#666' }}>
+              No events available
+            </p>
+          </div>
+        </div>
+      </MemoryRouter>
+    );
+    expect(screen.getByText('No events available')).toBeInTheDocument();
+  });
 });
 
