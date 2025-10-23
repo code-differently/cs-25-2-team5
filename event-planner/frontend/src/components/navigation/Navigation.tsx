@@ -1,6 +1,7 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import './Navigation.css';
+import { SignedIn, UserButton } from "@clerk/clerk-react";
 
 const Navigation: React.FC = () => {
   const location = useLocation();
@@ -43,6 +44,9 @@ const Navigation: React.FC = () => {
             {goBackHome ? 'Refresh Home' : 'Go Back Home'}
           </Link>
         )}
+        <SignedIn>
+          <UserButton afterSignOutUrl="/" />
+        </SignedIn>
       </div>
     </header>
   );

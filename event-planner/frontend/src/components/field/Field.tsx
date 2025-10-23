@@ -1,5 +1,5 @@
-import React from 'react'
-import { type FieldProps,type FormData } from '../../types/types';
+
+import { type FieldProps } from '../../types/types';
 const Field = ({ label, id, name, value, onChange, error, type = 'text', autoComplete, helpText }:FieldProps) => {
   return (
     <div className="field-container">
