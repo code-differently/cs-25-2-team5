@@ -3,11 +3,8 @@ package com.api.demo.controllers;
 import com.api.demo.dtos.EventDTO;
 import com.api.demo.dtos.UserDTO;
 import com.api.demo.models.EventModel;
-import com.api.demo.models.User;
 import com.api.demo.services.EventService;
-
 import jakarta.validation.Valid;
-
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -33,6 +30,7 @@ public class EventController {
     Iterable<EventModel> events = eventService.getCommunityEvents();
     return (List<EventModel>) events;
   }
+
   @GetMapping("/{id}")
   public ResponseEntity<EventDTO> getEventById(@Valid @PathVariable Long id) {
     EventModel event = eventService.getEventById(id);
@@ -42,12 +40,13 @@ public class EventController {
             .email(event.getOrganizer().getEmail())
             .id(event.getOrganizer().getId())
             .build();
-    EventDTO eventDTO = EventDTO.builder()
-        .title(event.getTitle())
-        .description(event.getDescription())
-        .startTime(event.getStartTime())
-        .eventType(event.getIsPublic() ? "Community" : "Private")
-        .build();
+    EventDTO eventDTO =
+        EventDTO.builder()
+            .title(event.getTitle())
+            .description(event.getDescription())
+            .startTime(event.getStartTime())
+            .eventType(event.getIsPublic() ? "Community" : "Private")
+            .build();
     if (event != null) {
       return ResponseEntity.ok(eventDTO);
     } else {
