@@ -130,6 +130,7 @@
     font-family: 'Satoshi', sans-serif;
     background-color: #fff;
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    color: #222;
 }
 
 .form-group input:focus {
