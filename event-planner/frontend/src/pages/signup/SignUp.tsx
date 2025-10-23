@@ -30,12 +30,25 @@ export default function SignUpPage() {
     setForm((f) => ({ ...f, [name]: value }));
     setErrors((e) => ({ ...e, [name]: undefined, form: undefined }));
   };
-
+  const API_URL = import.meta.env.VITE_API_URL;
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
     if (!isLoaded) return <div>Loading...</div>
-
+    const handleAPICall = async () => {
+      fetch(`${API_URL}/users/`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: form.email,
+          firstName: form.firstName + ' ' + form.lastName,
+          lastName: form.lastName,
+          password: form.password,
+        }),
+      });
+    }
     // Start the sign-up process using the email and password provided
     try {
      const response =  await signUp.create({
@@ -43,6 +56,8 @@ export default function SignUpPage() {
         password:form.password
       })
       if(response.status === 'complete'){
+        const apiResponse = await handleAPICall();
+
         await setActive({
           session: response.createdSessionId,
           navigate: async () => {

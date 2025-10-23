@@ -30,6 +30,7 @@ public class EventController {
     Iterable<EventModel> events = eventService.getCommunityEvents();
     return (List<EventModel>) events;
   }
+  
 
   @GetMapping("/{id}")
   public ResponseEntity<EventDTO> getEventById(@Valid @PathVariable Long id) {
