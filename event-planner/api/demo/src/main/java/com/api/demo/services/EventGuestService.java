@@ -9,6 +9,8 @@ import com.api.demo.models.User;
 import com.api.demo.repos.EventGuestRepo;
 import jakarta.transaction.Transactional;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,6 +28,39 @@ public class EventGuestService {
     this.eventGuestRepo = eventGuestRepo;
     this.userService = userService;
     this.eventService = eventService;
+  }
+
+  /** Retrieves all guests for a specific event. */
+  public List<EventGuest> getGuestsByEventId(Long eventId) {
+    return eventGuestRepo.findAllByEventGuestKeyEventId(eventId);
+  }
+
+  /** Retrieves all events for a specific guest. */
+  public List<EventGuest> getEventsByGuestId(Long guestId) {
+    return eventGuestRepo.findAllByEventGuestKeyGuestId(guestId);
+  }
+
+  /** Retrieves a specific EventGuest by composite key. */
+  public Optional<EventGuest> getEventGuest(Long eventId, Long guestId) {
+    EventGuestKey key = new EventGuestKey(eventId, guestId);
+    return eventGuestRepo.findById(key);
+  }
+
+  /** Saves or updates an EventGuest. */
+  public EventGuest saveEventGuest(EventGuest eventGuest) {
+    return eventGuestRepo.save(eventGuest);
+  }
+
+  /** Deletes an EventGuest by composite key. */
+  public void deleteEventGuest(Long eventId, Long guestId) {
+    EventGuestKey key = new EventGuestKey(eventId, guestId);
+    eventGuestRepo.deleteById(key);
+  }
+
+  /** Checks if an EventGuest exists. */
+  public boolean existsEventGuest(Long eventId, Long guestId) {
+    EventGuestKey key = new EventGuestKey(eventId, guestId);
+    return eventGuestRepo.existsById(key);
   }
 
   // create a new event guest set the rsvp status by default

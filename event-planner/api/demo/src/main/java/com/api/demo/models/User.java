@@ -59,18 +59,5 @@ public class User {
     this.password = password;
   }
 
-  // Example of custom validation logic
-  public void setEmail(String email) {
-    if (email == null || !email.contains("@")) {
-      throw new IllegalArgumentException("Invalid email format");
-    }
-    this.email = email.toLowerCase();
-  }
-
-  public void setPassword(String password) {
-    if (password == null || password.length() < 6) {
-      throw new IllegalArgumentException("Password must be at least 6 characters long");
-    }
-    this.password = password;
-  }
+  // Validation will be handled by Jakarta validation annotations
 }
