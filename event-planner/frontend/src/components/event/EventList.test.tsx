@@ -12,7 +12,6 @@ const mockEvent = {
   description: 'Sample Description',
   owner: 'Sample Owner',
   time: '12:00',
-  // Add other required props here as needed by the Event component
 };
 
 const mockEventList = (
