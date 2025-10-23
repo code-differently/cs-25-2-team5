@@ -1,6 +1,7 @@
 package com.api.demo.services;
 
 import com.api.demo.dtos.UserInviteDTO;
+import com.api.demo.exceptions.UnauthorizedAccessException;
 import com.api.demo.exceptions.UserNotFoundException;
 import com.api.demo.models.EventGuest;
 import com.api.demo.models.EventModel;
@@ -72,28 +73,29 @@ public class UserService {
   }
 
   /*
-   * Updates an event if the user is the organizer.
-   * @param userId            The ID of the user attempting to update the event.
-   * @param eventId           The ID of the event to update.
-   * @param updatedEventInfo  The updated event information.
+   * Updates an event if the user is the organizer of that event.
+   * @param userId         The ID of the user attempting to update the event.
+   * @param eventId        The ID of the event to be updated.
+   * @param updatedEvent   The event data with updated information.
    *
    * @return The updated EventModel.
+   * @throws UnauthorizedAccessException if the user is not the organizer of the event.
    *
-   * @throws UserNotFoundException if the user is not found.
-   * @throws SecurityException if the user is not the organizer of the event.
+   * Uses @Transactional to ensure database integrity during the operation.
    */
   @Transactional
-  public EventModel updateUserEvent(Long userId, Long eventId, EventModel updatedEventInfo) {
-    // Verify the user exists
-    User user = getUserById(userId);
+  public EventModel updateUserEvent(Long userId, Long eventId, EventModel updatedEvent) {
+    // Validate that the user exists
+    getUserById(userId);
     
-    // Get the event and verify the user is the organizer
-    EventModel event = eventService.getEventById(eventId);
-    if (!event.getOrganizer().getId().equals(userId)) {
-      throw new SecurityException("User is not authorized to update this event");
+    EventModel existingEvent = eventService.getEventById(eventId);
+    
+    // Check if the user is the organizer of this event
+    if (!existingEvent.getOrganizer().getId().equals(userId)) {
+      throw new UnauthorizedAccessException("Only the event organizer can update this event");
     }
     
-    // Update the event using the EventService
-    return eventService.updateEvent(eventId, updatedEventInfo);
+    return eventService.updateEvent(eventId, updatedEvent);
   }
+  
 }
