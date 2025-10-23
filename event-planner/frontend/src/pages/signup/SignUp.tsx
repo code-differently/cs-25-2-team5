@@ -20,12 +20,10 @@ export default function SignUpPage() {
     confirmPassword: '',
   });
   const [errors, setErrors] = useState<FormErrors>({});
-  const [submitting, setSubmitting] = useState(false);
-  const [successMsg, setSuccessMsg] = useState<string | null>(null);
+  const [submitting] = useState(false);
+  const [successMsg] = useState<string | null>(null);
   const { isLoaded, signUp, setActive } = useSignUp();
   const navigate = useNavigate();
-  const [code, setCode] = React.useState('')
- const [verifying, setVerifying] = React.useState(false)
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target as { name: keyof FormData; value: string };
@@ -47,7 +45,7 @@ export default function SignUpPage() {
       if(response.status === 'complete'){
         await setActive({
           session: response.createdSessionId,
-          navigate: async ({ session }) => {
+          navigate: async () => {
             navigate('/')
           },
         })
