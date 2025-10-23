@@ -9,6 +9,7 @@ import com.api.demo.repos.EventGuestRepo;
 import jakarta.transaction.Transactional;
 import java.util.HashSet;
 import java.util.Set;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -18,6 +19,7 @@ public class EventGuestService {
   private UserService userService;
   private EventService eventService;
 
+  @Autowired
   public EventGuestService(
       EventGuestRepo eventGuestRepo, UserService userService, EventService eventService) {
     this.eventGuestRepo = eventGuestRepo;

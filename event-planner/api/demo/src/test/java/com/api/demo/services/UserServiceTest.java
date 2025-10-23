@@ -3,14 +3,18 @@ package com.api.demo.services;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import com.api.demo.dtos.UserInviteDTO;
 import com.api.demo.exceptions.UserNotFoundException;
 import com.api.demo.models.EventModel;
 import com.api.demo.models.User;
 import com.api.demo.repos.UserRepository;
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -197,5 +201,41 @@ public class UserServiceTest {
     when(userRepository.findAllByEmailIn(expectedEmails)).thenReturn(Set.of());
     Set<User> users = userService.getAllUsersFromEmails(expectedEmails);
     assertEquals(users.size(), 0);
+  }
+
+  @Test
+  @DisplayName("Test get all events a user has been invitied to")
+  public void getUserInvitedEvents() {
+    Long userId = 1L;
+    List<UserInviteDTO> expectedInvites =
+        List.of(
+            UserInviteDTO.builder()
+                .email("john.doe@example.com")
+                .description("Description 1")
+                .title("Event 1")
+                .is_public(true)
+                .start_time(LocalDateTime.now().plusDays(1))
+                .name("John Doe")
+                .build(),
+            UserInviteDTO.builder()
+                .email("john.doe@example.com")
+                .description("Description 2")
+                .title("Event 2")
+                .is_public(false)
+                .start_time(LocalDateTime.now().plusDays(2))
+                .name("John Doe")
+                .build());
+
+    when(userRepository.findAllUserInvitedEvents(userId)).thenReturn(expectedInvites);
+
+    // When
+    List<UserInviteDTO> result = userService.getAllInvitedEvents(userId);
+
+    // Then
+    verify(userRepository, times(1)).findAllUserInvitedEvents(userId);
+    assertThat(result).hasSize(2);
+    assertThat(result).isEqualTo(expectedInvites);
+    assertThat(result.get(0).getEmail()).isEqualTo("john.doe@example.com");
+    assertThat(result.get(1).getTitle()).isEqualTo("Event 2");
   }
 }
