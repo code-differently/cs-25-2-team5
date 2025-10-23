@@ -22,7 +22,6 @@ public class ClerkAuthentication extends AbstractAuthenticationToken {
     @Override
     public Object getPrincipal() {
         return userId;
-
     }
 
 }

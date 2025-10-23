@@ -18,3 +18,5 @@ spring:
   config:
     active: 
     import: optional:file:.env.properties
+  clerk:
+    secret-key: ${CLERK_SECRET_KEY}
