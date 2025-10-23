@@ -1,6 +1,7 @@
 import { Event } from './Event'
 import { useState,useEffect } from 'react'
 import './EventList.css'
+import { useUser } from '@clerk/clerk-react'
 
 const EventList = () => {
   const [events, setEvents] = useState<any[]>([])
@@ -10,7 +11,6 @@ const EventList = () => {
     const fetchEvents = async () => {
       const response = await fetch(`${API_URL}/events/community`)
       const data = await response.json()
-      console.log(data);
       setEvents(data)
     }
 

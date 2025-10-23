@@ -21,7 +21,7 @@ const Navigation: React.FC = () => {
       {!isLoginPage && (
         <ul className="navigation-top-menu">
           <li>
-            <a href="#">Discover</a>
+            <Link to="/">Discover</Link>
           </li>
           <li>
             <Link to="/about">About Us</Link>
