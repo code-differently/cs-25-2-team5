@@ -38,6 +38,7 @@ public class EventController {
                 .title(event.getTitle())
                 .description(event.getDescription())
                 .startTime(event.getStartTime())
+                .id(event.getId())
                 .eventType(event.getIsPublic() ? "Community" : "Private")
                 .build();
         })
@@ -62,6 +63,7 @@ public class EventController {
             .startTime(event.getStartTime())
             .eventType(event.getIsPublic() ? "Community" : "Private")
             .organizer(organizerDTO)
+            .id(id)
             .build();
     return ResponseEntity.ok(eventDTO);
   }
