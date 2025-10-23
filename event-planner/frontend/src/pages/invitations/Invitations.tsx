@@ -1,49 +1,13 @@
 import React, { useState } from "react";
 import './Invitations.css';
-
-// Event details type
-interface PrivateEventDetails {
-    title: string;
-    date: string;
-    time: string;
-    location: string;
-    description: string;
-    rsvpStatus: "accepted" | "declined" | "pending";
-}
-
-// Mock data: list of events the user is invited to
-const invitedEvents: PrivateEventDetails[] = [
-    {
-        title: "Team Meeting",
-        date: "2025-10-25",
-        time: "14:00",
-        location: "Conference Room A",
-        description: "Monthly team sync-up meeting.",
-        rsvpStatus: "pending"
-    },
-    {
-        title: "Birthday Party",
-        date: "2025-11-01",
-        time: "18:00",
-        location: "John's House",
-        description: "John's 30th birthday celebration.",
-        rsvpStatus: "accepted"
-    },
-    {
-        title: "Workshop: React Basics",
-        date: "2025-11-10",
-        time: "10:00",
-        location: "Online",
-        description: "Introductory workshop for React beginners.",
-        rsvpStatus: "declined"
-    }
-];
+import { type PrivateEventDetails, invitedEvents } from "../../types/types";
 
 const Invitations: React.FC = () => {
     // State to track selected event
     const [selectedEventIdx, setSelectedEventIdx] = useState<number | null>(null);
-    const [events, setEvents] = useState(invitedEvents);
+    const [events, setEvents] = useState<PrivateEventDetails[]>(invitedEvents);
 
+    // Handles RSVP action by updating the event's RSVP status when user clicks Accept or Decline
     const handleRSVP = (status: "accepted" | "declined") => {
         if (selectedEventIdx === null) return;
         const updatedEvents = [...events];
