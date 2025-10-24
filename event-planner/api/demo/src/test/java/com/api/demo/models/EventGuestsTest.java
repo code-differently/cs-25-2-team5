@@ -28,11 +28,11 @@ public class EventGuestsTest {
         event.setIsPublic(true);
         event.setStartTime(LocalDateTime.now().plusDays(1));
 
-        guest = new User();
-        guest.setId(1);
-        guest.setName("John Doe");
-        guest.setEmail("john@example.com");
-        guest.setPassword("password123");
+    guest = new User();
+    guest.setId(1L);
+    guest.setName("John Doe");
+    guest.setEmail("john@example.com");
+    guest.setPassword("password123");
 
         eventGuest = new EventGuest();
     }

@@ -2,12 +2,12 @@ import { createRoot } from 'react-dom/client';
 import './index.css';
 import App from './App.tsx';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import Home from './pages/Home.tsx';
-import Login from './pages/Login.tsx';
-import EventDetailsPage from './pages/EventDetails.tsx';
+import Home from './pages/home/Home.tsx';
+import Login from './pages/login/Login.tsx';
+import EventDetailsPage from './pages/events/EventDetails.tsx';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import React from 'react';
-import SignUp from './pages/SignUp.tsx';
+import SignUp from './pages/signup/SignUp.tsx';
 
 
 const queryClient = new QueryClient();
