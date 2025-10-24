@@ -11,13 +11,11 @@ const EventList = () => {
     const fetchEvents = async () => {
       const response = await fetch(`${API_URL}/events/community`)
       const data = await response.json()
-      console.log(data);
       setEvents(data)
     }
 
     fetchEvents()
   }, [])
-  console.log(user);
   return (
     <div className="event-list-container">
       <h2 className="event-list-title">

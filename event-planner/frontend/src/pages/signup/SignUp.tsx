@@ -36,17 +36,18 @@ export default function SignUpPage() {
 
     if (!isLoaded) return <div>Loading...</div>
     const handleAPICall = async () => {
-      fetch(`${API_URL}/users/`, {
+      await fetch(`${API_URL}/users/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
+        
         body: JSON.stringify({
+          name: form.firstName + ' ' + form.lastName,
           email: form.email,
-          firstName: form.firstName + ' ' + form.lastName,
-          lastName: form.lastName,
           password: form.password,
-        }),
+        }
+      )
       });
     }
     // Start the sign-up process using the email and password provided
@@ -56,8 +57,9 @@ export default function SignUpPage() {
         password:form.password
       })
       if(response.status === 'complete'){
-        const apiResponse = await handleAPICall();
 
+        const apiResponse = await handleAPICall();
+        console.log(apiResponse);
         await setActive({
           session: response.createdSessionId,
           navigate: async () => {

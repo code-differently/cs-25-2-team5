@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import type { Event as EventType } from '../../types/types'
+
 import './Event.css'
 
 export const Event = ({id, title, location, organizer, description, startTime, imageUrl} : any) => {
