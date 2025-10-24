@@ -6,6 +6,7 @@ interface GuestInputProps {
   handleAddGuest: () => void;
   handleKeyPress: (e: React.KeyboardEvent<HTMLInputElement>) => void;
   isSubmitting: boolean;
+  guestError?: string | null;
 }
 
 const GuestInput: React.FC<GuestInputProps> = ({
@@ -13,7 +14,8 @@ const GuestInput: React.FC<GuestInputProps> = ({
   setGuestInput,
   handleAddGuest,
   handleKeyPress,
-  isSubmitting
+  isSubmitting,
+  guestError
 }) => (
   <div className="form-group">
     <label>Add Guests</label>
@@ -34,6 +36,11 @@ const GuestInput: React.FC<GuestInputProps> = ({
     >
       Add Guest
     </button>
+    {guestError && (
+      <div className="guest-input-error" style={{ color: 'red', marginTop: '0.5rem', fontSize: '0.95em' }}>
+        {guestError}
+      </div>
+    )}
   </div>
 );
 

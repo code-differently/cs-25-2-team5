@@ -14,6 +14,7 @@ const EventForm: React.FC = () => {
     const [imageUrl, setImageUrl] = useState('');
     const [guests, setGuests] = useState<string[]>([]);
     const [guestInput, setGuestInput] = useState('');
+    const [guestError, setGuestError] = useState<string | null>(null);
     const [isSubmitting, setIsSubmitting] = useState(false);
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -82,26 +83,24 @@ const EventForm: React.FC = () => {
     // Adds a guest email to the guests list
     const handleAddGuest = () => {
         const trimmedEmail = guestInput.trim();
-        
         if (trimmedEmail === '') {
+            setGuestError(null);
             return;
         }
-        
         // Basic email validation
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(trimmedEmail)) {
-            alert('Please enter a valid email address');
+            setGuestError('Please enter a valid email address');
             return;
         }
-        
         // Check for duplicate emails
         if (guests.includes(trimmedEmail)) {
-            alert('This guest has already been added');
+            setGuestError('This guest has already been added');
             return;
         }
-        
         setGuests([...guests, trimmedEmail]);
         setGuestInput('');
+        setGuestError(null);
     };
 
     // Removes a guest from the guests list by index
@@ -119,7 +118,6 @@ const EventForm: React.FC = () => {
 
     return (
         <div className="event-form-section">
-            <h1 className="event-form-header">Create an Event</h1>
             <form className="event-form" onSubmit={handleSubmit}>
                 {/* Main event fields */}
                 <EventFormFields
@@ -140,10 +138,14 @@ const EventForm: React.FC = () => {
                 {/* Guest input */}
                 <GuestInput
                     guestInput={guestInput}
-                    setGuestInput={setGuestInput}
+                    setGuestInput={value => {
+                        setGuestInput(value);
+                        if (guestError) setGuestError(null);
+                    }}
                     handleAddGuest={handleAddGuest}
                     handleKeyPress={handleKeyPress}
                     isSubmitting={isSubmitting}
+                    guestError={guestError}
                 />
                 {/* Guest list */}
                 <GuestList
