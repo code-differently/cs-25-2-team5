@@ -52,25 +52,25 @@ public class User {
   @OneToMany(mappedBy = "organizer", cascade = CascadeType.ALL)
   private Set<EventModel> organizedEvents;
 
-    // Custom constructor (skip id, since DB will generate it)
-    public User(String name, String email, String password) {
-        this.name = name;
-        this.email = email;
-        this.password = password;
-    }
+  // Custom constructor (skip id, since DB will generate it)
+  public User(String name, String email, String password) {
+    this.name = name;
+    this.email = email;
+    this.password = password;
+  }
 
-    // Example of custom validation logic
-    public void setEmail(String email) {
-        if (email == null || !email.contains("@")) {
-            throw new IllegalArgumentException("Invalid email format");
-        }
-        this.email = email;
+  // Example of custom validation logic
+  public void setEmail(String email) {
+    if (email == null || !email.contains("@")) {
+      throw new IllegalArgumentException("Invalid email format");
     }
+    this.email = email;
+  }
 
-    public void setPassword(String password) {
-        if (password == null || password.length() < 6) {
-            throw new IllegalArgumentException("Password must be at least 6 characters long");
-        }
-        this.password = password;
+  public void setPassword(String password) {
+    if (password == null || password.length() < 6) {
+      throw new IllegalArgumentException("Password must be at least 6 characters long");
     }
+    this.password = password;
+  }
 }

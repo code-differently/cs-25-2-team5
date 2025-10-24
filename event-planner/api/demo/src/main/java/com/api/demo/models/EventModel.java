@@ -1,8 +1,8 @@
 package com.api.demo.models;
 
-import jakarta.persistence.Embedded;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -23,20 +23,16 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(exclude = {"eventGuests", "organizer"})
 public class EventModel {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-    private String title;
+  private String title;
+  private String description;
+  private Boolean isPublic;
+  private LocalDateTime startTime;
 
-    private String description;
-
-    private Boolean isPublic;
-
-    private LocalDateTime startTime;
-
-    @Embedded private Location location;
-
+  @Embedded private Location location;
 
   @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
   private Set<EventGuest> eventGuests;

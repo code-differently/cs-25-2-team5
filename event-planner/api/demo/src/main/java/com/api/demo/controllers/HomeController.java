@@ -8,17 +8,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class HomeController {
 
-    @GetMapping("/")
-    public Map<String, Object> index() {
-        // Get all available routes in the application
-        // Build response with welcome message and routes
-        Map<String, Object> response = new LinkedHashMap<>();
-        response.put("message", "🚀 Welcome to The Evynt Event Planning API");
-        response.put("version", "v1.0");
-        response.put(
-                "description",
-                "Event planning application with user management and event creation");
+  @GetMapping("/")
+  public Map<String, Object> index() {
+    // Get all available routes in the application
+    // Build response with welcome message and routes
+    Map<String, Object> response = new LinkedHashMap<>();
+    response.put("message", "🚀 Welcome to The Evynt Event Planning API");
+    response.put("version", "v1.0");
+    response.put(
+        "description", "Event planning application with user management and event creation");
 
-        return response;
-    }
+    return response;
+  }
 }

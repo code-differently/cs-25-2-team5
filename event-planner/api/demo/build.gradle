@@ -1,41 +1,34 @@
 plugins {
-    id 'java'
-    id 'org.springframework.boot' version '3.5.6'
-    id 'io.spring.dependency-management' version '1.1.7'
-    id 'com.diffplug.spotless' version '7.0.0.BETA4' 
+	id 'java'
+	id 'application'
+	id 'org.springframework.boot' version '3.5.6'
+	id 'io.spring.dependency-management' version '1.1.7'
+	id 'com.diffplug.spotless' version '6.25.0'
+	id 'distribution'
+	id 'jacoco'
 }
 
-group = 'com.api'
+group = 'com.apii'
 version = '0.0.1-SNAPSHOT'
+description = 'Backend api for Event Planner application'
 
 java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(17)
-    }
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(17)
+	}
 }
 
 configurations {
-    compileOnly {
-        extendsFrom annotationProcessor
-    }
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
 }
 
 repositories {
-    mavenCentral()
+	mavenCentral()
 }
 
 dependencies {
-<<<<<<< HEAD
-    implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    implementation 'me.paulschwarz:spring-dotenv:4.0.0'
-    runtimeOnly 'org.postgresql:postgresql'
-    compileOnly 'org.projectlombok:lombok'
-    annotationProcessor 'org.projectlombok:lombok'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'  
-    testRuntimeOnly 'com.h2database:h2'  
-=======
 	implementation 'org.springframework.boot:spring-boot-starter'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
@@ -57,14 +50,40 @@ dependencies {
 bootRun {
 	systemProperties System.properties
 }
->>>>>>> main
 
 tasks.named('test') {
-    useJUnitPlatform()
+	useJUnitPlatform()
 }
+
+test {
+	useJUnitPlatform()
+	finalizedBy jacocoTestReport
+}
+
+jacocoTestReport {
+	dependsOn test
+	reports {
+		xml.required = true
+		html.required = true
+	}
+}
+
+
+
+check {
+	dependsOn jacocoTestCoverageVerification
+}
+
 spotless {
-    java {
-        googleJavaFormat('1.22.0').aosp()
-    }
-}
+	format 'misc', {
+		target '*.gradle', '.gitattributes', '.gitignore'
+		trimTrailingWhitespace()
+		indentWithTabs()
+		endWithNewline()
+	}
+
+	java {
+		googleJavaFormat()
+		formatAnnotations()
+	}
 }

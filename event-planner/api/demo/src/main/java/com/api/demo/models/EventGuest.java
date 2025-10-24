@@ -23,17 +23,17 @@ import lombok.NoArgsConstructor;
 @Builder
 public class EventGuest {
 
-    @EmbeddedId private EventGuestKey eventGuestKey;
+  @EmbeddedId private EventGuestKey eventGuestKey;
 
-    @ManyToOne
-    @MapsId("eventId")
-    @JoinColumn(name = "event_id")
-    private EventModel event;
+  @ManyToOne
+  @MapsId("eventId")
+  @JoinColumn(name = "event_id")
+  private EventModel event;
 
-    @ManyToOne
-    @MapsId("guestId")
-    @JoinColumn(name = "guest_id")
-    private User guest;
+  @ManyToOne
+  @MapsId("guestId")
+  @JoinColumn(name = "guest_id")
+  private User guest;
 
-    private RsvpStatus rsvpStatus;
+  private RsvpStatus rsvpStatus;
 }

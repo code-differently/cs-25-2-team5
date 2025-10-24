@@ -9,81 +9,81 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Location {
 
-    private Double latitude;
-    private Double longitude;
+  private Double latitude;
+  private Double longitude;
 
-    private String city;
-    private String state;
-    private String country;
-    private String zipCode;
-    private String formattedAddress;
-    private String inputAddress;
+  private String city;
+  private String state;
+  private String country;
+  private String zipCode;
+  private String formattedAddress;
+  private String inputAddress;
 
-    public Double getLatitude() {
-        return latitude;
-    }
+  public Double getLatitude() {
+    return latitude;
+  }
 
-    public Double getLongitude() {
-        return longitude;
-    }
+  public Double getLongitude() {
+    return longitude;
+  }
 
-    public String getFormattedAddress() {
-        return formattedAddress;
-    }
+  public String getFormattedAddress() {
+    return formattedAddress;
+  }
 
-    public String getInputAddress() {
-        return inputAddress;
-    }
+  public String getInputAddress() {
+    return inputAddress;
+  }
 
-    public String getZipCode() {
-        return zipCode;
-    }
+  public String getZipCode() {
+    return zipCode;
+  }
 
-    public String getCountry() {
-        return country;
-    }
+  public String getCountry() {
+    return country;
+  }
 
-    public String getState() {
-        return state;
-    }
+  public String getState() {
+    return state;
+  }
 
-    public String getCity() {
-        return city;
-    }
+  public String getCity() {
+    return city;
+  }
 
-    public void setLatitude(Double latitude) {
-        this.latitude = latitude;
-    }
+  public void setLatitude(Double latitude) {
+    this.latitude = latitude;
+  }
 
-    public void setLongitude(Double longitude) {
-        this.longitude = longitude;
-    }
+  public void setLongitude(Double longitude) {
+    this.longitude = longitude;
+  }
 
-    public void setFormattedAddress(String formattedAddress) {
-        this.formattedAddress = formattedAddress;
-    }
+  public void setFormattedAddress(String formattedAddress) {
+    this.formattedAddress = formattedAddress;
+  }
 
-    public void setInputAddress(String inputAddress) {
-        this.inputAddress = inputAddress;
-    }
+  public void setInputAddress(String inputAddress) {
+    this.inputAddress = inputAddress;
+  }
 
-    public void setZipCode(String zipCode) {
-        this.zipCode = zipCode;
-    }
+  public void setZipCode(String zipCode) {
+    this.zipCode = zipCode;
+  }
 
-    public void setCountry(String country) {
-        this.country = country;
-    }
+  public void setCountry(String country) {
+    this.country = country;
+  }
 
-    public void setState(String state) {
-        this.state = state;
-    }
+  public void setState(String state) {
+    this.state = state;
+  }
 
-    public void setCity(String city) {
-        this.city = city;
-    }
+  public void setCity(String city) {
+    this.city = city;
+  }
 
-    public boolean hasCoordinates() {
-        return latitude != null && longitude != null;
-    }
+  public boolean hasCoordinates() {
+    return latitude != null && longitude != null;
+  }
 }

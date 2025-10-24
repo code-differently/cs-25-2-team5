@@ -6,8 +6,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest(classes = DemoApplication.class)
 class DemoApplicationTests {
 
-    @Test
-    void contextLoads() {
-        // This test verifies that the Spring application context loads successfully
-    }
+  @Test
+  void contextLoads() {
+    // This test verifies that the Spring application context loads successfully
+  }
 }
