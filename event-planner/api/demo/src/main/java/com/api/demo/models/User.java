@@ -19,39 +19,39 @@ import lombok.NonNull;
 @Table(name = "users") // Marks this class as a JPA entity
 public class User {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private int id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
 
-  @NonNull private String name;
-  @NonNull private String email;
-  @NonNull private String password;
+    @NonNull private String name;
+    @NonNull private String email;
+    @NonNull private String password;
 
-  @OneToMany(mappedBy = "guest")
-  private Set<EventGuest> eventGuests;
+    @OneToMany(mappedBy = "guest")
+    private Set<EventGuest> eventGuests;
 
-  @OneToMany(mappedBy = "organizer")
-  private Set<EventModel> organizedEvents;
+    @OneToMany(mappedBy = "organizer")
+    private Set<EventModel> organizedEvents;
 
-  // Custom constructor (skip id, since DB will generate it)
-  public User(String name, String email, String password) {
-    this.name = name;
-    this.email = email;
-    this.password = password;
-  }
-
-  // Example of custom validation logic
-  public void setEmail(String email) {
-    if (email == null || !email.contains("@")) {
-      throw new IllegalArgumentException("Invalid email format");
+    // Custom constructor (skip id, since DB will generate it)
+    public User(String name, String email, String password) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
     }
-    this.email = email;
-  }
 
-  public void setPassword(String password) {
-    if (password == null || password.length() < 6) {
-      throw new IllegalArgumentException("Password must be at least 6 characters long");
+    // Example of custom validation logic
+    public void setEmail(String email) {
+        if (email == null || !email.contains("@")) {
+            throw new IllegalArgumentException("Invalid email format");
+        }
+        this.email = email;
     }
-    this.password = password;
-  }
+
+    public void setPassword(String password) {
+        if (password == null || password.length() < 6) {
+            throw new IllegalArgumentException("Password must be at least 6 characters long");
+        }
+        this.password = password;
+    }
 }

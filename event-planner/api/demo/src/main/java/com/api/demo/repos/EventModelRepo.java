@@ -5,9 +5,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface EventModelRepo extends JpaRepository<EventModel, Long> {
 
-  EventModel findById(int id);
+    EventModel findById(int id);
 
-  Iterable<EventModel> findAllByIsPublicTrue();
+    Iterable<EventModel> findAllByIsPublicTrue();
 
-  Iterable<EventModel> findAllByOrganizerId(int organizerId);
+    Iterable<EventModel> findAllByOrganizerId(int organizerId);
 }

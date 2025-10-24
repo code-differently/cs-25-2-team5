@@ -1,8 +1,5 @@
 package com.api.demo.models;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import jakarta.persistence.Embeddable;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -89,6 +86,4 @@ public class Location {
     public boolean hasCoordinates() {
         return latitude != null && longitude != null;
     }
-
-   
 }
