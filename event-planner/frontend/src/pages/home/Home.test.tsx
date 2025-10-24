@@ -11,8 +11,8 @@ describe('Home Page', () => {
                 <Home />
             </MemoryRouter>
         );
-        expect(screen.queryByText('Welcome to Evynt')).toBeNull();
-        expect(screen.queryByText('Discover and create amazing events in your community!')).toBeInTheDocument();
+        expect(screen.getByText('Welcome to Evynt')).toBeInTheDocument();
+        expect(screen.getByText('Discover and create amazing events in your community!')).toBeInTheDocument();
     });
 
     it ('renders EventList component', () => {
