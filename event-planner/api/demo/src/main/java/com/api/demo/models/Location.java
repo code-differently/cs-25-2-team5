@@ -91,27 +91,4 @@ public class Location {
     }
 
    
-    public static Location fromLocationIQ(String jsonResponse, String inputAddress) {
-        Location location = new Location();
-        location.setInputAddress(inputAddress);
-        try {
-            ObjectMapper mapper = new ObjectMapper();
-            JsonNode root = mapper.readTree(jsonResponse);
-            if (root.isArray() && root.size() > 0) {
-                JsonNode firstResult = root.get(0);
-                if (firstResult.has("lat")) {
-                    location.setLatitude(firstResult.get("lat").asDouble());
-                }
-                if (firstResult.has("lon")) {
-                    location.setLongitude(firstResult.get("lon").asDouble());
-                }
-                if (firstResult.has("display_name")) {
-                    location.setFormattedAddress(firstResult.get("display_name").asText());
-                }
-            }
-        } catch (Exception e) {
-            
-        }
-        return location;
-    }
 }

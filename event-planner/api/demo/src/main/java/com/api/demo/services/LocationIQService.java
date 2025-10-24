@@ -32,9 +32,9 @@ public class LocationIQService {
      * @param address The address to geocode
      * @return JSON response from LocationIQ API
      */
-    public String geocodeAddress(String address) {
+    public Location geocodeAddress(String address) {
         String url =
-                UriComponentsBuilder.fromHttpUrl(baseUrl)
+                UriComponentsBuilder.fromUriString(baseUrl)
                         .path("/search.php")
                         .queryParam("key", apiKey)
                         .queryParam("q", address)
@@ -46,7 +46,7 @@ public class LocationIQService {
         log.info("Geocoding address: {}", address);
 
         try {
-            String response = restTemplate.getForObject(url, String.class);
+            Location response = restTemplate.getForObject(url, Location.class);
             log.info("Successfully geocoded address: {}", address);
             return response;
         } catch (Exception e) {
@@ -56,17 +56,4 @@ public class LocationIQService {
     }
 
 
-    public Location geocodeToLocation(String address) {
-        log.info("Geocoding address to Location object: {}", address);
-
-        try {
-            String jsonResponse = geocodeAddress(address);
-            return Location.fromLocationIQ(jsonResponse, address);
-        } catch (Exception e) {
-            log.error("Failed to geocode address: {}", address, e);
-            Location emptyLocation = new Location();
-            emptyLocation.setInputAddress(address);
-            return emptyLocation;
-        }
-    }
 }
