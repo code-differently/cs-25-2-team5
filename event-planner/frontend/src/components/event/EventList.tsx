@@ -1,12 +1,10 @@
 import { Event } from './Event'
 import { useState,useEffect } from 'react'
 import './EventList.css'
-import { useUser } from '@clerk/clerk-react'
 
 const EventList = () => {
   const [events, setEvents] = useState<any[]>([])
   const API_URL = import.meta.env.VITE_API_URL
-  const { isSignedIn, isLoaded, user } = useUser();
   useEffect(() => {
     const fetchEvents = async () => {
       const response = await fetch(`${API_URL}/events/community`)

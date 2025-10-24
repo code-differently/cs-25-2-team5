@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import './Login.css';
-import { useUser } from '@clerk/clerk-react';
 
 export const Login: React.FC = () => {
     const [email, setEmail] = useState('');
