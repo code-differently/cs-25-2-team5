@@ -17,11 +17,10 @@ const InvitationDetails: React.FC<InvitationDetailsProps> = ({ event, handleRSVP
     </div>
     <h2>{event.title}</h2>
     <p>{event.description}</p>
-    <p>
+    <p data-testid="rsvp-status">
       Date: {event.date} <br />
       Time: {event.time} <br />
       Location: {event.location} <br />
-      {/* RSVP status is capitalized for display */}
       <strong>RSVP Status:</strong> {event.rsvpStatus.charAt(0).toUpperCase() + event.rsvpStatus.slice(1)}
     </p>
     <div className="rsvp-button-group">
