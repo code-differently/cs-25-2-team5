@@ -64,7 +64,7 @@ public class User {
     if (email == null || !email.contains("@")) {
       throw new IllegalArgumentException("Invalid email format");
     }
-    this.email = email.toLowerCase();
+    this.email = email;
   }
 
   public void setPassword(String password) {
