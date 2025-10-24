@@ -14,6 +14,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -64,5 +65,28 @@ public class UserController {
             .guests(guests)
             .build();
     return ResponseEntity.ok(model);
+  }
+
+  @PutMapping("/{userId}/events/{eventId}")
+  public ResponseEntity<EventDTO> updateUserEvent(
+      @PathVariable Long userId,
+      @PathVariable Long eventId,
+      @RequestBody EventModel updatedEventInfo) {
+    EventModel updatedEvent = userService.updateUserEvent(userId, eventId, updatedEventInfo);
+    User organizer = updatedEvent.getOrganizer();
+
+    UserDTO organizerDTO =
+        UserDTO.builder().name(organizer.getName()).email(organizer.getEmail()).build();
+    Set<UserDTO> guests = new HashSet<>();
+    EventDTO eventDTO =
+        EventDTO.builder()
+            .title(updatedEvent.getTitle())
+            .description(updatedEvent.getDescription())
+            .startTime(updatedEvent.getStartTime())
+            .eventType(updatedEvent.getIsPublic() ? "Community" : "Private")
+            .organizer(organizerDTO)
+            .guests(guests)
+            .build();
+    return ResponseEntity.ok(eventDTO);
   }
 }

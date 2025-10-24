@@ -1,6 +1,7 @@
 package com.api.demo.services;
 
 import com.api.demo.dtos.UserInviteDTO;
+import com.api.demo.exceptions.UnauthorizedAccessException;
 import com.api.demo.exceptions.UserNotFoundException;
 import com.api.demo.models.EventGuest;
 import com.api.demo.models.EventModel;
@@ -18,8 +19,8 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 public class UserService {
-  private UserRepository userRepository;
-  private EventService eventService;
+  private final UserRepository userRepository;
+  private final EventService eventService;
 
   @Autowired
   public UserService(UserRepository userRepository, EventService eventService) {
@@ -70,4 +71,31 @@ public class UserService {
   public List<UserInviteDTO> getAllInvitedEvents(Long userId) {
     return userRepository.findAllUserInvitedEvents(userId);
   }
+
+  /*
+   * Updates an event if the user is the organizer of that event.
+   * @param userId         The ID of the user attempting to update the event.
+   * @param eventId        The ID of the event to be updated.
+   * @param updatedEvent   The event data with updated information.
+   *
+   * @return The updated EventModel.
+   * @throws UnauthorizedAccessException if the user is not the organizer of the event.
+   *
+   * Uses @Transactional to ensure database integrity during the operation.
+   */
+  @Transactional
+  public EventModel updateUserEvent(Long userId, Long eventId, EventModel updatedEvent) {
+    // Validate that the user exists
+    getUserById(userId);
+    
+    EventModel existingEvent = eventService.getEventById(eventId);
+    
+    // Check if the user is the organizer of this event
+    if (!existingEvent.getOrganizer().getId().equals(userId)) {
+      throw new UnauthorizedAccessException("Only the event organizer can update this event");
+    }
+    
+    return eventService.updateEvent(eventId, updatedEvent);
+  }
+  
 }
