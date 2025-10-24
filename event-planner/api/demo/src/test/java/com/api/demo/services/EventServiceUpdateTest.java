@@ -61,9 +61,11 @@ public class EventServiceUpdateTest {
     when(eventModelRepo.findById(anyLong())).thenReturn(Optional.empty());
 
     // When & Then
-    assertThrows(EventNotFoundException.class, () -> {
-      eventService.updateEvent(999L, updateInfo);
-    });
+    assertThrows(
+        EventNotFoundException.class,
+        () -> {
+          eventService.updateEvent(999L, updateInfo);
+        });
   }
 
   @Test
@@ -71,7 +73,7 @@ public class EventServiceUpdateTest {
     // Given - only update title, leave description unchanged
     EventModel partialUpdate = new EventModel();
     partialUpdate.setTitle("New Title Only");
-    
+
     when(eventModelRepo.findById(1L)).thenReturn(Optional.of(existingEvent));
     when(eventModelRepo.save(any(EventModel.class))).thenReturn(existingEvent);
 

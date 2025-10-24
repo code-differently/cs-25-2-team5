@@ -20,25 +20,22 @@ public class EventService {
     return eventModelRepo.save(event);
   }
 
-  public EventModel getEventById(Long eventId) {
-    return eventModelRepo
-        .findById(eventId)
-        .orElseThrow(() -> new RuntimeException("Event not found with id: " + eventId));
-  }
-
   public Iterable<EventModel> getCommunityEvents() {
     return eventModelRepo.findAllByIsPublicTrue();
   }
 
   public EventModel getEventById(Long id) {
-    return eventModelRepo.findById(id)
+    return eventModelRepo
+        .findById(id)
         .orElseThrow(() -> new EventNotFoundException("Event not found with id: " + id));
   }
 
   public EventModel updateEvent(Long id, EventModel updatedEventInfo) {
-    EventModel event = eventModelRepo.findById(id)
-        .orElseThrow(() -> new EventNotFoundException("Event not found"));
-    
+    EventModel event =
+        eventModelRepo
+            .findById(id)
+            .orElseThrow(() -> new EventNotFoundException("Event not found"));
+
     // Update fields if they are provided
     if (updatedEventInfo.getTitle() != null) {
       event.setTitle(updatedEventInfo.getTitle());
@@ -52,7 +49,7 @@ public class EventService {
     if (updatedEventInfo.getIsPublic() != null) {
       event.setIsPublic(updatedEventInfo.getIsPublic());
     }
-    
+
     return eventModelRepo.save(event);
   }
 }

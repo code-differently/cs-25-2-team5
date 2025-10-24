@@ -87,15 +87,14 @@ public class UserService {
   public EventModel updateUserEvent(Long userId, Long eventId, EventModel updatedEvent) {
     // Validate that the user exists
     getUserById(userId);
-    
+
     EventModel existingEvent = eventService.getEventById(eventId);
-    
+
     // Check if the user is the organizer of this event
     if (!existingEvent.getOrganizer().getId().equals(userId)) {
       throw new UnauthorizedAccessException("Only the event organizer can update this event");
     }
-    
+
     return eventService.updateEvent(eventId, updatedEvent);
   }
-  
 }

@@ -43,7 +43,8 @@ public class GlobalExceptionHandler {
   }
 
   @ExceptionHandler(UnauthorizedAccessException.class)
-  public ResponseEntity<Map<String, Object>> handleUnauthorizedAccess(UnauthorizedAccessException ex) {
+  public ResponseEntity<Map<String, Object>> handleUnauthorizedAccess(
+      UnauthorizedAccessException ex) {
     Map<String, Object> errorResponse = new HashMap<>();
     errorResponse.put("error", "Unauthorized Access");
     errorResponse.put("message", ex.getMessage());
