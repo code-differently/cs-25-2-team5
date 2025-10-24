@@ -4,10 +4,11 @@ import './Navigation.css';
 
 const Navigation: React.FC = () => {
   const location = useLocation();
-  const isAuthenticated = true;
+  // TODO: Replace with actual Clerk auth check
+  const isAuthenticated = false;  // Change to use Clerk's useAuth()
+  
   const isLoginPage = location.pathname === '/login';
   const isSignUpPage = location.pathname === '/signup';
-  const goBackHome = location.pathname === '/';
 
   return (
     <header className="header">
@@ -17,53 +18,40 @@ const Navigation: React.FC = () => {
         </Link>
       </div>
       
-      {!isLoginPage && (
+      {/* Top Menu - Only show when not on auth pages */}
+      {!isLoginPage && !isSignUpPage && (
         <ul className="navigation-top-menu">
-          <li>
-            <a href="#">Discover</a>
-          </li>
-          <li>
-            <Link to="/about">About Us</Link>
-          </li>
-          <li>
-            <Link to="/invitations">Invitations</Link>
-          </li>
+          <li><a href="#">Discover</a></li>
+          <li><Link to="/about">About Us</Link></li>
+          {/* Only show Invitations when authenticated */}
+          {isAuthenticated && (
+            <li><Link to="/invitations">Invitations</Link></li>
+          )}
         </ul>
-      )}
-
-      {!isAuthenticated && !isLoginPage && !isSignUpPage && (
-        <>
-          <Link className="navigation-login-button" to="/login">
-            Login
-          </Link>
-          <Link className="navigation-signup-button" to="/signup">
-            Sign Up
-          </Link>
-        </>
       )}
 
       {/* Auth Buttons Section */}
       <div className="auth-buttons">
         {isAuthenticated && !isLoginPage && !isSignUpPage && (
-        <>
           <Link className="navigation-create-event-button" to="/createEvent">
             Create Event
           </Link>
-        </>
         )}
-        {!isLoginPage && (
-          <Link className="navigation-login-button" to="/login">
-            Login
-          </Link>
+        
+        {!isAuthenticated && !isLoginPage && !isSignUpPage && (
+          <>
+            <Link className="navigation-login-button" to="/login">
+              Login
+            </Link>
+            <Link className="navigation-signup-button" to="/signup">
+              Sign Up
+            </Link>
+          </>
         )}
-        {!isSignUpPage && !isLoginPage && (
-          <Link className="navigation-signup-button" to="/signup">
-            Sign Up
-          </Link>
-        )}
+        
         {isLoginPage && (
           <Link className="navigation-home-button" to="/">
-            {goBackHome ? 'Refresh Home' : 'Go Back Home'}
+            Go Back Home
           </Link>
         )}
       </div>
