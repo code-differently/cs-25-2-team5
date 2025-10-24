@@ -1,0 +1,109 @@
+/* Invitations Page Styling - Consistent with other pages */
+
+.invitations-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem 0;
+}
+
+.invitations-container {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  padding: 2rem;
+  max-width: 600px;
+  width: 100%;
+}
+
+.invitations-header {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  color: #333;
+  text-align: center;
+}
+
+.invitations-list {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 2rem;
+}
+
+.invitations-list li {
+  margin-bottom: 1rem;
+}
+
+.invitations-list button {
+  background: none;
+  border: none;
+  color: #a5a58d;
+  font-size: 1.1rem;
+  cursor: pointer;
+  text-decoration: underline;
+  padding: 0;
+}
+
+.invitations-details {
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 1.5rem;
+  background: #fafafa;
+  margin-top: 1rem;
+}
+
+.invitations-details-header h1 {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+.invitations-details h2 {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+    color: #222;
+}
+
+.invitations-details p {
+  margin: 0.5rem 0;
+  color: #444;
+}
+
+.rsvp-button-group {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.2rem;
+  justify-content: center;
+}
+
+.rsvp-button {
+  border-radius: 8px;
+  color: white;
+  background-color: #a5a58d;
+  padding: 12px 32px;
+  text-decoration: none;
+  font-weight: 600;
+  font-family: 'Satoshi', sans-serif;
+  font-size: 14px;
+  transition: all 0.2s ease;
+  border: none;
+  cursor: pointer;
+  min-height: 44px;
+}
+
+.rsvp-button:hover:not(:disabled) {
+  background-color: #939380;
+  color: white;
+  transform: translateY(-1px);
+}
+
+.rsvp-button:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.rsvp-button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
