@@ -27,7 +27,6 @@
     text-align: center;
     margin-bottom: 2rem;
     font-size: 2rem;
-    font-family: 'Satoshi', sans-serif;
     font-weight: 700;
     color: #333;
 }
@@ -50,7 +49,6 @@
     font-size: 14px;
     font-weight: 600;
     color: #333;
-    font-family: 'Satoshi', sans-serif;
 }
 
 .event-form-input {
@@ -58,7 +56,6 @@
     border: 1px solid #ddd;
     border-radius: 8px;
     font-size: 14px;
-    font-family: 'Satoshi', sans-serif;
     background-color: #fff;
     color: #333;
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
@@ -89,7 +86,6 @@
     border-radius: 8px;
     font-size: 14px;
     font-weight: 600;
-    font-family: 'Satoshi', sans-serif;
     background-color: #a5a58d;
     color: white;
     cursor: pointer;
@@ -146,7 +142,6 @@
 
 .event-image-text h2 {
     font-size: 2.5rem;
-    font-family: 'Satoshi', sans-serif;
     font-weight: 700;
     margin-bottom: 1rem;
     color: white;
@@ -154,7 +149,6 @@
 
 .event-image-text p {
     font-size: 1.1rem;
-    font-family: 'Satoshi', sans-serif;
     font-weight: 400;
     opacity: 0.9;
     max-width: 300px;
@@ -166,7 +160,6 @@
     border: 1px solid #ddd;
     border-radius: 8px;
     font-size: 14px;
-    font-family: 'Satoshi', sans-serif;
     background-color: #fff;
     color: #333;
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
