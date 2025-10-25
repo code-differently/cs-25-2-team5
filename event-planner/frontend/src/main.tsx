@@ -10,6 +10,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import React from 'react';
 import SignUp from './pages/signup/SignUp.tsx';
 import { ClerkProvider } from '@clerk/clerk-react';
+import Invitations from './pages/invitations/Invitations.tsx';
 import About from './pages/about/About.tsx';
 
 
@@ -27,6 +28,10 @@ const router = createBrowserRouter([
       {
         path: '/about',
         element: <About />,
+      },
+      {
+        path: '/invitations',
+        element: <Invitations />,
       },
       {
         path: '/login',
