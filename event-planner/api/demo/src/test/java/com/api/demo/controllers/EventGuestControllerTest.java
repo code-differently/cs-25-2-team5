@@ -6,6 +6,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import com.api.demo.dtos.CreateEventWithGuestsRequest;
 import com.api.demo.models.EventGuest;
 import com.api.demo.models.EventGuestKey;
 import com.api.demo.models.EventModel;
@@ -69,12 +70,14 @@ class EventGuestControllerTest {
     Set<String> guestEmails = new HashSet<>();
     guestEmails.add("test@example.com");
 
+    CreateEventWithGuestsRequest request = new CreateEventWithGuestsRequest(mockEvent, guestEmails);
+
     when(eventGuestService.createEventWithGuests(organizerId, mockEvent, guestEmails))
         .thenReturn(mockEvent);
 
     // When
     ResponseEntity<EventModel> response =
-        eventGuestController.createEventWithGuests(organizerId, mockEvent, guestEmails);
+        eventGuestController.createEventWithGuests(organizerId, request);
 
     // Then
     assertEquals(HttpStatus.CREATED, response.getStatusCode());

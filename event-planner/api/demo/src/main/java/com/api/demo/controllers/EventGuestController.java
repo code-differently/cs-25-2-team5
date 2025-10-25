@@ -1,5 +1,6 @@
 package com.api.demo.controllers;
 
+import com.api.demo.dtos.CreateEventWithGuestsRequest;
 import com.api.demo.models.EventGuest;
 import com.api.demo.models.EventGuestKey;
 import com.api.demo.models.EventModel;
@@ -7,7 +8,6 @@ import com.api.demo.models.RsvpStatus;
 import com.api.demo.services.EventGuestService;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -55,13 +55,12 @@ public class EventGuestController {
   }
 
   // Create event with guests (from EventGuestService)
-  @PostMapping("/event/create")
+  @PostMapping("/organizer/{organizerId}/event/create")
   public ResponseEntity<EventModel> createEventWithGuests(
-      @RequestParam Long organizerId,
-      @RequestBody EventModel event,
-      @RequestParam Set<String> guestEmails) {
+      @PathVariable Long organizerId, @RequestBody CreateEventWithGuestsRequest request) {
     EventModel createdEvent =
-        eventGuestService.createEventWithGuests(organizerId, event, guestEmails);
+        eventGuestService.createEventWithGuests(
+            organizerId, request.getEvent(), request.getGuestEmails());
     return ResponseEntity.status(HttpStatus.CREATED).body(createdEvent);
   }
 
