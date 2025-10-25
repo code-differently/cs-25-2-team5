@@ -19,7 +19,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Event Service Unit Tests")
-public class EventServiceTest {
+public class EventServiceUnitTest {
 
   @Mock private EventModelRepo eventModelRepo;
 

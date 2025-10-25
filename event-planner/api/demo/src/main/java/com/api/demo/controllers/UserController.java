@@ -1,17 +1,22 @@
 package com.api.demo.controllers;
 
 import com.api.demo.dtos.EventDTO;
+import com.api.demo.dtos.LoginRequest;
 import com.api.demo.dtos.UserDTO;
 import com.api.demo.models.EventModel;
 import com.api.demo.models.User;
 import com.api.demo.services.UserService;
 import jakarta.validation.Valid;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,6 +36,18 @@ public class UserController {
   @Autowired
   public UserController(UserService userService) {
     this.userService = userService;
+  }
+
+  @GetMapping("")
+  public List<UserDTO> getAllUsers() {
+    List<User> users = userService.getAllUsers();
+    List<UserDTO> userDTOs = new ArrayList<>();
+    for (User user : users) {
+      UserDTO userDTO =
+          UserDTO.builder().id(user.getId()).name(user.getName()).email(user.getEmail()).build();
+      userDTOs.add(userDTO);
+    }
+    return userDTOs;
   }
 
   @GetMapping("/{id}")
@@ -74,6 +91,7 @@ public class UserController {
             .eventType(createdEvent.getIsPublic() ? "Community" : "Private")
             .organizer(organizerDTO)
             .guests(guests)
+            .id(createdEvent.getId())
             .build();
     return ResponseEntity.ok(model);
   }
@@ -103,5 +121,26 @@ public class UserController {
             .guests(guests)
             .build();
     return ResponseEntity.ok(eventDTO);
+  }
+
+  @DeleteMapping("/{userId}/events/{eventId}")
+  public ResponseEntity<Void> deleteUserEvent(
+      @Valid @PathVariable Long userId, @Valid @PathVariable Long eventId) {
+    userService.deleteEvent(eventId, userId);
+    return ResponseEntity.noContent().build();
+  }
+
+  @GetMapping("/login")
+  public ResponseEntity<UserDTO> loginUser(@RequestBody LoginRequest loginRequest) {
+    User user = userService.getUserByEmail(loginRequest.getEmail());
+
+    if (user == null || !user.getPassword().equals(loginRequest.getPassword())) {
+      return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+    }
+
+    UserDTO userDTO =
+        UserDTO.builder().id(user.getId()).name(user.getName()).email(user.getEmail()).build();
+
+    return ResponseEntity.ok(userDTO);
   }
 }
