@@ -9,7 +9,7 @@ const EventForm: React.FC = () => {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [location, setLocation] = useState('');
-    const [owner, setOwner] = useState('');
+    const [organizer, setOrganizer] = useState('');
     const [time, setTime] = useState('');
     const [imageUrl, setImageUrl] = useState('');
     const [guests, setGuests] = useState<string[]>([]);
@@ -25,7 +25,7 @@ const EventForm: React.FC = () => {
             title,
             description,
             location,
-            owner, // Will be replaced with Clerk user ID/name when integrated
+            organizer, // Will be replaced with Clerk user ID/name when integrated
             time,
             imageUrl,
             guests,
@@ -58,7 +58,7 @@ const EventForm: React.FC = () => {
             setTitle('');
             setDescription('');
             setLocation('');
-            setOwner('');
+            setOrganizer('');
             setTime('');
             setImageUrl('');
             setGuests([]);
@@ -127,8 +127,8 @@ const EventForm: React.FC = () => {
                     setDescription={setDescription}
                     location={location}
                     setLocation={setLocation}
-                    owner={owner}
-                    setOwner={setOwner}
+                    organizer={organizer}
+                    setOrganizer={setOrganizer}
                     time={time}
                     setTime={setTime}
                     imageUrl={imageUrl}

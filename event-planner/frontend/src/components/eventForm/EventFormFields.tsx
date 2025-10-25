@@ -7,8 +7,8 @@ interface EventFormFieldsProps {
   setDescription: (v: string) => void;
   location: string;
   setLocation: (v: string) => void;
-  owner: string;
-  setOwner: (v: string) => void;
+  organizer: string;
+  setOrganizer: (v: string) => void;
   time: string;
   setTime: (v: string) => void;
   imageUrl: string;
@@ -23,8 +23,8 @@ const EventFormFields: React.FC<EventFormFieldsProps> = ({
   setDescription,
   location,
   setLocation,
-  owner,
-  setOwner,
+  organizer,
+  setOrganizer,
   time,
   setTime,
   imageUrl,
@@ -77,9 +77,9 @@ const EventFormFields: React.FC<EventFormFieldsProps> = ({
         id="event-owner"
         type="text"
         className="event-form-input"
-        value={owner}
-        onChange={e => setOwner(e.target.value)}
-        placeholder="Event Owner"
+        value={organizer}
+        onChange={e => setOrganizer(e.target.value)}
+        placeholder="Event Organizer"
         required
         disabled={isSubmitting}
       />
