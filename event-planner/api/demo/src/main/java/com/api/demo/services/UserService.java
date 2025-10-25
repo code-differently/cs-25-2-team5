@@ -27,7 +27,6 @@ public class UserService {
   public UserService(UserRepository userRepository, EventService eventService) {
     this.userRepository = userRepository;
     this.eventService = eventService;
-
   }
 
   public User createUser(User user) {
@@ -117,5 +116,4 @@ public class UserService {
   private boolean isUserOrganizerOfEvent(Long userId, EventModel event) {
     return event.getOrganizer().getId().equals(userId);
   }
-
 }

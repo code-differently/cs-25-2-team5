@@ -7,13 +7,10 @@ import com.api.demo.models.EventModel;
 import com.api.demo.models.User;
 import com.api.demo.services.UserService;
 import jakarta.validation.Valid;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -40,16 +37,14 @@ public class UserController {
   public UserController(UserService userService) {
     this.userService = userService;
   }
+
   @GetMapping("")
   public List<UserDTO> getAllUsers() {
     List<User> users = userService.getAllUsers();
     List<UserDTO> userDTOs = new ArrayList<>();
     for (User user : users) {
-      UserDTO userDTO = UserDTO.builder()
-          .id(user.getId())
-          .name(user.getName())
-          .email(user.getEmail())
-          .build();
+      UserDTO userDTO =
+          UserDTO.builder().id(user.getId()).name(user.getName()).email(user.getEmail()).build();
       userDTOs.add(userDTO);
     }
     return userDTOs;
@@ -64,7 +59,7 @@ public class UserController {
   }
 
   @PostMapping("")
-  public ResponseEntity<UserDTO> createUser( @RequestBody User user) {
+  public ResponseEntity<UserDTO> createUser(@RequestBody User user) {
     User createdUser = userService.createUser(user);
     UserDTO userDTO =
         UserDTO.builder()
@@ -127,8 +122,10 @@ public class UserController {
             .build();
     return ResponseEntity.ok(eventDTO);
   }
+
   @DeleteMapping("/{userId}/events/{eventId}")
-  public ResponseEntity<Void> deleteUserEvent(@Valid @PathVariable Long userId,@Valid @PathVariable Long eventId) {
+  public ResponseEntity<Void> deleteUserEvent(
+      @Valid @PathVariable Long userId, @Valid @PathVariable Long eventId) {
     userService.deleteEvent(eventId, userId);
     return ResponseEntity.noContent().build();
   }
@@ -141,11 +138,8 @@ public class UserController {
       return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
 
-    UserDTO userDTO = UserDTO.builder()
-        .id(user.getId())
-        .name(user.getName())
-        .email(user.getEmail())
-        .build();
+    UserDTO userDTO =
+        UserDTO.builder().id(user.getId()).name(user.getName()).email(user.getEmail()).build();
 
     return ResponseEntity.ok(userDTO);
   }

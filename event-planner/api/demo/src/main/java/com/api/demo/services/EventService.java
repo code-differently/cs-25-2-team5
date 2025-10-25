@@ -60,5 +60,4 @@ public class EventService {
             .orElseThrow(() -> new EventNotFoundException("Event not found with id: " + id));
     eventModelRepo.delete(event);
   }
-
 }
