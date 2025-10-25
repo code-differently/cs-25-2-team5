@@ -245,11 +245,14 @@ public class UserServiceTest {
   @DisplayName("Test - Delete event through user service")
   public void deleteEvent_ShouldRemoveEvent() {
     // Arrange
+    EventModel event = new EventModel();
+    User organizer = new User();
+    organizer.setId(1L);
+    event.setOrganizer(organizer);
     Long eventId = 1L;
-    when(eventService.getEventById(eventId)).thenReturn(new EventModel());
-
+    when(eventService.getEventById(eventId)).thenReturn(event);
     // Act
-    userService.deleteEvent(eventId);
+    userService.deleteEvent(eventId, 1L);
 
     // Assert
     verify(eventService, times(1)).deleteEvent(eventId);
