@@ -52,6 +52,8 @@ public class User {
   @OneToMany(mappedBy = "organizer", cascade = CascadeType.ALL)
   private Set<EventModel> organizedEvents;
 
+  private String clerkId;
+
   // Custom constructor (skip id, since DB will generate it)
   public User(String name, String email, String password) {
     this.name = name;
