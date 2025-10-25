@@ -130,7 +130,7 @@ public class UserController {
     return ResponseEntity.noContent().build();
   }
 
-  @GetMapping("/login")
+  @PostMapping("/login")
   public ResponseEntity<UserDTO> loginUser(@RequestBody LoginRequest loginRequest) {
     User user = userService.getUserByEmail(loginRequest.getEmail());
 
