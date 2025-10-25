@@ -3,11 +3,11 @@ import './CreateEvent.css';
 import { useUser } from '@clerk/clerk-react';
 const CreateEvent = () => {
     const {isSignedIn,user} = useUser();
-    console.log(user?.emailAddresses);
+    console.log(user?.id);
     if(!isSignedIn) {
        window.location.href = "/";
     }
-    
+
     return (
         <div className="create-event-page">
             <div className="event-image-section">
