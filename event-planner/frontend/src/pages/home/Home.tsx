@@ -1,7 +1,7 @@
 import React from 'react';
 import EventList from '../../components/event/EventList';
 import './Home.css';
-import { useUser } from '@clerk/clerk-react';
+
 const Home: React.FC = () => {
    
   return (
