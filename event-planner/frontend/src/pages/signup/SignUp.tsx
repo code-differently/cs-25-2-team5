@@ -33,19 +33,31 @@ export default function SignUpPage() {
   
   const API_URL = import.meta.env.VITE_API_URL;
   const handleAPICall = async () => {
-      await fetch(`${API_URL}/users`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        
-        body: JSON.stringify({
-          name: form.firstName + ' ' + form.lastName,
-          email: form.email,
-          password: form.password,
-        })
-      });
+  try {
+    const res = await fetch(`${API_URL}/v1/users`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        name: `${form.firstName} ${form.lastName}`,
+        email: form.email,
+        password: form.password,
+      }),
+    });
+
+    if (!res.ok) {
+      const errorText = await res.text();
+      throw new Error(`API Error: ${res.status} - ${errorText}`);
     }
+
+    const data = await res.json();
+    return data; // 👈 return the actual JSON
+
+  } catch (err) {
+    console.error("Error during API call:", err);
+    throw err; // optional rethrow
+  }
+};
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 

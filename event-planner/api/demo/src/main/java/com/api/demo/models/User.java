@@ -1,6 +1,7 @@
 package com.api.demo.models;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -51,6 +52,7 @@ public class User {
 
   @OneToMany(mappedBy = "organizer", cascade = CascadeType.ALL)
   private Set<EventModel> organizedEvents;
+  
 
   // Custom constructor (skip id, since DB will generate it)
   public User(String name, String email, String password) {
