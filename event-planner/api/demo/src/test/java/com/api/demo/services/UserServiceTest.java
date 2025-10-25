@@ -240,4 +240,21 @@ public class UserServiceTest {
     assertThat(result.get(0).getEmail()).isEqualTo("john.doe@example.com");
     assertThat(result.get(1).getTitle()).isEqualTo("Event 2");
   }
+
+  @Test
+  @DisplayName("Test - Delete event through user service")
+  public void deleteEvent_ShouldRemoveEvent() {
+    // Arrange
+    EventModel event = new EventModel();
+    User organizer = new User();
+    organizer.setId(1L);
+    event.setOrganizer(organizer);
+    Long eventId = 1L;
+    when(eventService.getEventById(eventId)).thenReturn(event);
+    // Act
+    userService.deleteEvent(eventId, 1L);
+
+    // Assert
+    verify(eventService, times(1)).deleteEvent(eventId);
+  }
 }

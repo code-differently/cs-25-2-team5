@@ -30,6 +30,8 @@ public class UserService {
   }
 
   public User createUser(User user) {
+    user.setEmail(user.getEmail().strip().toLowerCase());
+    user.setName(user.getName().strip());
     return userRepository.save(user);
   }
 
@@ -73,6 +75,10 @@ public class UserService {
     return userRepository.findAllUserInvitedEvents(userId);
   }
 
+  public List<User> getAllUsers() {
+    return userRepository.findAll();
+  }
+
   /*
    * Updates an event if the user is the organizer of that event.
    * @param userId         The ID of the user attempting to update the event.
@@ -92,10 +98,22 @@ public class UserService {
     EventModel existingEvent = eventService.getEventById(eventId);
 
     // Check if the user is the organizer of this event
-    if (!existingEvent.getOrganizer().getId().equals(userId)) {
+    if (!isUserOrganizerOfEvent(userId, existingEvent)) {
       throw new UnauthorizedAccessException("Only the event organizer can update this event");
     }
 
     return eventService.updateEvent(eventId, updatedEvent);
+  }
+
+  public void deleteEvent(Long id, Long userId) {
+    EventModel event = eventService.getEventById(id);
+    if (!isUserOrganizerOfEvent(userId, event)) {
+      throw new UnauthorizedAccessException("Only the event organizer can delete this event");
+    }
+    eventService.deleteEvent(id);
+  }
+
+  private boolean isUserOrganizerOfEvent(Long userId, EventModel event) {
+    return event.getOrganizer().getId().equals(userId);
   }
 }
