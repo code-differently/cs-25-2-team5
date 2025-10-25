@@ -1,6 +1,7 @@
 package com.api.demo.controllers;
 
 import com.api.demo.dtos.EventDTO;
+import com.api.demo.dtos.LoginRequest;
 import com.api.demo.dtos.UserDTO;
 import com.api.demo.models.EventModel;
 import com.api.demo.models.User;
@@ -14,6 +15,7 @@ import java.util.Set;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -129,5 +131,22 @@ public class UserController {
   public ResponseEntity<Void> deleteUserEvent(@Valid @PathVariable Long userId,@Valid @PathVariable Long eventId) {
     userService.deleteEvent(eventId, userId);
     return ResponseEntity.noContent().build();
+  }
+
+  @GetMapping("/login")
+  public ResponseEntity<UserDTO> loginUser(@RequestBody LoginRequest loginRequest) {
+    User user = userService.getUserByEmail(loginRequest.getEmail());
+
+    if (user == null || !user.getPassword().equals(loginRequest.getPassword())) {
+      return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+    }
+
+    UserDTO userDTO = UserDTO.builder()
+        .id(user.getId())
+        .name(user.getName())
+        .email(user.getEmail())
+        .build();
+
+    return ResponseEntity.ok(userDTO);
   }
 }
