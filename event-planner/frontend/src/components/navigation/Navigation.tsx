@@ -1,6 +1,7 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import './Navigation.css';
+import { SignedIn, UserButton } from "@clerk/clerk-react";
 
 const Navigation: React.FC = () => {
   const location = useLocation();
@@ -21,12 +22,23 @@ const Navigation: React.FC = () => {
       {/* Top Menu - Only show when not on auth pages */}
       {!isLoginPage && !isSignUpPage && (
         <ul className="navigation-top-menu">
-          <li><a href="#">Discover</a></li>
+          <li>
+            <Link to="/">Discover</Link>
+          </li>
           <li><Link to="/about">About Us</Link></li>
           {/* Only show Invitations when authenticated */}
           {isAuthenticated && (
             <li><Link to="/invitations">Invitations</Link></li>
           )}
+          <li>
+            <Link to="/">Discover</Link>
+          </li>
+          <li>
+            <Link to="/about">About Us</Link>
+          </li>
+          <li>
+            <Link to="/invitations">Invitations</Link>
+          </li>
         </ul>
       )}
 
@@ -54,6 +66,9 @@ const Navigation: React.FC = () => {
             Go Back Home
           </Link>
         )}
+        <SignedIn>
+          <UserButton afterSignOutUrl="/" />
+        </SignedIn>
       </div>
     </header>
   );

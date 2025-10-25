@@ -1,17 +1,13 @@
-// src/app/(auth)/signup/page.tsx
-'use client';
+
 
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import './SignUp.css';
-
-type FormData = {
-  firstName: string;
-  lastName: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
-};
+import { useSignUp } from '@clerk/clerk-react';
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import Field from '../../components/field/Field';
+import { type FormData } from '../../types/types';
 
 type FormErrors = Partial<Record<keyof FormData, string>> & { form?: string };
 
@@ -24,61 +20,74 @@ export default function SignUpPage() {
     confirmPassword: '',
   });
   const [errors, setErrors] = useState<FormErrors>({});
-  const [submitting, setSubmitting] = useState(false);
-  const [successMsg, setSuccessMsg] = useState<string | null>(null);
+  const [submitting] = useState(false);
+  const [successMsg] = useState<string | null>(null);
+  const { isLoaded, signUp, setActive } = useSignUp();
+  const navigate = useNavigate();
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target as { name: keyof FormData; value: string };
     setForm((f) => ({ ...f, [name]: value }));
     setErrors((e) => ({ ...e, [name]: undefined, form: undefined }));
   };
-
-  const validate = (data: FormData): FormErrors => {
-    const e: FormErrors = {};
-    if (!data.firstName.trim()) e.firstName = 'First name is required';
-    if (!data.lastName.trim()) e.lastName = 'Last name is required';
-    
-    // More robust email validation
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(data.email)) e.email = 'Enter a valid email';
-    
-    if (data.password.length < 8) e.password = 'Password must be at least 8 characters';
-    if (data.password !== data.confirmPassword) e.confirmPassword = 'Passwords do not match';
-    
-    return e;
-  };
-
-  const onSubmit = async (evt: React.FormEvent) => {
-    evt.preventDefault();
-    setSuccessMsg(null);
-
-    const v = validate(form);
-    if (Object.keys(v).length) {
-      setErrors(v);
-      return;
+  
+  const API_URL = import.meta.env.VITE_API_URL;
+  const handleAPICall = async () => {
+      await fetch(`${API_URL}/users`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        
+        body: JSON.stringify({
+          name: form.firstName + ' ' + form.lastName,
+          email: form.email,
+          password: form.password,
+          
+          
+        }
+      )
+      });
     }
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
 
+    if (!isLoaded) return <div>Loading...</div>
+    
+    // Start the sign-up process using the email and password provided
     try {
-      setSubmitting(true);
-      // TODO: swap this with your real API endpoint
-      // Example POST:
-      // const res = await fetch('/api/auth/signup', {
-      //   method: 'POST',
-      //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify(form),
-      // });
-      // if (!res.ok) throw new Error('Failed to sign up');
+     const response =  await signUp.create({
+        emailAddress:form.email,
+        password:form.password
+      })
+      if(response.status === 'complete'){
 
-      // For now, just simulate success:
-      await new Promise((r) => setTimeout(r, 600));
-      setSuccessMsg('Thanks! Your signup has been recorded.');
-      setForm({ firstName: '', lastName: '', email: '', password: '', confirmPassword: '' });
-    } catch (err: unknown) {
-      setErrors({ form: (err as Error)?.message || 'Something went wrong' });
-    } finally {
-      setSubmitting(false);
+        const apiResponse = await handleAPICall();
+        console.log(apiResponse);
+        await setActive({
+          session: response.createdSessionId,
+          navigate: async () => {
+            navigate('/')
+          },
+        })
+      }
+        
+
+
+      // Send the user an email with the verification code
+     
+
+      // Set 'verifying' true to display second form
+      // and capture the OTP code
+      
+    } catch (err: any) {
+      // See https://clerk.com/docs/guides/development/custom-flows/error-handling
+      // for more info on error handling
+      console.error(JSON.stringify(err, null, 2))
     }
-  };
+  }
+
+
 
   return (
     <div className="signup-page">
@@ -101,7 +110,7 @@ export default function SignUpPage() {
       <div className="signup-form-section">
         <div className="signup-container">
           <form
-            onSubmit={onSubmit}
+            onSubmit={handleSubmit}
             noValidate
             className="signup-form"
             aria-describedby={errors.form ? 'form-error' : undefined}
@@ -173,6 +182,8 @@ export default function SignUpPage() {
           autoComplete="new-password"
         />
 
+        <div id="clerk-captcha" />
+
         <button
           type="submit"
           disabled={submitting}
@@ -190,51 +201,6 @@ export default function SignUpPage() {
           </form>
         </div>
       </div>
-    </div>
-  );
-}
-
-function Field(props: {
-  label: string;
-  id: string;
-  name: keyof FormData;
-  value: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  error?: string;
-  type?: string;
-  autoComplete?: string;
-  helpText?: string;
-}) {
-  const { label, id, name, value, onChange, error, type = 'text', autoComplete, helpText } = props;
-  return (
-    <div className="field-container">
-      <label htmlFor={id} className="field-label">
-        {label}
-      </label>
-      <input
-        id={id}
-        name={name}
-        type={type}
-        value={value}
-        onChange={onChange}
-        autoComplete={autoComplete}
-        aria-invalid={!!error}
-        aria-describedby={
-          error ? `${id}-error` : helpText ? `${id}-help` : undefined
-        }
-        required
-        className="field-input"
-      />
-      {helpText && (
-        <p id={`${id}-help`} className="field-help">
-          {helpText}
-        </p>
-      )}
-      {error && (
-        <p id={`${id}-error`} className="field-error">
-          {error}
-        </p>
-      )}
     </div>
   );
 }

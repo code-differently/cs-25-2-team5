@@ -1,8 +1,19 @@
-import { events } from '../../types/types'
 import { Event } from './Event'
+import { useState,useEffect } from 'react'
 import './EventList.css'
 
 const EventList = () => {
+  const [events, setEvents] = useState<any[]>([])
+  const API_URL = import.meta.env.VITE_API_URL
+  useEffect(() => {
+    const fetchEvents = async () => {
+      const response = await fetch(`${API_URL}/events/community`)
+      const data = await response.json()
+      setEvents(data)
+    }
+
+    fetchEvents()
+  }, [])
   return (
     <div className="event-list-container">
       <h2 className="event-list-title">

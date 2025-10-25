@@ -142,6 +142,7 @@
     background-color: #fff;
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
     box-sizing: border-box;
+    color:#333;
 }
 
 .field-input:focus {
@@ -151,7 +152,7 @@
 }
 
 .field-input::placeholder {
-    color: #999;
+    color: black;
 }
 
 .field-input[aria-invalid="true"] {

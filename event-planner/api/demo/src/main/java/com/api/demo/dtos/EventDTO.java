@@ -13,7 +13,7 @@ import lombok.EqualsAndHashCode;
  * Data Transfer Object for Event entity to expose event information.
  */
 public class EventDTO {
-
+  private Long id;
   private String title;
   private String description;
   private LocalDateTime startTime;
