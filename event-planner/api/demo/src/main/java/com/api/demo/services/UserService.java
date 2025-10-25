@@ -92,14 +92,23 @@ public class UserService {
     EventModel existingEvent = eventService.getEventById(eventId);
 
     // Check if the user is the organizer of this event
-    if (!existingEvent.getOrganizer().getId().equals(userId)) {
+    if (!isUserOrganizerOfEvent(userId, existingEvent)) {
       throw new UnauthorizedAccessException("Only the event organizer can update this event");
     }
 
     return eventService.updateEvent(eventId, updatedEvent);
   }
 
-  private void deleteEvent(Long id) {
+  public void deleteEvent(Long id, Long userId) {
+    EventModel event = eventService.getEventById(id);
+    if (!isUserOrganizerOfEvent(userId, event)) {
+      throw new UnauthorizedAccessException("Only the event organizer can delete this event");
+    }
     eventService.deleteEvent(id);
   }
+
+  private boolean isUserOrganizerOfEvent(Long userId, EventModel event) {
+    return event.getOrganizer().getId().equals(userId);
+  }
+
 }
