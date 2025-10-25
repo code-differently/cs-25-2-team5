@@ -67,7 +67,31 @@ export default function SignUpPage() {
       })
       if(response.status === 'complete'){
 
-        await handleAPICall();
+       try {
+          const res = await fetch(`${API_URL}/users`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              name: `${form.firstName} ${form.lastName}`,
+              email: form.email,
+              password: form.password,
+            }),
+            
+            
+          });
+          
+            if (!res.ok) {
+              const errorText = await res.text();
+              throw new Error(`API Error: ${res.status} - ${errorText}`);
+            }
+            console.log(res.json());
+        }
+          catch (err) {
+          console.error("Error during API call:", err);
+          throw err; // optional rethrow
+    }
+  
+  
         await setActive({
           session: response.createdSessionId,
           navigate: async () => {

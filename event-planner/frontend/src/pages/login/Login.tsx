@@ -28,20 +28,17 @@ export const Login: React.FC = () => {
                     password: password
                 }),
             });
-            }
-
+            alert("Login successful!");
+            window.location.href = "/";
+        } else {
+            console.error("Unexpected login flow:", result);
         }
+    } catch (err: any) {
+      console.error("Error during sign in:", err);
+      alert("Invalid email or password. Please try again.");
+    }
+  };
         
-
-        
-
-        // TODO: Replace with actual login logic when database is ready
-        alert('Login form submitted successfully!');
-
-        // Reset form
-        setEmail('');
-        setPassword('');
-    };
 
     return (
         <article>
