@@ -8,10 +8,13 @@ import com.api.demo.services.UserService;
 import jakarta.validation.Valid;
 import java.util.HashSet;
 import java.util.Set;
+
+import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -104,5 +107,10 @@ public class UserController {
             .guests(guests)
             .build();
     return ResponseEntity.ok(eventDTO);
+  }
+  @DeleteMapping("/{userId}/events/{eventId}")
+  public ResponseEntity<Void> deleteUserEvent(@Valid @PathVariable Long userId,@Valid @PathVariable Long eventId) {
+    userService.deleteEvent(eventId, userId);
+    return ResponseEntity.noContent().build();
   }
 }
