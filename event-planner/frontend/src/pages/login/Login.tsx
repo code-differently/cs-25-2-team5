@@ -4,7 +4,7 @@ import './Login.css';
 export const Login: React.FC = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-
+    
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
 
@@ -12,6 +12,8 @@ export const Login: React.FC = () => {
             email: email,
             password: password,
         };
+
+
 
         console.log('Login attempt:', loginData);
 

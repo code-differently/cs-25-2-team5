@@ -76,6 +76,7 @@ public class UserControllerTest {
         .perform(get("/api/v1/users/{id}", userId))
         .andExpect(status().isOk())
         .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+        .andExpect(jsonPath("$.id").value(1))
         .andExpect(jsonPath("$.name").value("John Doe"))
         .andExpect(jsonPath("$.email").value("john@example.com"));
   }
@@ -93,7 +94,7 @@ public class UserControllerTest {
   }
 
   @Test
-  @DisplayName("POST /api/v1/users/ - Should create user successfully")
+  @DisplayName("POST /api/v1/users - Should create user successfully")
   void createUser_ShouldCreateUser_WhenValidData() throws Exception {
     // Given
     User userToCreate = new User();
@@ -112,17 +113,18 @@ public class UserControllerTest {
     // When & Then
     mockMvc
         .perform(
-            post("/api/v1/users/")
+            post("/api/v1/users")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(userToCreate)))
         .andExpect(status().isOk())
         .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+        .andExpect(jsonPath("$.id").value(2))
         .andExpect(jsonPath("$.name").value("Jane Smith"))
         .andExpect(jsonPath("$.email").value("jane@example.com"));
   }
 
   @Test
-  @DisplayName("POST /api/v1/users/ - Should handle invalid user data")
+  @DisplayName("POST /api/v1/users - Should handle invalid user data")
   void createUser_ShouldHandleInvalidData_WhenBadRequest() throws Exception {
     // Given - User with missing required fields
     User invalidUser = new User();
@@ -131,7 +133,7 @@ public class UserControllerTest {
     // When & Then
     mockMvc
         .perform(
-            post("/api/v1/users/")
+            post("/api/v1/users")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(invalidUser)))
         .andExpect(status().isBadRequest());

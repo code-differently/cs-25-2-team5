@@ -9,6 +9,7 @@ import lombok.Data;
  * Data Transfer Object for User entity to expose limited user information.
  */
 public class UserDTO {
+  private Long id;
   private String name;
   private String email;
 }

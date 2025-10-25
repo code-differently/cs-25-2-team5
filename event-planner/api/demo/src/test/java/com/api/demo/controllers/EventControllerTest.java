@@ -5,7 +5,9 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import com.api.demo.dtos.EventDTO;
 import com.api.demo.models.EventModel;
+import com.api.demo.models.User;
 import com.api.demo.services.EventService;
 import java.util.Arrays;
 import java.util.List;
@@ -49,10 +51,28 @@ class EventControllerTest {
     EventModel event1 = new EventModel();
     event1.setId(1L);
     event1.setTitle("Community Event 1");
+    event1.setIsPublic(true); // Set isPublic to avoid NullPointerException
+    event1.setDescription("Test description 1");
+
+    // Create organizer for event1
+    User organizer1 = new User();
+    organizer1.setId(1L);
+    organizer1.setName("John Doe");
+    organizer1.setEmail("john@example.com");
+    event1.setOrganizer(organizer1);
 
     EventModel event2 = new EventModel();
     event2.setId(2L);
     event2.setTitle("Community Event 2");
+    event2.setIsPublic(true); // Set isPublic to avoid NullPointerException
+    event2.setDescription("Test description 2");
+
+    // Create organizer for event2
+    User organizer2 = new User();
+    organizer2.setId(2L);
+    organizer2.setName("Jane Smith");
+    organizer2.setEmail("jane@example.com");
+    event2.setOrganizer(organizer2);
 
     List<EventModel> mockEvents = Arrays.asList(event1, event2);
 
@@ -91,12 +111,36 @@ class EventControllerTest {
   // TEST 3: Directly test the controller method (without HTTP)
   @Test
   void getAllCommunityEvents_ShouldCallServiceMethod() {
-    // ARRANGE - Create fake events
-    List<EventModel> mockEvents = Arrays.asList(new EventModel(), new EventModel());
+    // ARRANGE - Create fake events with proper data
+    EventModel event1 = new EventModel();
+    event1.setId(1L);
+    event1.setTitle("Test Event 1");
+    event1.setIsPublic(true);
+    event1.setDescription("Test description");
+
+    User organizer1 = new User();
+    organizer1.setId(1L);
+    organizer1.setName("Test User");
+    organizer1.setEmail("test@example.com");
+    event1.setOrganizer(organizer1);
+
+    EventModel event2 = new EventModel();
+    event2.setId(2L);
+    event2.setTitle("Test Event 2");
+    event2.setIsPublic(false);
+    event2.setDescription("Test description 2");
+
+    User organizer2 = new User();
+    organizer2.setId(2L);
+    organizer2.setName("Test User 2");
+    organizer2.setEmail("test2@example.com");
+    event2.setOrganizer(organizer2);
+
+    List<EventModel> mockEvents = Arrays.asList(event1, event2);
     when(eventService.getCommunityEvents()).thenReturn(mockEvents);
 
     // ACT - Call the controller method directly
-    List<EventModel> result = eventController.getAllCommunityEvents();
+    List<EventDTO> result = eventController.getAllCommunityEvents();
 
     // ASSERT - Check that service was called and result has correct size
     verify(eventService, times(1)).getCommunityEvents();
