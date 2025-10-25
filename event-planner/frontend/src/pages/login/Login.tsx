@@ -1,25 +1,39 @@
 import React, { useState } from 'react';
 import './Login.css';
-
+import { useSignIn } from '@clerk/clerk-react';
 export const Login: React.FC = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
+    const { signIn, isLoaded, setActive } = useSignIn();
+    const API_URL = import.meta.env.VITE_API_URL;
 
-        const loginData = {
-            email: email,
-            password: password,
-        };
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        if(!isLoaded) return;
+        try {
+            const result = await signIn.create({
+                identifier: email,
+                password: password,
+            });
+            if (result.status === 'complete') {
+                await setActive({ session: result.createdSessionId });
+                // Redirect or perform additional actions upon successful login
+                await fetch(`${API_URL}/users/login`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    email: email,
+                    password: password
+                }),
+            });
+            }
+
+        }
         
 
-
-
-
-
-
-        console.log('Login attempt:', loginData);
+        
 
         // TODO: Replace with actual login logic when database is ready
         alert('Login form submitted successfully!');
