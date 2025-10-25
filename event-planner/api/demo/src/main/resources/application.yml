@@ -21,7 +21,12 @@ spring:
     init:
       # Disable SQL initialization
       mode: never
+  config:
+    active: 
+    import: optional:file:.env.properties
 
-# Server configuration
-server:
-  port: ${PORT:8080}
+# LocationIQ API configuration using environment variables
+locationiq:
+  api:
+    key: ${LOCATIONIQ_API_KEY:your-default-api-key-here}
+    base-url: ${LOCATIONIQ_API_BASE_URL:https://locationiq.com/v1}

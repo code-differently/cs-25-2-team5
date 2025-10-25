@@ -85,11 +85,12 @@ public class UserServiceTest {
     // Given
     Long nullId = null;
 
-    // When & Then - This will likely throw a different exception (like IllegalArgumentException)
+    // When & Then - This will likely throw a different exception (like
+    // IllegalArgumentException)
     // depending on how Spring Data JPA handles null IDs, but we test that it doesn't succeed
     assertThatThrownBy(() -> userService.getUserById(nullId))
-        .isInstanceOf(
-            Exception.class); // Could be UserNotFoundException or IllegalArgumentException
+        .isInstanceOf(Exception.class); // Could be UserNotFoundException or
+    // IllegalArgumentException
   }
 
   @Test
@@ -129,7 +130,8 @@ public class UserServiceTest {
         .thenAnswer(
             invocation -> {
               EventModel eventArg = invocation.getArgument(0);
-              return eventArg; // Return the same event that was passed in (now with organizer set)
+              return eventArg; // Return the same event that was passed in (now with
+              // organizer set)
             });
 
     // When
