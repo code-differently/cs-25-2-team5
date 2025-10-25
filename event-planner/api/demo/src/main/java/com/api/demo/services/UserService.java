@@ -11,7 +11,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,18 +22,17 @@ public class UserService {
 
   private final UserRepository userRepository;
   private final EventService eventService;
-  private final PasswordEncoder passwordEncoder;
 
   @Autowired
-  public UserService(UserRepository userRepository, EventService eventService, PasswordEncoder passwordEncoder) {
+  public UserService(UserRepository userRepository, EventService eventService) {
     this.userRepository = userRepository;
     this.eventService = eventService;
-    this.passwordEncoder = passwordEncoder;
+
   }
 
   public User createUser(User user) {
-    user.setEmail(user.getEmail().toLowerCase());
-    user.setPassword(passwordEncoder.encode(user.getPassword()));
+    user.setEmail(user.getEmail().strip().toLowerCase());
+    user.setName(user.getName().strip());
     return userRepository.save(user);
   }
 
@@ -76,6 +74,10 @@ public class UserService {
 
   public List<UserInviteDTO> getAllInvitedEvents(Long userId) {
     return userRepository.findAllUserInvitedEvents(userId);
+  }
+
+  public List<User> getAllUsers() {
+    return userRepository.findAll();
   }
 
   /*

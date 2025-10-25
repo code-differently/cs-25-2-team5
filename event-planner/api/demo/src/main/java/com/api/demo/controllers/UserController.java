@@ -6,10 +6,13 @@ import com.api.demo.models.EventModel;
 import com.api.demo.models.User;
 import com.api.demo.services.UserService;
 import jakarta.validation.Valid;
+
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
-import org.apache.catalina.connector.Response;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -35,6 +38,20 @@ public class UserController {
   public UserController(UserService userService) {
     this.userService = userService;
   }
+  @GetMapping("")
+  public List<UserDTO> getAllUsers() {
+    List<User> users = userService.getAllUsers();
+    List<UserDTO> userDTOs = new ArrayList<>();
+    for (User user : users) {
+      UserDTO userDTO = UserDTO.builder()
+          .id(user.getId())
+          .name(user.getName())
+          .email(user.getEmail())
+          .build();
+      userDTOs.add(userDTO);
+    }
+    return userDTOs;
+  }
 
   @GetMapping("/{id}")
   public ResponseEntity<UserDTO> getUserById(@PathVariable Long id) {
@@ -45,7 +62,7 @@ public class UserController {
   }
 
   @PostMapping("")
-  public ResponseEntity<UserDTO> createUser(@Valid @RequestBody User user) {
+  public ResponseEntity<UserDTO> createUser( @RequestBody User user) {
     User createdUser = userService.createUser(user);
     UserDTO userDTO =
         UserDTO.builder()
