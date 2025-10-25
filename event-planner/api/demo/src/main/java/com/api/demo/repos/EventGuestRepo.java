@@ -2,14 +2,17 @@ package com.api.demo.repos;
 
 import com.api.demo.models.EventGuest;
 import com.api.demo.models.EventGuestKey;
+import java.util.List;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface EventGuestRepo extends JpaRepository<EventGuest, EventGuestKey> {
 
-  Iterable<EventGuest> findAllByEventGuestKeyEventId(Long eventId);
+  List<EventGuest> findAllByEventGuestKeyEventId(Long eventId);
 
-  Iterable<EventGuest> findAllByEventGuestKeyGuestId(Long guestId);
+  List<EventGuest> findAllByEventGuestKeyGuestId(Long guestId);
 
   Optional<EventGuest> findByEventGuestKey(EventGuestKey eventGuestKey);
 }

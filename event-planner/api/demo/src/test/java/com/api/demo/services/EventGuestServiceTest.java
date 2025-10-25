@@ -405,6 +405,50 @@ class EventGuestServiceTest {
   }
 
   @Nested
+  @DisplayName("getEventGuest Tests")
+  class GetEventGuestTests {
+
+    @Test
+    @DisplayName("Should get event guest successfully")
+    void shouldGetEventGuestSuccessfully() {
+      // Given
+      Long eventId = 1L;
+      Long guestId = 2L;
+
+      when(eventGuestRepo.findById(testEventGuestKey)).thenReturn(Optional.of(testEventGuest));
+
+      // When
+      EventGuest result = eventGuestService.getEventGuest(eventId, guestId);
+
+      // Then
+      assertThat(result).isNotNull();
+      assertThat(result).isEqualTo(testEventGuest);
+      assertThat(result.getEventGuestKey()).isEqualTo(testEventGuestKey);
+      assertThat(result.getRsvpStatus()).isEqualTo(RsvpStatus.PENDING);
+
+      verify(eventGuestRepo).findById(testEventGuestKey);
+    }
+
+    @Test
+    @DisplayName("Should throw exception when event guest not found")
+    void shouldThrowExceptionWhenEventGuestNotFound() {
+      // Given
+      Long eventId = 1L;
+      Long guestId = 999L;
+      EventGuestKey notFoundKey = new EventGuestKey(eventId, guestId);
+
+      when(eventGuestRepo.findById(notFoundKey)).thenReturn(Optional.empty());
+
+      // When & Then
+      assertThatThrownBy(() -> eventGuestService.getEventGuest(eventId, guestId))
+          .isInstanceOf(EventGuestNotFoundException.class)
+          .hasMessage("EventGuest not found with key: " + notFoundKey);
+
+      verify(eventGuestRepo).findById(notFoundKey);
+    }
+  }
+
+  @Nested
   @DisplayName("setStatus Tests")
   class SetStatusTests {
 
