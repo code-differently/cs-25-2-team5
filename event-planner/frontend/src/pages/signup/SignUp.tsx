@@ -71,7 +71,7 @@ export default function SignUpPage() {
       })
       if(response.status === 'complete'){
 
-        const apiResponse = await handleAPICall();
+        await handleAPICall();
         await setActive({
           session: response.createdSessionId,
           navigate: async () => {
