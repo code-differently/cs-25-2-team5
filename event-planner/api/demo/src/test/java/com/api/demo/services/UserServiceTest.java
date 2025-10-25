@@ -242,5 +242,16 @@ public class UserServiceTest {
   }
 
   @Test
-  @DisplayName("Delete Event")
+  @DisplayName("Test - Delete event through user service")
+  public void deleteEvent_ShouldRemoveEvent() {
+    // Arrange
+    Long eventId = 1L;
+    when(eventService.getEventById(eventId)).thenReturn(new EventModel());
+
+    // Act
+    userService.deleteEvent(eventId);
+
+    // Assert
+    verify(eventService, times(1)).deleteEvent(eventId);
+  }
 }
