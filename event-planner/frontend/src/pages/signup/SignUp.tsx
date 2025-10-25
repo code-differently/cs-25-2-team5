@@ -43,20 +43,16 @@ export default function SignUpPage() {
         password: form.password,
       }),
     });
-
-    if (!res.ok) {
-      const errorText = await res.text();
-      throw new Error(`API Error: ${res.status} - ${errorText}`);
-    }
-
-    const data = await res.json();
-    return data; // 👈 return the actual JSON
-
-  } catch (err) {
+      if (!res.ok) {
+        const errorText = await res.text();
+        throw new Error(`API Error: ${res.status} - ${errorText}`);
+      }
+  }
+    catch (err) {
     console.error("Error during API call:", err);
     throw err; // optional rethrow
   }
-};
+}
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()

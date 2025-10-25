@@ -17,6 +17,8 @@ export const Login: React.FC = () => {
 
 
 
+
+
         console.log('Login attempt:', loginData);
 
         // TODO: Replace with actual login logic when database is ready

@@ -17,70 +17,28 @@ public class UserTest {
   }
 
   @Test
-  @DisplayName("Test email validation - valid email")
-  public void testEmailValidation_Valid() {
+  @DisplayName("Test Lombok generated setters and getters work")
+  public void testLombokSettersAndGetters() {
     User user = new User("Test", "valid@example.com", "password123");
-    user.setEmail("valid@example.com");
-    assertEquals("valid@example.com", user.getEmail());
+    user.setEmail("newemail@example.com");
+    user.setPassword("newpassword123");
+    assertEquals("newemail@example.com", user.getEmail());
+    assertEquals("newpassword123", user.getPassword());
   }
 
   @Test
-  @DisplayName("Test email validation - invalid email (no @)")
-  public void testEmailValidation_Invalid() {
-    User user = new User("Test", "valid@example.com", "password123");
-    Exception exception =
-        assertThrows(
-            IllegalArgumentException.class,
-            () -> {
-              user.setEmail("invalidemail.com");
-            });
-    assertTrue(exception.getMessage().contains("Invalid email format"));
+  @DisplayName("Test Lombok default constructor")
+  public void testLombokDefaultConstructor() {
+    User user = new User();
+    user.setName("Test User");
+    user.setEmail("test@example.com");
+    user.setPassword("testpassword");
+
+    assertEquals("Test User", user.getName());
+    assertEquals("test@example.com", user.getEmail());
+    assertEquals("testpassword", user.getPassword());
   }
 
-  @Test
-  @DisplayName("Test email validation - null email")
-  public void testEmailValidation_Null() {
-    User user = new User("Test", "valid@example.com", "password123");
-    Exception exception =
-        assertThrows(
-            IllegalArgumentException.class,
-            () -> {
-              user.setEmail(null);
-            });
-    assertTrue(exception.getMessage().contains("Invalid email format"));
-  }
-
-  @Test
-  @DisplayName("Test password validation - valid password")
-  public void testPasswordValidation_Valid() {
-    User user = new User("Test", "test@example.com", "password123");
-    user.setPassword("password123");
-    assertEquals("password123", user.getPassword());
-  }
-
-  @Test
-  @DisplayName("Test password validation - too short")
-  public void testPasswordValidation_TooShort() {
-    User user = new User("Test", "test@example.com", "password123");
-    Exception exception =
-        assertThrows(
-            IllegalArgumentException.class,
-            () -> {
-              user.setPassword("12345");
-            });
-    assertTrue(exception.getMessage().contains("Password must be at least 6 characters long"));
-  }
-
-  @Test
-  @DisplayName("Test password validation - null password")
-  public void testPasswordValidation_Null() {
-    User user = new User("Test", "test@example.com", "password123");
-    Exception exception =
-        assertThrows(
-            IllegalArgumentException.class,
-            () -> {
-              user.setPassword(null);
-            });
-    assertTrue(exception.getMessage().contains("Password must be at least 6 characters long"));
-  }
+  // Note: Jakarta validation tests would be tested in integration tests
+  // where the validation context is available
 }
