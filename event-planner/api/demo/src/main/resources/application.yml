@@ -21,9 +21,6 @@ spring:
     init:
       # Disable SQL initialization
       mode: never
-  config:
-    active: 
-    import: optional:file:.env.properties
 
 # LocationIQ API configuration using environment variables
 locationiq:

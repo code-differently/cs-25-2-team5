@@ -34,18 +34,23 @@ public class EventController {
     return StreamSupport.stream(events.spliterator(), false)
         .map(
             event -> {
+              // Handle null organizer case
+              UserDTO organizerDTO = null;
+              if (event.getOrganizer() != null) {
+                organizerDTO = UserDTO.builder()
+                    .id(event.getOrganizer().getId())
+                    .name(event.getOrganizer().getName())
+                    .email(event.getOrganizer().getEmail())
+                    .build();
+              }
+
               return EventDTO.builder()
                   .title(event.getTitle())
                   .description(event.getDescription())
                   .startTime(event.getStartTime())
                   .id(event.getId())
-                  .eventType(event.getIsPublic() ? "Community" : "Private")
-                  .organizer(
-                      UserDTO.builder()
-                          .id(event.getOrganizer().getId())
-                          .name(event.getOrganizer().getName())
-                          .email(event.getOrganizer().getEmail())
-                          .build())
+                  .eventType(event.getIsPublic() != null && event.getIsPublic() ? "Community" : "Private")
+                  .organizer(organizerDTO)
                   .build();
             })
         .collect(Collectors.toList());
@@ -54,20 +59,25 @@ public class EventController {
   @GetMapping("/{id}")
   public ResponseEntity<EventDTO> getEventById(@Valid @PathVariable Long id) {
     EventModel event = eventService.getEventById(id);
-    UserDTO organizerDTO =
-        UserDTO.builder()
-            .name(event.getOrganizer().getName())
-            .email(event.getOrganizer().getEmail())
-            .id(event.getOrganizer().getId())
-            .build();
+    
+    // Handle null organizer case
+    UserDTO organizerDTO = null;
+    if (event.getOrganizer() != null) {
+      organizerDTO = UserDTO.builder()
+          .name(event.getOrganizer().getName())
+          .email(event.getOrganizer().getEmail())
+          .id(event.getOrganizer().getId())
+          .build();
+    }
+    
     EventDTO eventDTO =
         EventDTO.builder()
             .title(event.getTitle())
             .description(event.getDescription())
             .startTime(event.getStartTime())
-            .eventType(event.getIsPublic() ? "Community" : "Private")
+            .eventType(event.getIsPublic() != null && event.getIsPublic() ? "Community" : "Private")
             .organizer(organizerDTO)
-            .id(id)
+            .id(event.getId())
             .build();
     return ResponseEntity.ok(eventDTO);
   }

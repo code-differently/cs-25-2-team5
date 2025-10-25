@@ -74,6 +74,7 @@ public class UserController {
             .eventType(createdEvent.getIsPublic() ? "Community" : "Private")
             .organizer(organizerDTO)
             .guests(guests)
+            .id(createdEvent.getId())
             .build();
     return ResponseEntity.ok(model);
   }
