@@ -18,3 +18,9 @@ spring:
   config:
     active: 
     import: optional:file:.env.properties
+
+# LocationIQ API configuration using environment variables
+locationiq:
+  api:
+    key: ${LOCATIONIQ_API_KEY:your-default-api-key-here}
+    base-url: ${LOCATIONIQ_API_BASE_URL:https://locationiq.com/v1}
