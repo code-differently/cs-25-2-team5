@@ -82,9 +82,9 @@ public class EventGuestController {
   }
 
   // Update RSVP status
-  @PutMapping("/event/{eventId}/guest/{guestId}/rsvp")
+  @PutMapping("/rsvp")
   public ResponseEntity<RsvpStatus> updateRsvpStatus(
-      @PathVariable Long eventId, @PathVariable Long guestId, @RequestParam RsvpStatus status) {
+      @RequestParam Long eventId, @RequestParam Long guestId, @RequestBody RsvpStatus status) {
     EventGuestKey key = new EventGuestKey(eventId, guestId);
     RsvpStatus updatedStatus = eventGuestService.setStatus(key, status);
     return ResponseEntity.ok(updatedStatus);
