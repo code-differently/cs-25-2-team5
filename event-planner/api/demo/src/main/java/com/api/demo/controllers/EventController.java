@@ -8,7 +8,6 @@ import jakarta.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -31,27 +30,26 @@ public class EventController {
   @GetMapping("/community")
   public List<EventDTO> getAllCommunityEvents() {
     Iterable<EventModel> events = eventService.getCommunityEvents();
-    
-    return StreamSupport.stream(events.spliterator(), false)
-        .map(event -> {   
-            return EventDTO.builder()
-                .title(event.getTitle())
-                .description(event.getDescription())
-                .startTime(event.getStartTime())
-                .id(event.getId())
-                .eventType(event.getIsPublic() ? "Community" : "Private")
-                .organizer(
-                    UserDTO.builder()
-                        .id(event.getOrganizer().getId())
-                        .name(event.getOrganizer().getName())
-                        .email(event.getOrganizer().getEmail())
-                        .build())
-                .build();
-        })
-        .collect(Collectors.toList());
 
+    return StreamSupport.stream(events.spliterator(), false)
+        .map(
+            event -> {
+              return EventDTO.builder()
+                  .title(event.getTitle())
+                  .description(event.getDescription())
+                  .startTime(event.getStartTime())
+                  .id(event.getId())
+                  .eventType(event.getIsPublic() ? "Community" : "Private")
+                  .organizer(
+                      UserDTO.builder()
+                          .id(event.getOrganizer().getId())
+                          .name(event.getOrganizer().getName())
+                          .email(event.getOrganizer().getEmail())
+                          .build())
+                  .build();
+            })
+        .collect(Collectors.toList());
   }
-  
 
   @GetMapping("/{id}")
   public ResponseEntity<EventDTO> getEventById(@Valid @PathVariable Long id) {

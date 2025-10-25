@@ -93,7 +93,7 @@ public class UserControllerTest {
     mockMvc.perform(get("/api/v1/users/{id}", nonExistentId)).andExpect(status().isNotFound());
   }
 
-    @Test
+  @Test
   @DisplayName("POST /api/v1/users - Should create user successfully")
   void createUser_ShouldCreateUser_WhenValidData() throws Exception {
     // Given

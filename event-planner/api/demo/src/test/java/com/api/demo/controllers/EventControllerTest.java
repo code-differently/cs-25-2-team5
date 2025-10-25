@@ -53,7 +53,7 @@ class EventControllerTest {
     event1.setTitle("Community Event 1");
     event1.setIsPublic(true); // Set isPublic to avoid NullPointerException
     event1.setDescription("Test description 1");
-    
+
     // Create organizer for event1
     User organizer1 = new User();
     organizer1.setId(1L);
@@ -66,7 +66,7 @@ class EventControllerTest {
     event2.setTitle("Community Event 2");
     event2.setIsPublic(true); // Set isPublic to avoid NullPointerException
     event2.setDescription("Test description 2");
-    
+
     // Create organizer for event2
     User organizer2 = new User();
     organizer2.setId(2L);
@@ -117,7 +117,7 @@ class EventControllerTest {
     event1.setTitle("Test Event 1");
     event1.setIsPublic(true);
     event1.setDescription("Test description");
-    
+
     User organizer1 = new User();
     organizer1.setId(1L);
     organizer1.setName("Test User");
@@ -129,13 +129,13 @@ class EventControllerTest {
     event2.setTitle("Test Event 2");
     event2.setIsPublic(false);
     event2.setDescription("Test description 2");
-    
+
     User organizer2 = new User();
     organizer2.setId(2L);
     organizer2.setName("Test User 2");
     organizer2.setEmail("test2@example.com");
     event2.setOrganizer(organizer2);
-    
+
     List<EventModel> mockEvents = Arrays.asList(event1, event2);
     when(eventService.getCommunityEvents()).thenReturn(mockEvents);
 
