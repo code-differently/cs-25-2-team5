@@ -2,7 +2,6 @@
   min-height: 100vh;
   background-color: #f8f8f8;
   padding: 4rem 2rem;
-  font-family: 'Satoshi', sans-serif;
 }
 
 .event-list-title {
@@ -12,7 +11,6 @@
   margin: 0 0 4rem 0;
   text-transform: uppercase;
   letter-spacing: 0.02em;
-  font-family: 'Satoshi', sans-serif;
   max-width: 1400px;
   margin-left: auto;
   margin-right: auto;

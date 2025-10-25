@@ -1,6 +1,6 @@
 .footer-container {
     display: flex;
-    position: sticky;
+    position: static;
     justify-content: space-around;
     align-items: center;
     height: 75px;
