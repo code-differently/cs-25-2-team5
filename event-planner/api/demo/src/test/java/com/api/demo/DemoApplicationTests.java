@@ -2,12 +2,14 @@ package com.api.demo;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.TestPropertySource;
 
-@SpringBootTest
-@ActiveProfiles("test")
+@SpringBootTest(classes = DemoApplication.class)
+@TestPropertySource(locations = "classpath:application-test.properties")
 class DemoApplicationTests {
 
   @Test
-  void contextLoads() {}
+  void contextLoads() {
+    // This test verifies that the Spring application context loads successfully
+  }
 }

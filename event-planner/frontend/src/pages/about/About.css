@@ -1,0 +1,109 @@
+.about-us-container {
+  min-height: 100vh;
+  background-color: white;
+  padding: 4rem 1rem;
+}
+
+.about-us-content {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.about-us-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 3rem;
+  align-items: start;
+}
+
+@media (min-width: 768px) {
+  .about-us-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.team-photo-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.group-photo-placeholder {
+  width: 100%;
+  max-width: 400px;
+  aspect-ratio: 3/4;
+  background-color: #e5e7eb;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+
+.photo-icon {
+  font-size: 6rem;
+  opacity: 0.5;
+}
+
+.group-photo {
+  width: 100%;
+  max-width: 400px;
+  border-radius: 8px;
+  object-fit: cover;
+  margin-bottom: 1.5rem;
+}
+
+.team-info {
+  text-align: center;
+}
+
+.team-heading {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  color: #222;
+}
+
+.team-list {
+  margin-top: 0.5rem;
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  position: sticky;
+}
+
+.team-member-item {
+  margin-bottom: 0.5rem;
+}
+
+.member-name {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin: 0;
+  color: black;
+}
+
+.member-role {
+  font-size: 0.875rem;
+  color: #6b7280;
+  margin: 0.25rem 0 0.5rem 0;
+}
+
+.about-description-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.about-heading {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+}
+
+.about-text {
+  color: #374151;
+  line-height: 1.7;
+  font-size: 1.125rem;
+  margin-bottom: 1rem;
+}

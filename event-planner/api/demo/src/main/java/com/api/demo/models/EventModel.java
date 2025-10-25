@@ -2,6 +2,7 @@ package com.api.demo.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -27,12 +28,11 @@ public class EventModel {
   private Long id;
 
   private String title;
-
   private String description;
-
   private Boolean isPublic;
-
   private LocalDateTime startTime;
+
+  @Embedded private Location location;
 
   @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
   private Set<EventGuest> eventGuests;

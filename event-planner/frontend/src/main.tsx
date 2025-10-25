@@ -9,6 +9,8 @@ import EventDetailsPage from './pages/events/EventDetails.tsx';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import React from 'react';
 import SignUp from './pages/signup/SignUp.tsx';
+import Invitations from './pages/invitations/Invitations.tsx';
+import About from './pages/about/About.tsx';
 
 
 const queryClient = new QueryClient();
@@ -21,6 +23,14 @@ const router = createBrowserRouter([
       {
         path: '/',
         element: <Home />,
+      },
+      {
+        path: '/about',
+        element: <About />,
+      },
+      {
+        path: '/invitations',
+        element: <Invitations />,
       },
       {
         path: '/login',
