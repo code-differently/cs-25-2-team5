@@ -16,6 +16,7 @@ const EventForm: React.FC = () => {
     const [guestInput, setGuestInput] = useState('');
     const [guestError, setGuestError] = useState<string | null>(null);
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [visibility, setVisibility] = useState<'public' | 'private'>('public');
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -28,8 +29,8 @@ const EventForm: React.FC = () => {
             organizer, // Will be replaced with Clerk user ID/name when integrated
             time,
             imageUrl,
-            guests,
-            visibility: 'public' // Include visibility in the payload
+            guests: visibility === 'private' ? guests : [],
+            visibility
         };
 
         try {
@@ -119,6 +120,19 @@ const EventForm: React.FC = () => {
     return (
         <div className="event-form-section">
             <form className="event-form" onSubmit={handleSubmit}>
+                <div className="event-visibility">
+                <label>
+                    Visibility:
+                    <select
+                        value={visibility}
+                        onChange={e => setVisibility(e.target.value as 'public' | 'private')}
+                        disabled={isSubmitting}
+                    >
+                        <option value="public">Public</option>
+                        <option value="private">Private</option>
+                    </select>
+                </label>
+                </div>
                 {/* Main event fields */}
                 <EventFormFields
                     title={title}
@@ -135,24 +149,27 @@ const EventForm: React.FC = () => {
                     setImageUrl={setImageUrl}
                     isSubmitting={isSubmitting}
                 />
-                {/* Guest input */}
-                <GuestInput
-                    guestInput={guestInput}
-                    setGuestInput={value => {
-                        setGuestInput(value);
-                        if (guestError) setGuestError(null);
-                    }}
-                    handleAddGuest={handleAddGuest}
-                    handleKeyPress={handleKeyPress}
-                    isSubmitting={isSubmitting}
-                    guestError={guestError}
-                />
-                {/* Guest list */}
-                <GuestList
-                    guests={guests}
-                    handleRemoveGuest={handleRemoveGuest}
-                    isSubmitting={isSubmitting}
-                />
+                {/* Guest input/list only for private events */}
+                {visibility === 'private' && (
+                    <>
+                        <GuestInput
+                            guestInput={guestInput}
+                            setGuestInput={value => {
+                                setGuestInput(value);
+                                if (guestError) setGuestError(null);
+                            }}
+                            handleAddGuest={handleAddGuest}
+                            handleKeyPress={handleKeyPress}
+                            isSubmitting={isSubmitting}
+                            guestError={guestError}
+                        />
+                        <GuestList
+                            guests={guests}
+                            handleRemoveGuest={handleRemoveGuest}
+                            isSubmitting={isSubmitting}
+                        />
+                    </>
+                )}
                 <button 
                     type="submit" 
                     className="event-form-button"
