@@ -34,7 +34,7 @@ export default function SignUpPage() {
   const API_URL = import.meta.env.VITE_API_URL;
   const handleAPICall = async () => {
   try {
-    const res = await fetch(`${API_URL}/v1/users`, {
+    const res = await fetch(`${API_URL}/users`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
