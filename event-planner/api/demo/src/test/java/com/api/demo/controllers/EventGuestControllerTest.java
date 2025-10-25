@@ -158,4 +158,24 @@ class EventGuestControllerTest {
     assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     verify(eventGuestService).removeGuestFromEvent(guestEmail, eventId);
   }
+
+  @Test
+  @DisplayName("Should test getEventGuest success")
+  void shouldTestGetEventGuestSuccess() {
+    // Given
+    Long eventId = 1L;
+    Long guestId = 1L;
+    EventGuest mockEventGuest = new EventGuest();
+
+    when(eventGuestService.getEventGuest(eventId, guestId)).thenReturn(mockEventGuest);
+
+    // When
+    ResponseEntity<EventGuest> response = eventGuestController.getEventGuest(eventId, guestId);
+
+    // Then
+    assertEquals(HttpStatus.OK, response.getStatusCode());
+    assertNotNull(response.getBody());
+    assertEquals(mockEventGuest, response.getBody());
+    verify(eventGuestService).getEventGuest(eventId, guestId);
+  }
 }

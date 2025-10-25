@@ -10,7 +10,6 @@ import com.api.demo.repos.EventGuestRepo;
 import jakarta.transaction.Transactional;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -41,9 +40,12 @@ public class EventGuestService {
   }
 
   /** Retrieves a specific EventGuest by composite key. */
-  public Optional<EventGuest> getEventGuest(Long eventId, Long guestId) {
+  public EventGuest getEventGuest(Long eventId, Long guestId) {
     EventGuestKey key = new EventGuestKey(eventId, guestId);
-    return eventGuestRepo.findById(key);
+    return eventGuestRepo
+        .findById(key)
+        .orElseThrow(
+            () -> new EventGuestNotFoundException("EventGuest not found with key: " + key));
   }
 
   /** Saves or updates an EventGuest. */

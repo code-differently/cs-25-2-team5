@@ -7,7 +7,6 @@ import com.api.demo.models.EventModel;
 import com.api.demo.models.RsvpStatus;
 import com.api.demo.services.EventGuestService;
 import java.util.List;
-import java.util.Optional;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -48,10 +47,8 @@ public class EventGuestController {
   @GetMapping("/event/{eventId}/guest/{guestId}")
   public ResponseEntity<EventGuest> getEventGuest(
       @PathVariable Long eventId, @PathVariable Long guestId) {
-    Optional<EventGuest> eventGuest = eventGuestService.getEventGuest(eventId, guestId);
-    return eventGuest
-        .map(guest -> ResponseEntity.ok(guest))
-        .orElse(ResponseEntity.notFound().build());
+    EventGuest eventGuest = eventGuestService.getEventGuest(eventId, guestId);
+    return ResponseEntity.ok(eventGuest);
   }
 
   // Create event with guests (from EventGuestService)
