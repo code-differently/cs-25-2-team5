@@ -44,4 +44,21 @@ public class EventServiceTest {
     Assertions.assertEquals(2, resultList.size());
     Assertions.assertTrue(resultList.stream().allMatch(EventModel::getIsPublic));
   }
+
+  @Test
+  public void deleteEvent_ShouldRemoveEvent() {
+    // Arrange
+    EventModel event = new EventModel();
+    event.setTitle("Event to be deleted");
+    event.setIsPublic(true);
+    EventModel savedEvent = eventService.createEvent(event);
+    Long eventId = savedEvent.getId();
+
+    // Act
+    eventService.deleteEvent(eventId);
+
+    // Assert
+    Assertions.assertThrows(
+        RuntimeException.class, () -> eventService.getEventById(eventId));
+  }
 }

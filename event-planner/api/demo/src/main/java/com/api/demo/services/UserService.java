@@ -98,4 +98,8 @@ public class UserService {
 
     return eventService.updateEvent(eventId, updatedEvent);
   }
+
+  private void deleteEvent(Long id) {
+    eventService.deleteEvent(id);
+  }
 }

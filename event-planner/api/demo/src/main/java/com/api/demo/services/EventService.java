@@ -52,4 +52,13 @@ public class EventService {
 
     return eventModelRepo.save(event);
   }
+
+  public void deleteEvent(Long id) {
+    EventModel event =
+        eventModelRepo
+            .findById(id)
+            .orElseThrow(() -> new EventNotFoundException("Event not found with id: " + id));
+    eventModelRepo.delete(event);
+  }
+
 }

@@ -240,4 +240,7 @@ public class UserServiceTest {
     assertThat(result.get(0).getEmail()).isEqualTo("john.doe@example.com");
     assertThat(result.get(1).getTitle()).isEqualTo("Event 2");
   }
+
+  @Test
+  @DisplayName("Delete Event")
 }
