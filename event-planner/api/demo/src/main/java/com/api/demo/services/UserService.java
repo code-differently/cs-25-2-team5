@@ -1,13 +1,12 @@
 package com.api.demo.services;
 
+import com.api.demo.dtos.CreatePublicEventRequest;
 import com.api.demo.dtos.UserInviteDTO;
 import com.api.demo.exceptions.UnauthorizedAccessException;
 import com.api.demo.exceptions.UserNotFoundException;
-import com.api.demo.models.EventGuest;
 import com.api.demo.models.EventModel;
 import com.api.demo.models.User;
 import com.api.demo.repos.UserRepository;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,11 +21,16 @@ public class UserService {
 
   private final UserRepository userRepository;
   private final EventService eventService;
+  private final LocationIQService locationIQService;
 
   @Autowired
-  public UserService(UserRepository userRepository, EventService eventService) {
+  public UserService(
+      UserRepository userRepository,
+      EventService eventService,
+      LocationIQService locationIQService) {
     this.userRepository = userRepository;
     this.eventService = eventService;
+    this.locationIQService = locationIQService;
   }
 
   public User createUser(User user) {
@@ -58,13 +62,22 @@ public class UserService {
    * Uses @Transactional to ensure database integrity during the operation.
    */
   @Transactional
-  public EventModel createPublicEvent(EventModel event, Long userId) {
+  public EventModel createPublicEvent(CreatePublicEventRequest eventRequest, Long userId) {
     User user = getUserById(userId);
-    user.getOrganizedEvents().add(event);
-    event.setOrganizer(user);
-    event.setIsPublic(true);
-    event.setEventGuests(new HashSet<EventGuest>());
+    EventModel event = buildEventFromRequest(eventRequest, user);
     return eventService.createEvent(event);
+  }
+
+  private EventModel buildEventFromRequest(CreatePublicEventRequest eventRequest, User organizer) {
+    String location = locationIQService.geocodeAddress(eventRequest.getAddress());
+    EventModel event = new EventModel();
+    event.setTitle(eventRequest.getTitle());
+    event.setDescription(eventRequest.getDescription());
+    event.setIsPublic(eventRequest.getIsPublic());
+    event.setStartTime(eventRequest.getStartTime());
+    event.setLocation(location);
+    event.setOrganizer(organizer);
+    return event;
   }
 
   public Set<User> getAllUsersFromEmails(Set<String> emails) {
@@ -92,6 +105,7 @@ public class UserService {
    */
   @Transactional
   public EventModel updateUserEvent(Long userId, Long eventId, EventModel updatedEvent) {
+
     // Validate that the user exists
     getUserById(userId);
 
@@ -118,7 +132,8 @@ public class UserService {
   }
 
   public User getByClerkId(String clerkId) {
-    return userRepository.findbyClerkId(clerkId).orElseThrow(()->new UserNotFoundException("User with id not found"));
+    return userRepository
+        .findByClerkId(clerkId)
+        .orElseThrow(() -> new UserNotFoundException("User with id not found"));
   }
-
 }

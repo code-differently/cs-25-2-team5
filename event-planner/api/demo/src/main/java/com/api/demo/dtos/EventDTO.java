@@ -19,6 +19,7 @@ public class EventDTO {
   private LocalDateTime startTime;
   private String eventType;
   private UserDTO organizer;
+  private String address;
   private Set<UserDTO> guests;
   private String imageURL;
 }

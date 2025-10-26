@@ -1,185 +1,184 @@
-import React from "react";
-import { useState } from "react";
+import React, { useEffect, useState } from 'react';
 import './EventForm.css';
-import EventFormFields from "./EventFormFields";
-import GuestInput from "./GuestInput";
-import GuestList from "./GuestList";
-
+import EventField from './EventField';
+import { useUser } from '@clerk/clerk-react';
+type User = {
+  id: number;
+  name: string;
+  email: string; 
+};
 const EventForm: React.FC = () => {
-    const [title, setTitle] = useState('');
-    const [description, setDescription] = useState('');
-    const [location, setLocation] = useState('');
-    const [organizer, setOrganizer] = useState('');
-    const [time, setTime] = useState('');
-    const [imageUrl, setImageUrl] = useState('');
-    const [guests, setGuests] = useState<string[]>([]);
-    const [guestInput, setGuestInput] = useState('');
-    const [guestError, setGuestError] = useState<string | null>(null);
-    const [isSubmitting, setIsSubmitting] = useState(false);
-    const [visibility, setVisibility] = useState<'public' | 'private'>('public');
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [location, setLocation] = useState('');
+  const [date, setDate] = useState(''); // Separate date field
+  const [time, setTime] = useState(''); 
+  const [imageUrl, setImageUrl] = useState('');
+  const [visibility, setVisibility] = useState('public');
+  const {isSignedIn,user} = useUser();
+  const [backendUser,setBackendUser] = useState<User>();
 
-    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        setIsSubmitting(true);
-
-        const eventData = {
-            title,
-            description,
-            location,
-            organizer, // Will be replaced with Clerk user ID/name when integrated
-            time,
-            imageUrl,
-            guests: visibility === 'private' ? guests : [],
-            visibility
-        };
-
-        try {
-            // Send POST request to backend API
-            const response = await fetch('/api/events', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    // When Clerk is integrated, add:
-                    // 'Authorization': `Bearer ${await getToken()}`
-                },
-                body: JSON.stringify(eventData)
-            });
-
-            if (!response.ok) {
-                const errorData = await response.json().catch(() => null);
-                throw new Error(errorData?.message || `Failed to create event (${response.status})`);
-            }
-
-            const createdEvent = await response.json();
-            console.log('Event created successfully:', createdEvent);
+  if(!isSignedIn) {
+    alert("You must be signed in to create an event.");
+    window.location.href = "/login";
+  }
+  const BASE_API_URL = import.meta.env.VITE_API_URL
+  const clerkId = user?.id
+  useEffect(()=> {
+    const fetchUser = async()=> {
+    try {
+        const response = await fetch(`${BASE_API_URL}/users/clerk/${clerkId}`)
+        if (response.ok) {
+            const json = await response.json();
+            setBackendUser(json)
             
-            alert('Event created successfully!');
             
-            // Reset form after successful submission
-            setTitle('');
-            setDescription('');
-            setLocation('');
-            setOrganizer('');
-            setTime('');
-            setImageUrl('');
-            setGuests([]);
-            
-            // Optional: Redirect to event page or events list
-            // window.location.href = `/events/${createdEvent.id}`;
-            // Or use React Router: navigate(`/events/${createdEvent.id}`);
-            
-        } catch (error) {
-            console.error('Error creating event:', error);
-            
-            if (error instanceof Error) {
-                alert('Error creating event: ' + error.message);
-            } else {
-                alert('Error creating event. Please try again.');
-            }
-        } finally {
-            setIsSubmitting(false);
+        } else {
+            console.error("Failed to fetch user", response.status);
         }
-    };
+        } catch (err) {
+            console.error("Error fetching user:", err);
+        }
 
-    // Adds a guest email to the guests list
-    const handleAddGuest = () => {
-        const trimmedEmail = guestInput.trim();
-        if (trimmedEmail === '') {
-            setGuestError(null);
-            return;
-        }
-        // Basic email validation
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(trimmedEmail)) {
-            setGuestError('Please enter a valid email address');
-            return;
-        }
-        // Check for duplicate emails
-        if (guests.includes(trimmedEmail)) {
-            setGuestError('This guest has already been added');
-            return;
-        }
-        setGuests([...guests, trimmedEmail]);
-        setGuestInput('');
-        setGuestError(null);
-    };
+  }
+  fetchUser();
 
-    // Removes a guest from the guests list by index
-    const handleRemoveGuest = (indexToRemove: number) => {
-        setGuests(guests.filter((_, index) => index !== indexToRemove));
-    };
+  },[clerkId])
+  
+  
 
-    // Handles Enter key press in guest input to add guest
-    const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-        if (e.key === 'Enter') {
-            e.preventDefault();
-            handleAddGuest();
-        }
-    };
 
-    return (
-        <div className="event-form-section">
-            <form className="event-form" onSubmit={handleSubmit}>
-                <div className="event-visibility">
-                <label>
-                    Visibility:
-                    <select
-                        value={visibility}
-                        onChange={e => setVisibility(e.target.value as 'public' | 'private')}
-                        disabled={isSubmitting}
-                    >
-                        <option value="public">Public</option>
-                        <option value="private">Private</option>
-                    </select>
-                </label>
-                </div>
-                {/* Main event fields */}
-                <EventFormFields
-                    title={title}
-                    setTitle={setTitle}
-                    description={description}
-                    setDescription={setDescription}
-                    location={location}
-                    setLocation={setLocation}
-                    organizer={organizer}
-                    setOrganizer={setOrganizer}
-                    time={time}
-                    setTime={setTime}
-                    imageUrl={imageUrl}
-                    setImageUrl={setImageUrl}
-                    isSubmitting={isSubmitting}
-                />
-                {/* Guest input/list only for private events */}
-                {visibility === 'private' && (
-                    <>
-                        <GuestInput
-                            guestInput={guestInput}
-                            setGuestInput={value => {
-                                setGuestInput(value);
-                                if (guestError) setGuestError(null);
-                            }}
-                            handleAddGuest={handleAddGuest}
-                            handleKeyPress={handleKeyPress}
-                            isSubmitting={isSubmitting}
-                            guestError={guestError}
-                        />
-                        <GuestList
-                            guests={guests}
-                            handleRemoveGuest={handleRemoveGuest}
-                            isSubmitting={isSubmitting}
-                        />
-                    </>
-                )}
-                <button 
-                    type="submit" 
-                    className="event-form-button"
-                    disabled={isSubmitting}
-                >
-                    {isSubmitting ? 'Creating Event...' : 'Create Event'}
-                </button>
-            </form>
-        </div>
-    );
+  const handleSubmit = async(e: React.FormEvent) => {
+    e.preventDefault();
+    
+    // Validate required fields
+    if (!title || !description || !location || !time || !backendUser?.id) {
+      alert("Please fill in all required fields and ensure you're logged in.");
+      return;
+    }
+
+    try {
+      const combinedDateTime = `${date}T${time}:00`;
+
+      const response = await fetch(`${BASE_API_URL}/users/${backendUser.id}/events`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          title: title,
+          description: description,
+          isPublic: true,
+          startTime: combinedDateTime,
+          address: location,
+        }),
+      });
+
+      if (response.ok) {
+        const createdEvent = await response.json();
+        console.log("Event created successfully:", createdEvent);
+        alert("Event created successfully!");
+        
+        // Reset form
+        setTitle('');
+        setDescription('');
+        setLocation('');
+        setTime('');
+        setImageUrl('');
+      } else {
+        const errorText = await response.text();
+        console.error("Failed to create event:", response.status, errorText);
+        alert(`Failed to create event: ${response.status} - ${errorText}`);
+      }
+    } catch (error) {
+      console.error("Error creating event:", error);
+      alert("An error occurred while creating the event. Please try again.");
+    }
+  };
+
+  return (
+    <div className="event-form-section">
+      <div className="event-form-container">
+        <h1 className="event-form-header">Create an Event</h1>
+
+        <form className="event-form" onSubmit={handleSubmit}>
+          <EventField
+            id="event-title"
+            label="Title"
+            value={title}
+            onChange={e => setTitle(e.target.value)}
+            placeholder="Event Title"
+            required
+          />
+
+          <EventField
+            id="event-description"
+            label="Description"
+            value={description}
+            onChange={e => setDescription(e.target.value)}
+            placeholder="Event Description"
+            textarea
+            required
+          />
+
+          <EventField
+            id="event-location"
+            label="Location"
+            value={location}
+            onChange={e => setLocation(e.target.value)}
+            placeholder="Event Location"
+            required
+          />
+
+          <EventField
+            id="event-date"
+            label="Date"
+            type="date"
+            value={date}
+            onChange={e => setDate(e.target.value)}
+            required
+          />
+
+
+          <EventField
+            id="event-time"
+            label="Time"
+            type="time"
+            value={time}
+            onChange={e => setTime(e.target.value)}
+            required
+          />
+
+          <EventField
+            id="event-image-url"
+            label="Image URL"
+            value={imageUrl}
+            onChange={e => setImageUrl(e.target.value)}
+            placeholder="Event Image URL"
+            required
+          />
+
+          <div className="form-group">
+            <label htmlFor="visibility">Visibility</label>
+            <select
+              id="visibility"
+              name="visibility"
+              className="event-form-select"
+              value={visibility}
+              onChange={e => setVisibility(e.target.value)}
+            >
+              <option value="public">Public</option>
+              <option value="private">Private</option>
+            </select>
+          </div>
+
+          <button type="submit" className="event-form-button">
+            Create Event
+          </button>
+        </form>
+      </div>
+    </div>
+  );
 };
 
 export default EventForm;
