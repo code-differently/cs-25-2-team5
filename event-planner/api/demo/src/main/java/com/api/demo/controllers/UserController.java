@@ -44,7 +44,6 @@ public class UserController {
   @Autowired
   public UserController(UserService userService) {
     this.userService = userService;
-    this.locationIQService = locationIQService;
   }
 
   @GetMapping("")
@@ -91,10 +90,7 @@ public class UserController {
   @PostMapping("/{userId}/events")
   public ResponseEntity<EventDTO> createEventForUser(
       @PathVariable Long userId, @RequestBody CreatePublicEventRequest eventRequest) {
-
-    User organizer = userService.getUserById(userId);
-    EventModel event = buildEventFromRequest(eventRequest, organizer);
-    EventModel createdEvent = userService.createPublicEvent(event, userId);
+    EventModel createdEvent = userService.createPublicEvent(eventRequest, userId);
     EventDTO model = DTOConverter.mapToDTO(createdEvent);
     return ResponseEntity.ok(model);
 
@@ -129,17 +125,5 @@ public class UserController {
         UserDTO.builder().id(user.getId()).name(user.getName()).email(user.getEmail()).build();
 
     return ResponseEntity.ok(userDTO);
-  }
-  public EventModel buildEventFromRequest(CreatePublicEventRequest eventRequest,User organizer) {
-    Location location = locationIQService.geocodeAddress(eventRequest.getAddress());
-    EventModel event = new EventModel();
-    event.setTitle(eventRequest.getTitle());
-    event.setDescription(eventRequest.getDescription());
-    event.setIsPublic(eventRequest.getIsPublic());
-    event.setStartTime(eventRequest.getStartTime());
-    event.setLocation(location);
-    event.setOrganizer(organizer);
-
-    return userService.createPublicEvent(event, organizer.getId());
   }
 }

@@ -4,7 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -130,8 +129,8 @@ void createEventForUserTest() {
             .address("123 Main St, Test City")
             .build();
 
-    // Mock user repository/service
-    when(userService.getUserById(userId)).thenReturn(testUser);
+    // Mock the dependencies properly
+    when(userRepository.findById(userId)).thenReturn(Optional.of(testUser));
 
     // Mock locationIQService
     Location mockLocation = new Location();
@@ -139,12 +138,20 @@ void createEventForUserTest() {
     mockLocation.setLongitude(-75.0);
     when(locationIQService.geocodeAddress(request.getAddress())).thenReturn(mockLocation);
 
-    // Mock userService.createPublicEvent to just return the event passed in
-    when(userService.createPublicEvent(any(CreatePublicEventRequest.class), eq(userId)))
-        .thenAnswer(invocation -> invocation.getArgument(0));
+    // Mock eventService.createEvent to return a saved event
+    EventModel savedEvent = new EventModel();
+    savedEvent.setId(1L);
+    savedEvent.setTitle(request.getTitle());
+    savedEvent.setDescription(request.getDescription());
+    savedEvent.setIsPublic(request.getIsPublic());
+    savedEvent.setStartTime(request.getStartTime());
+    savedEvent.setOrganizer(testUser);
+    savedEvent.setLocation(mockLocation);
+    
+    when(eventService.createEvent(any(EventModel.class))).thenReturn(savedEvent);
 
     // When
-    EventModel createdEvent = userService.createPublicEvent( request,userId);
+    EventModel createdEvent = userService.createPublicEvent(request, userId);
 
     // Then
     assertThat(createdEvent).isNotNull();
@@ -154,9 +161,10 @@ void createEventForUserTest() {
     assertThat(createdEvent.getLocation()).isEqualTo(mockLocation);
     assertThat(createdEvent.getIsPublic()).isTrue();
 
-    // Optionally verify that createPublicEvent was called with the right event
-    verify(userService).createPublicEvent(any(EventModel.class), eq(userId));
+    // Verify the dependencies were called correctly
+    verify(userRepository).findById(userId);
     verify(locationIQService).geocodeAddress(request.getAddress());
+    verify(eventService).createEvent(any(EventModel.class));
 }
 
 
