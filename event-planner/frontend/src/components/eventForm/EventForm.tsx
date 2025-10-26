@@ -50,19 +50,57 @@ const EventForm: React.FC = () => {
 
   const handleSubmit = async(e: React.FormEvent) => {
     e.preventDefault();
-    const eventData = { title, description, location, owner, time, imageUrl, visibility };
-    fetch(`${BASE_API_URL}/users/${backendUser?.id}/events`, {
-        method:'POST',
-        headers:{'Content-Type': 'application/json'},
-        body:JSON.stringify({
-                    title:title,
-                    description:description,
-                    isPublic:true,
-                    startTime:time,
-                    
+    
+    // Validate required fields
+    if (!title || !description || !location || !time || !backendUser?.id) {
+      alert("Please fill in all required fields and ensure you're logged in.");
+      return;
+    }
 
-                }),
-    })
+    try {
+      console.log("Submitting event with data:", {
+        title,
+        description,
+        isPublic: true,
+        startTime: time,
+        address: location,
+        userId: backendUser?.id
+      });
+
+      const response = await fetch(`${BASE_API_URL}/users/${backendUser.id}/events`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          title: title,
+          description: description,
+          isPublic: true,
+          startTime: time,
+          address: location,
+        }),
+      });
+
+      if (response.ok) {
+        const createdEvent = await response.json();
+        console.log("Event created successfully:", createdEvent);
+        alert("Event created successfully!");
+        
+        // Reset form
+        setTitle('');
+        setDescription('');
+        setLocation('');
+        setTime('');
+        setImageUrl('');
+      } else {
+        const errorText = await response.text();
+        console.error("Failed to create event:", response.status, errorText);
+        alert(`Failed to create event: ${response.status} - ${errorText}`);
+      }
+    } catch (error) {
+      console.error("Error creating event:", error);
+      alert("An error occurred while creating the event. Please try again.");
+    }
   };
 
   return (
@@ -100,20 +138,14 @@ const EventForm: React.FC = () => {
           />
 
           <EventField
-            id="event-owner"
-            label="Owner"
-            value={owner}
-            onChange={e => setOwner(e.target.value)}
-            placeholder="Event Owner"
-            required
-          />
-
-          <EventField
             id="event-time"
             label="Time"
             type="datetime-local"
             value={time}
-            onChange={e => setTime(e.target.value)}
+            onChange={e => {
+              console.log("Time changed to:", e.target.value);
+              setTime(e.target.value);
+            }}
             required
           />
 
