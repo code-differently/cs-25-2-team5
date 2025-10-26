@@ -4,8 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.api.demo.models.EventModel;
-import com.api.demo.models.Location;
-import com.api.demo.models.User;
+
 
 public class DTOConverter {
 

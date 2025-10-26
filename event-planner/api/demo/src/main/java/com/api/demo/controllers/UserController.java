@@ -39,10 +39,10 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
 
   public UserService userService;
-  public LocationIQService locationIQService;
+  
 
   @Autowired
-  public UserController(UserService userService, LocationIQService locationIQService) {
+  public UserController(UserService userService) {
     this.userService = userService;
     this.locationIQService = locationIQService;
   }
