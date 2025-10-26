@@ -30,7 +30,6 @@ import org.springframework.web.bind.annotation.RestController;
 @Validated
 @CrossOrigin("*")
 public class UserController {
-
   public UserService userService;
 
   @Autowired
@@ -92,6 +91,7 @@ public class UserController {
             .organizer(organizerDTO)
             .guests(guests)
             .id(createdEvent.getId())
+            .imageURL(createdEvent.getImageURL())
             .build();
     return ResponseEntity.ok(model);
   }
@@ -119,6 +119,8 @@ public class UserController {
             .eventType(updatedEvent.getIsPublic() ? "Community" : "Private")
             .organizer(organizerDTO)
             .guests(guests)
+            .imageURL(updatedEvent.getImageURL())
+            .id(updatedEvent.getId())
             .build();
     return ResponseEntity.ok(eventDTO);
   }

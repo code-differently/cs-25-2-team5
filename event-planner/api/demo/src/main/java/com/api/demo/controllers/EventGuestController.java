@@ -1,6 +1,7 @@
 package com.api.demo.controllers;
 
 import com.api.demo.dtos.CreateEventWithGuestsRequest;
+import com.api.demo.dtos.EventDTO;
 import com.api.demo.models.EventGuest;
 import com.api.demo.models.EventGuestKey;
 import com.api.demo.models.EventModel;
@@ -52,13 +53,47 @@ public class EventGuestController {
   }
 
   // Create event with guests (from EventGuestService)
+  private com.api.demo.dtos.UserDTO buildUserDTO(com.api.demo.models.User user) {
+    if (user == null) return null;
+    return com.api.demo.dtos.UserDTO.builder()
+        .id(user.getId())
+        .name(user.getName())
+        .email(user.getEmail())
+        .build();
+  }
+
+  private java.util.Set<com.api.demo.dtos.UserDTO> buildGuestDTOs(
+      java.util.Set<com.api.demo.models.EventGuest> eventGuests) {
+    java.util.Set<com.api.demo.dtos.UserDTO> guests = new java.util.HashSet<>();
+    if (eventGuests != null) {
+      for (com.api.demo.models.EventGuest eventGuest : eventGuests) {
+        com.api.demo.models.User guest = eventGuest.getGuest();
+        if (guest != null) {
+          guests.add(buildUserDTO(guest));
+        }
+      }
+    }
+    return guests;
+  }
+
   @PostMapping("/organizer/{organizerId}/event/create")
-  public ResponseEntity<EventModel> createEventWithGuests(
+  public ResponseEntity<EventDTO> createEventWithGuests(
       @PathVariable Long organizerId, @RequestBody CreateEventWithGuestsRequest request) {
     EventModel createdEvent =
         eventGuestService.createEventWithGuests(
             organizerId, request.getEvent(), request.getGuestEmails());
-    return ResponseEntity.status(HttpStatus.CREATED).body(createdEvent);
+    EventDTO eventDTO =
+        EventDTO.builder()
+            .id(createdEvent.getId())
+            .title(createdEvent.getTitle())
+            .description(createdEvent.getDescription())
+            .startTime(createdEvent.getStartTime())
+            .eventType(createdEvent.getIsPublic() ? "Community" : "Private")
+            .organizer(buildUserDTO(createdEvent.getOrganizer()))
+            .guests(buildGuestDTOs(createdEvent.getEventGuests()))
+            .imageURL(createdEvent.getImageURL())
+            .build();
+    return ResponseEntity.status(HttpStatus.CREATED).body(eventDTO);
   }
 
   // Add a new guest to an existing event

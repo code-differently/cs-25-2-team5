@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("api/v1/events")
 @CrossOrigin("*")
 public class EventController {
-
   @Autowired private EventService eventService;
 
   public EventController(EventService eventService) {
@@ -53,6 +52,7 @@ public class EventController {
                   .eventType(
                       event.getIsPublic() != null && event.getIsPublic() ? "Community" : "Private")
                   .organizer(organizerDTO)
+                  .imageURL(event.getImageURL())
                   .build();
             })
         .collect(Collectors.toList());
@@ -81,6 +81,7 @@ public class EventController {
             .eventType(event.getIsPublic() != null && event.getIsPublic() ? "Community" : "Private")
             .organizer(organizerDTO)
             .id(event.getId())
+            .imageURL(event.getImageURL())
             .build();
     return ResponseEntity.ok(eventDTO);
   }
