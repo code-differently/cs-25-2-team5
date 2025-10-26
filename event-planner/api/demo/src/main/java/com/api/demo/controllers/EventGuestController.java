@@ -2,6 +2,7 @@ package com.api.demo.controllers;
 
 import com.api.demo.dtos.CreateEventWithGuestsRequest;
 import com.api.demo.dtos.DTOConverter;
+import com.api.demo.dtos.EventDTO;
 import com.api.demo.models.EventGuest;
 import com.api.demo.models.EventGuestKey;
 import com.api.demo.models.EventModel;
@@ -25,7 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/v1/event-guests")
-@CrossOrigin
+@CrossOrigin("*")
 public class EventGuestController {
 
   private final EventGuestService eventGuestService;
@@ -59,11 +60,14 @@ public class EventGuestController {
 
   // Create event with guests (from EventGuestService)
   @PostMapping("/organizer/{organizerId}/event/create")
-  public ResponseEntity<EventModel> createEventWithGuests(
+  public ResponseEntity<EventDTO> createEventWithGuests(
       @PathVariable Long organizerId, @RequestBody CreateEventWithGuestsRequest request) {
+      System.out.println("Received request to create event with guests: " + request.getTitle());
+      System.out.println("Event Address: " + request.getAddress());
     EventModel createdEvent = DTOConverter.mapToModel(request);
     EventModel savedEvent = eventGuestService.createEventWithGuests(organizerId, createdEvent, request.getGuestEmails());
-    return ResponseEntity.status(HttpStatus.CREATED).body(savedEvent);
+    EventDTO eventDTO = DTOConverter.mapToDTO(savedEvent);
+    return ResponseEntity.status(HttpStatus.CREATED).body(eventDTO);
   }
 
   // Add a new guest to an existing event
