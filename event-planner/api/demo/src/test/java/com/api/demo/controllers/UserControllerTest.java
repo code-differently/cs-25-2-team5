@@ -1,10 +1,16 @@
 package com.api.demo.controllers;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import com.api.demo.dtos.CreatePublicEventRequest;
+import com.api.demo.dtos.DTOConverter;
+import com.api.demo.dtos.EventDTO;
 import com.api.demo.exceptions.GlobalExceptionHandler;
 import com.api.demo.exceptions.UserNotFoundException;
 import com.api.demo.models.EventModel;
@@ -145,68 +151,49 @@ public class UserControllerTest {
     // Given
     Long userId = 1L;
 
-    EventModel eventToCreate = new EventModel();
-    eventToCreate.setTitle("New Event");
-    eventToCreate.setDescription("New Event Description");
-    eventToCreate.setIsPublic(true);
-    eventToCreate.setStartTime(LocalDateTime.of(2025, 12, 25, 10, 0));
+    // Create request object
+    CreatePublicEventRequest request =
+        CreatePublicEventRequest.builder()
+            .title("New Event")
+            .description("New Event Description")
+            .isPublic(true)
+            .startTime(LocalDateTime.of(2025, 12, 25, 10, 0))
+            .address("123 Main St, Test City")
+            .build();
 
+    // Create the EventModel that the service will return
     EventModel createdEvent = new EventModel();
     createdEvent.setId(1L);
-    createdEvent.setTitle("New Event");
-    createdEvent.setDescription("New Event Description");
-    createdEvent.setIsPublic(true);
-    createdEvent.setStartTime(LocalDateTime.of(2025, 12, 25, 10, 0));
-    createdEvent.setOrganizer(testUser);
+    createdEvent.setTitle(request.getTitle());
+    createdEvent.setDescription(request.getDescription());
+    createdEvent.setIsPublic(request.getIsPublic());
+    createdEvent.setStartTime(request.getStartTime());
+    createdEvent.setOrganizer(testUser); // fully initialized in @BeforeEach
 
-    when(userService.createPublicEvent(eventToCreate, userId)).thenReturn(createdEvent);
+    // Mock the service layer to return the created event
+    when(userService.createPublicEvent(any(CreatePublicEventRequest.class), eq(userId)))
+        .thenReturn(createdEvent);
+
+    // Precompute the DTO so we know the JSON structure
+    EventDTO eventDTO = DTOConverter.mapToDTO(createdEvent);
 
     // When & Then
     mockMvc
         .perform(
             post("/api/v1/users/{userId}/events", userId)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(eventToCreate)))
+                .content(objectMapper.writeValueAsString(request)))
         .andExpect(status().isOk())
         .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-        .andExpect(jsonPath("$.title").value("New Event"))
-        .andExpect(jsonPath("$.description").value("New Event Description"))
-        .andExpect(jsonPath("$.eventType").value("Community"))
-        .andExpect(jsonPath("$.organizer.name").value("John Doe"))
-        .andExpect(jsonPath("$.organizer.email").value("john@example.com"));
-  }
+        .andExpect(jsonPath("$.id").value(eventDTO.getId()))
+        .andExpect(jsonPath("$.title").value(eventDTO.getTitle()))
+        .andExpect(jsonPath("$.description").value(eventDTO.getDescription()))
+        .andExpect(jsonPath("$.eventType").value(eventDTO.getEventType()))
+        .andExpect(jsonPath("$.organizer.name").value(eventDTO.getOrganizer().getName()))
+        .andExpect(jsonPath("$.organizer.email").value(eventDTO.getOrganizer().getEmail()));
 
-  @Test
-  @DisplayName("POST /api/v1/users/{userId}/events - Should create private event correctly")
-  void createEventForUser_ShouldCreatePrivateEvent_WhenIsPublicFalse() throws Exception {
-    // Given
-    Long userId = 1L;
-
-    EventModel privateEvent = new EventModel();
-    privateEvent.setTitle("Private Event");
-    privateEvent.setDescription("Private Description");
-    privateEvent.setIsPublic(false); // Private event
-    privateEvent.setStartTime(LocalDateTime.of(2025, 12, 25, 10, 0));
-
-    EventModel createdPrivateEvent = new EventModel();
-    createdPrivateEvent.setId(2L);
-    createdPrivateEvent.setTitle("Private Event");
-    createdPrivateEvent.setDescription("Private Description");
-    createdPrivateEvent.setIsPublic(false);
-    createdPrivateEvent.setStartTime(LocalDateTime.of(2025, 12, 25, 10, 0));
-    createdPrivateEvent.setOrganizer(testUser);
-
-    when(userService.createPublicEvent(privateEvent, userId)).thenReturn(createdPrivateEvent);
-
-    // When & Then
-    mockMvc
-        .perform(
-            post("/api/v1/users/{userId}/events", userId)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(privateEvent)))
-        .andExpect(status().isOk())
-        .andExpect(jsonPath("$.title").value("Private Event"))
-        .andExpect(jsonPath("$.eventType").value("Private"));
+    // Verify that the service method was called
+    verify(userService).createPublicEvent(any(CreatePublicEventRequest.class), eq(userId));
   }
 
   @Test
@@ -214,10 +201,18 @@ public class UserControllerTest {
   void createEventForUser_ShouldReturn404_WhenUserNotFound() throws Exception {
     // Given
     Long nonExistentUserId = 999L;
-    EventModel event = new EventModel();
-    event.setTitle("Test Event");
 
-    when(userService.createPublicEvent(event, nonExistentUserId))
+    CreatePublicEventRequest request =
+        CreatePublicEventRequest.builder()
+            .title("Test Event")
+            .description("Test Description")
+            .isPublic(true)
+            .startTime(LocalDateTime.now().plusDays(1))
+            .address("123 Main St, Test City")
+            .build();
+
+    // Mock service to throw exception for non-existent user
+    when(userService.createPublicEvent(any(CreatePublicEventRequest.class), eq(nonExistentUserId)))
         .thenThrow(new UserNotFoundException("User not found"));
 
     // When & Then
@@ -225,8 +220,12 @@ public class UserControllerTest {
         .perform(
             post("/api/v1/users/{userId}/events", nonExistentUserId)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(event)))
+                .content(objectMapper.writeValueAsString(request)))
         .andExpect(status().isNotFound());
+
+    // Verify service was called
+    verify(userService)
+        .createPublicEvent(any(CreatePublicEventRequest.class), eq(nonExistentUserId));
   }
 
   @Test

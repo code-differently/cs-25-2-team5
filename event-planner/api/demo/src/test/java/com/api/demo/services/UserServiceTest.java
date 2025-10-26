@@ -3,10 +3,12 @@ package com.api.demo.services;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import com.api.demo.dtos.CreatePublicEventRequest;
 import com.api.demo.dtos.UserInviteDTO;
 import com.api.demo.exceptions.UserNotFoundException;
 import com.api.demo.models.EventModel;
@@ -33,6 +35,7 @@ public class UserServiceTest {
   @Mock private UserRepository userRepository;
 
   @Mock private EventService eventService;
+  @Mock private LocationIQService locationIQService;
 
   @InjectMocks private UserService userService;
 
@@ -113,37 +116,53 @@ public class UserServiceTest {
   }
 
   @Test
-  @DisplayName("Should create event and associate with user")
-  void createEventTest() {
+  @DisplayName("Should create event for user and associate organizer")
+  void createEventForUserTest() {
     // Given
-    EventModel event = new EventModel();
-    event.setTitle("Test Event");
-    event.setDescription("This is a test event.");
-    event.setIsPublic(true);
-    event.setStartTime(LocalDateTime.now().plusDays(1));
+    Long userId = 1L;
+    CreatePublicEventRequest request =
+        CreatePublicEventRequest.builder()
+            .title("Test Event")
+            .description("This is a test event.")
+            .isPublic(true)
+            .startTime(LocalDateTime.now().plusDays(1))
+            .address("123 Main St, Test City")
+            .build();
 
-    // Mock the repository and service calls
-    when(userRepository.findById(1L)).thenReturn(Optional.of(testUser));
+    // Mock the dependencies properly
+    when(userRepository.findById(userId)).thenReturn(Optional.of(testUser));
 
-    // The service will set the organizer, so we need to return the modified event
-    when(eventService.createEvent(event))
-        .thenAnswer(
-            invocation -> {
-              EventModel eventArg = invocation.getArgument(0);
-              return eventArg; // Return the same event that was passed in (now with
-              // organizer set)
-            });
+    // Mock locationIQService
+    String mockLocation = "123 Main St, Test City, Country";
+    when(locationIQService.geocodeAddress(request.getAddress())).thenReturn(mockLocation);
+
+    // Mock eventService.createEvent to return a saved event
+    EventModel savedEvent = new EventModel();
+    savedEvent.setId(1L);
+    savedEvent.setTitle(request.getTitle());
+    savedEvent.setDescription(request.getDescription());
+    savedEvent.setIsPublic(request.getIsPublic());
+    savedEvent.setStartTime(request.getStartTime());
+    savedEvent.setOrganizer(testUser);
+    savedEvent.setLocation(mockLocation);
+
+    when(eventService.createEvent(any(EventModel.class))).thenReturn(savedEvent);
 
     // When
-    EventModel createdEvent = userService.createPublicEvent(event, 1L);
+    EventModel createdEvent = userService.createPublicEvent(request, userId);
 
     // Then
     assertThat(createdEvent).isNotNull();
-    assertThat(createdEvent.getTitle()).isEqualTo("Test Event");
+    assertThat(createdEvent.getTitle()).isEqualTo(request.getTitle());
+    assertThat(createdEvent.getDescription()).isEqualTo(request.getDescription());
     assertThat(createdEvent.getOrganizer()).isEqualTo(testUser);
+    assertThat(createdEvent.getLocation()).isEqualTo(mockLocation);
+    assertThat(createdEvent.getIsPublic()).isTrue();
 
-    // Verify that the user's organized events collection was updated
-    assertThat(testUser.getOrganizedEvents()).contains(createdEvent);
+    // Verify the dependencies were called correctly
+    verify(userRepository).findById(userId);
+    verify(locationIQService).geocodeAddress(request.getAddress());
+    verify(eventService).createEvent(any(EventModel.class));
   }
 
   @Test

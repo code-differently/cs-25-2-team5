@@ -54,6 +54,7 @@ export default function SignUpPage() {
               name: `${form.firstName} ${form.lastName}`,
               email: form.email,
               password: form.password,
+              clerkId: response.createdUserId
             }),
             
             

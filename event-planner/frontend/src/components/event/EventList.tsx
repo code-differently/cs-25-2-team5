@@ -15,6 +15,7 @@ const EventList = () => {
     fetchEvents()
   }, [])
   
+  
   return (
     <div className="event-list-container">
       <h2 className="event-list-title">

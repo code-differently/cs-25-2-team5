@@ -1,5 +1,7 @@
 package com.api.demo.controllers;
 
+import com.api.demo.dtos.CreatePublicEventRequest;
+import com.api.demo.dtos.DTOConverter;
 import com.api.demo.dtos.EventDTO;
 import com.api.demo.dtos.LoginRequest;
 import com.api.demo.dtos.UserDTO;
@@ -8,9 +10,7 @@ import com.api.demo.models.User;
 import com.api.demo.services.UserService;
 import jakarta.validation.Valid;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -58,14 +58,13 @@ public class UserController {
     return ResponseEntity.ok(userDTO);
   }
 
-  @GetMapping("/clerk/{id}")
+  @GetMapping("/clerk/{clerkId}")
   public ResponseEntity<UserDTO> getUserByClerkId(@PathVariable String clerkId) {
 
     User user = userService.getByClerkId(clerkId);
     UserDTO userDTO =
         UserDTO.builder().name(user.getName()).email(user.getEmail()).id(user.getId()).build();
     return ResponseEntity.ok(userDTO);
-    
   }
 
   @PostMapping("")
@@ -82,27 +81,9 @@ public class UserController {
 
   @PostMapping("/{userId}/events")
   public ResponseEntity<EventDTO> createEventForUser(
-      @PathVariable Long userId, @RequestBody EventModel event) {
-    EventModel createdEvent = userService.createPublicEvent(event, userId);
-    User organizer = createdEvent.getOrganizer();
-
-    UserDTO organizerDTO =
-        UserDTO.builder()
-            .name(organizer.getName())
-            .email(organizer.getEmail())
-            .id(organizer.getId())
-            .build();
-    Set<UserDTO> guests = new HashSet<>();
-    EventDTO model =
-        EventDTO.builder()
-            .title(createdEvent.getTitle())
-            .description(createdEvent.getDescription())
-            .startTime(createdEvent.getStartTime())
-            .eventType(createdEvent.getIsPublic() ? "Community" : "Private")
-            .organizer(organizerDTO)
-            .guests(guests)
-            .id(createdEvent.getId())
-            .build();
+      @PathVariable Long userId, @RequestBody CreatePublicEventRequest eventRequest) {
+    EventModel createdEvent = userService.createPublicEvent(eventRequest, userId);
+    EventDTO model = DTOConverter.mapToDTO(createdEvent);
     return ResponseEntity.ok(model);
   }
 
@@ -112,24 +93,7 @@ public class UserController {
       @PathVariable Long eventId,
       @RequestBody EventModel updatedEventInfo) {
     EventModel updatedEvent = userService.updateUserEvent(userId, eventId, updatedEventInfo);
-    User organizer = updatedEvent.getOrganizer();
-
-    UserDTO organizerDTO =
-        UserDTO.builder()
-            .name(organizer.getName())
-            .email(organizer.getEmail())
-            .id(organizer.getId())
-            .build();
-    Set<UserDTO> guests = new HashSet<>();
-    EventDTO eventDTO =
-        EventDTO.builder()
-            .title(updatedEvent.getTitle())
-            .description(updatedEvent.getDescription())
-            .startTime(updatedEvent.getStartTime())
-            .eventType(updatedEvent.getIsPublic() ? "Community" : "Private")
-            .organizer(organizerDTO)
-            .guests(guests)
-            .build();
+    EventDTO eventDTO = DTOConverter.mapToDTO(updatedEvent);
     return ResponseEntity.ok(eventDTO);
   }
 
