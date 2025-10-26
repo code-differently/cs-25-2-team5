@@ -2,6 +2,11 @@ import React, { useState } from 'react';
 import './EventForm.css';
 import EventField from './EventField';
 import { useUser } from '@clerk/clerk-react';
+type User = {
+  id: number;
+  name: string;
+  email: string; 
+};
 const EventForm: React.FC = () => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -11,17 +16,28 @@ const EventForm: React.FC = () => {
   const [imageUrl, setImageUrl] = useState('');
   const [visibility, setVisibility] = useState('public');
   const {isSignedIn,user} = useUser();
-  const {backendUser,setBackendUser} = useState();
+  const [backendUser,setBackendUser] = useState<User>();
 
   if(!isSignedIn) {
     alert("You must be signed in to create an event.");
     window.location.href = "/login";
   }
-  const BASE_API_URL = process.env.VITE_API_URL
+  const BASE_API_URL = import.meta.env.VITE_API_URL
   const clerkId = user?.id
   const fetchUser = async()=> {
-    await fetch(`${BASE_API_URL}/users/clerk/`)
+    try {
+        const response = await fetch(`${BASE_API_URL}/users/clerk/${clerkId}`)
+        if (response.ok) {
+            const json = await response.json()
+            
+            console.log()
+        }
+    } catch (err) {
+        throw(err)
+    }
+
   }
+  fetchUser();
 
 
   const handleSubmit = (e: React.FormEvent) => {

@@ -7,6 +7,7 @@ const CreateEvent = () => {
     if(!isSignedIn) {
        window.location.href = "/";
     }
+    
 
     return (
         <div className="create-event-page">
