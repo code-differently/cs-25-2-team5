@@ -24,7 +24,6 @@ Our app addresses four key challenges in event management:
 1. **Community Events** - Difficulty discovering and accessing local community events
 2. **Creation Barriers** - Complex processes that make event creation challenging
 3. **Private Events** - Lack of streamlined tools for managing private gatherings
-4. **Communication** - Poor coordination between organizers and attendees
 
 ### Our Solution
 EVYNT provides a comprehensive platform with:
@@ -102,7 +101,8 @@ Built with ❤️ by **Team 5** at [Code Differently](https://codedifferently.co
 - **Backend:** Java, Springboot
 - **Database:** PostgreSQL
 - **Deployment:** Vercel
-- **Authentication:** *Clerk Authentication*
+- **Backend Deployment:** Render
+- **Authentication:** Clerk Authentication
 
 ---
 
