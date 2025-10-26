@@ -145,14 +145,15 @@ public class UserControllerTest {
         .andExpect(status().isBadRequest());
   }
 
-@Test
-@DisplayName("POST /api/v1/users/{userId}/events - Should create event for user successfully")
-void createEventForUser_ShouldCreateEvent_WhenValidData() throws Exception {
+  @Test
+  @DisplayName("POST /api/v1/users/{userId}/events - Should create event for user successfully")
+  void createEventForUser_ShouldCreateEvent_WhenValidData() throws Exception {
     // Given
     Long userId = 1L;
 
     // Create request object
-    CreatePublicEventRequest request = CreatePublicEventRequest.builder()
+    CreatePublicEventRequest request =
+        CreatePublicEventRequest.builder()
             .title("New Event")
             .description("New Event Description")
             .isPublic(true)
@@ -171,39 +172,38 @@ void createEventForUser_ShouldCreateEvent_WhenValidData() throws Exception {
 
     // Mock the service layer to return the created event
     when(userService.createPublicEvent(any(CreatePublicEventRequest.class), eq(userId)))
-            .thenReturn(createdEvent);
+        .thenReturn(createdEvent);
 
     // Precompute the DTO so we know the JSON structure
     EventDTO eventDTO = DTOConverter.mapToDTO(createdEvent);
 
     // When & Then
-    mockMvc.perform(post("/api/v1/users/{userId}/events", userId)
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(objectMapper.writeValueAsString(request)))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-            .andExpect(jsonPath("$.id").value(eventDTO.getId()))
-            .andExpect(jsonPath("$.title").value(eventDTO.getTitle()))
-            .andExpect(jsonPath("$.description").value(eventDTO.getDescription()))
-            .andExpect(jsonPath("$.eventType").value(eventDTO.getEventType()))
-            .andExpect(jsonPath("$.organizer.name").value(eventDTO.getOrganizer().getName()))
-            .andExpect(jsonPath("$.organizer.email").value(eventDTO.getOrganizer().getEmail()));
+    mockMvc
+        .perform(
+            post("/api/v1/users/{userId}/events", userId)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(request)))
+        .andExpect(status().isOk())
+        .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+        .andExpect(jsonPath("$.id").value(eventDTO.getId()))
+        .andExpect(jsonPath("$.title").value(eventDTO.getTitle()))
+        .andExpect(jsonPath("$.description").value(eventDTO.getDescription()))
+        .andExpect(jsonPath("$.eventType").value(eventDTO.getEventType()))
+        .andExpect(jsonPath("$.organizer.name").value(eventDTO.getOrganizer().getName()))
+        .andExpect(jsonPath("$.organizer.email").value(eventDTO.getOrganizer().getEmail()));
 
     // Verify that the service method was called
     verify(userService).createPublicEvent(any(CreatePublicEventRequest.class), eq(userId));
-}
+  }
 
-
-
-
-
- @Test
-@DisplayName("POST /api/v1/users/{userId}/events - Should return 404 when user not found")
-void createEventForUser_ShouldReturn404_WhenUserNotFound() throws Exception {
+  @Test
+  @DisplayName("POST /api/v1/users/{userId}/events - Should return 404 when user not found")
+  void createEventForUser_ShouldReturn404_WhenUserNotFound() throws Exception {
     // Given
     Long nonExistentUserId = 999L;
 
-    CreatePublicEventRequest request = CreatePublicEventRequest.builder()
+    CreatePublicEventRequest request =
+        CreatePublicEventRequest.builder()
             .title("Test Event")
             .description("Test Description")
             .isPublic(true)
@@ -213,18 +213,20 @@ void createEventForUser_ShouldReturn404_WhenUserNotFound() throws Exception {
 
     // Mock service to throw exception for non-existent user
     when(userService.createPublicEvent(any(CreatePublicEventRequest.class), eq(nonExistentUserId)))
-            .thenThrow(new UserNotFoundException("User not found"));
+        .thenThrow(new UserNotFoundException("User not found"));
 
     // When & Then
-    mockMvc.perform(post("/api/v1/users/{userId}/events", nonExistentUserId)
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(objectMapper.writeValueAsString(request)))
-            .andExpect(status().isNotFound());
+    mockMvc
+        .perform(
+            post("/api/v1/users/{userId}/events", nonExistentUserId)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(request)))
+        .andExpect(status().isNotFound());
 
     // Verify service was called
-    verify(userService).createPublicEvent(any(CreatePublicEventRequest.class), eq(nonExistentUserId));
-}
-
+    verify(userService)
+        .createPublicEvent(any(CreatePublicEventRequest.class), eq(nonExistentUserId));
+  }
 
   @Test
   @DisplayName("GET /api/v1/users/{id} - Should handle malformed ID")

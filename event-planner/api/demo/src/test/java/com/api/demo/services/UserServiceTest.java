@@ -12,7 +12,6 @@ import com.api.demo.dtos.CreatePublicEventRequest;
 import com.api.demo.dtos.UserInviteDTO;
 import com.api.demo.exceptions.UserNotFoundException;
 import com.api.demo.models.EventModel;
-import com.api.demo.models.Location;
 import com.api.demo.models.User;
 import com.api.demo.repos.UserRepository;
 import java.time.LocalDateTime;
@@ -117,11 +116,12 @@ public class UserServiceTest {
   }
 
   @Test
-@DisplayName("Should create event for user and associate organizer")
-void createEventForUserTest() {
+  @DisplayName("Should create event for user and associate organizer")
+  void createEventForUserTest() {
     // Given
     Long userId = 1L;
-    CreatePublicEventRequest request = CreatePublicEventRequest.builder()
+    CreatePublicEventRequest request =
+        CreatePublicEventRequest.builder()
             .title("Test Event")
             .description("This is a test event.")
             .isPublic(true)
@@ -133,9 +133,7 @@ void createEventForUserTest() {
     when(userRepository.findById(userId)).thenReturn(Optional.of(testUser));
 
     // Mock locationIQService
-    Location mockLocation = new Location();
-    mockLocation.setLatitude(40.0);
-    mockLocation.setLongitude(-75.0);
+    String mockLocation = "123 Main St, Test City, Country";
     when(locationIQService.geocodeAddress(request.getAddress())).thenReturn(mockLocation);
 
     // Mock eventService.createEvent to return a saved event
@@ -147,7 +145,7 @@ void createEventForUserTest() {
     savedEvent.setStartTime(request.getStartTime());
     savedEvent.setOrganizer(testUser);
     savedEvent.setLocation(mockLocation);
-    
+
     when(eventService.createEvent(any(EventModel.class))).thenReturn(savedEvent);
 
     // When
@@ -165,8 +163,7 @@ void createEventForUserTest() {
     verify(userRepository).findById(userId);
     verify(locationIQService).geocodeAddress(request.getAddress());
     verify(eventService).createEvent(any(EventModel.class));
-}
-
+  }
 
   @Test
   @DisplayName("Find all users by email emails found")

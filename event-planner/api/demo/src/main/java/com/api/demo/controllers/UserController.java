@@ -6,14 +6,9 @@ import com.api.demo.dtos.EventDTO;
 import com.api.demo.dtos.LoginRequest;
 import com.api.demo.dtos.UserDTO;
 import com.api.demo.models.EventModel;
-import com.api.demo.models.Location;
 import com.api.demo.models.User;
-import com.api.demo.services.LocationIQService;
 import com.api.demo.services.UserService;
 import jakarta.validation.Valid;
-
-
-
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +32,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
 
   public UserService userService;
-  
 
   @Autowired
   public UserController(UserService userService) {
@@ -88,26 +82,9 @@ public class UserController {
   @PostMapping("/{userId}/events")
   public ResponseEntity<EventDTO> createEventForUser(
       @PathVariable Long userId, @RequestBody CreatePublicEventRequest eventRequest) {
-    try {
-      System.out.println("=== Received Event Creation Request ===");
-      System.out.println("User ID: " + userId);
-      System.out.println("Event Request: " + eventRequest);
-      if (eventRequest != null) {
-        System.out.println("Title: " + eventRequest.getTitle());
-        System.out.println("Description: " + eventRequest.getDescription());
-        System.out.println("IsPublic: " + eventRequest.getIsPublic());
-        System.out.println("StartTime: " + eventRequest.getStartTime());
-        System.out.println("Address: " + eventRequest.getAddress());
-      }
-      
-      EventModel createdEvent = userService.createPublicEvent(eventRequest, userId);
-      EventDTO model = DTOConverter.mapToDTO(createdEvent);
-      return ResponseEntity.ok(model);
-    } catch (Exception e) {
-      System.err.println("Error in createEventForUser: " + e.getMessage());
-      e.printStackTrace();
-      throw e;
-    }
+    EventModel createdEvent = userService.createPublicEvent(eventRequest, userId);
+    EventDTO model = DTOConverter.mapToDTO(createdEvent);
+    return ResponseEntity.ok(model);
   }
 
   @PutMapping("/{userId}/events/{eventId}")
@@ -116,7 +93,7 @@ public class UserController {
       @PathVariable Long eventId,
       @RequestBody EventModel updatedEventInfo) {
     EventModel updatedEvent = userService.updateUserEvent(userId, eventId, updatedEventInfo);
-    EventDTO  eventDTO = DTOConverter.mapToDTO(updatedEvent);
+    EventDTO eventDTO = DTOConverter.mapToDTO(updatedEvent);
     return ResponseEntity.ok(eventDTO);
   }
 

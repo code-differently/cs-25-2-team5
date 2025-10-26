@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 @Builder
 @AllArgsConstructor
-@NoArgsConstructor  
+@NoArgsConstructor
 public class CreatePublicEventRequest {
   private String title;
   private String description;

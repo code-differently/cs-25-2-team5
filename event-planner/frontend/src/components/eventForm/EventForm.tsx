@@ -11,8 +11,8 @@ const EventForm: React.FC = () => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [location, setLocation] = useState('');
-  const [owner, setOwner] = useState('');
-  const [time, setTime] = useState('');
+  const [date, setDate] = useState(''); // Separate date field
+  const [time, setTime] = useState(''); 
   const [imageUrl, setImageUrl] = useState('');
   const [visibility, setVisibility] = useState('public');
   const {isSignedIn,user} = useUser();
@@ -58,14 +58,7 @@ const EventForm: React.FC = () => {
     }
 
     try {
-      console.log("Submitting event with data:", {
-        title,
-        description,
-        isPublic: true,
-        startTime: time,
-        address: location,
-        userId: backendUser?.id
-      });
+      const combinedDateTime = `${date}T${time}:00`;
 
       const response = await fetch(`${BASE_API_URL}/users/${backendUser.id}/events`, {
         method: 'POST',
@@ -76,7 +69,7 @@ const EventForm: React.FC = () => {
           title: title,
           description: description,
           isPublic: true,
-          startTime: time,
+          startTime: combinedDateTime,
           address: location,
         }),
       });
@@ -138,14 +131,21 @@ const EventForm: React.FC = () => {
           />
 
           <EventField
+            id="event-date"
+            label="Date"
+            type="date"
+            value={date}
+            onChange={e => setDate(e.target.value)}
+            required
+          />
+
+
+          <EventField
             id="event-time"
             label="Time"
-            type="datetime-local"
+            type="time"
             value={time}
-            onChange={e => {
-              console.log("Time changed to:", e.target.value);
-              setTime(e.target.value);
-            }}
+            onChange={e => setTime(e.target.value)}
             required
           />
 

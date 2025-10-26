@@ -4,16 +4,11 @@ import com.api.demo.dtos.CreatePublicEventRequest;
 import com.api.demo.dtos.UserInviteDTO;
 import com.api.demo.exceptions.UnauthorizedAccessException;
 import com.api.demo.exceptions.UserNotFoundException;
-import com.api.demo.models.EventGuest;
 import com.api.demo.models.EventModel;
-import com.api.demo.models.Location;
 import com.api.demo.models.User;
 import com.api.demo.repos.UserRepository;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-import org.hibernate.query.sqm.LiteralNumberFormatException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,9 +21,13 @@ public class UserService {
 
   private final UserRepository userRepository;
   private final EventService eventService;
-  private final LocationIQService locationIQService; 
+  private final LocationIQService locationIQService;
+
   @Autowired
-  public UserService(UserRepository userRepository, EventService eventService, LocationIQService locationIQService) {
+  public UserService(
+      UserRepository userRepository,
+      EventService eventService,
+      LocationIQService locationIQService) {
     this.userRepository = userRepository;
     this.eventService = eventService;
     this.locationIQService = locationIQService;
@@ -69,7 +68,7 @@ public class UserService {
     return eventService.createEvent(event);
   }
 
-  private EventModel buildEventFromRequest(CreatePublicEventRequest eventRequest,User organizer) {
+  private EventModel buildEventFromRequest(CreatePublicEventRequest eventRequest, User organizer) {
     String location = locationIQService.geocodeAddress(eventRequest.getAddress());
     EventModel event = new EventModel();
     event.setTitle(eventRequest.getTitle());
@@ -106,7 +105,7 @@ public class UserService {
    */
   @Transactional
   public EventModel updateUserEvent(Long userId, Long eventId, EventModel updatedEvent) {
-    
+
     // Validate that the user exists
     getUserById(userId);
 

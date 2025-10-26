@@ -2,9 +2,6 @@ package com.api.demo.dtos;
 
 import java.time.LocalDateTime;
 import java.util.Set;
-
-import com.api.demo.models.Location;
-
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
