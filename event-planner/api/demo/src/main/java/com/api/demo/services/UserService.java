@@ -77,6 +77,7 @@ public class UserService {
     event.setStartTime(eventRequest.getStartTime());
     event.setLocation(location);
     event.setOrganizer(organizer);
+    event.setImageURL(eventRequest.getImageURL());
     return event;
   }
 

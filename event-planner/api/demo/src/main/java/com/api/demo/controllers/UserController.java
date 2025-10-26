@@ -30,7 +30,6 @@ import org.springframework.web.bind.annotation.RestController;
 @Validated
 @CrossOrigin("*")
 public class UserController {
-
   public UserService userService;
 
   @Autowired

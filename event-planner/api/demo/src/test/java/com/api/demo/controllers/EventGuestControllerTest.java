@@ -7,6 +7,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.api.demo.dtos.CreateEventWithGuestsRequest;
+import com.api.demo.dtos.EventDTO;
 import com.api.demo.models.EventGuest;
 import com.api.demo.models.EventGuestKey;
 import com.api.demo.models.EventModel;
@@ -66,9 +67,35 @@ class EventGuestControllerTest {
   void shouldTestCreateEventWithGuests() {
     // Given
     Long organizerId = 1L;
-    EventModel mockEvent = new EventModel(); // Will use default constructor
+    EventModel mockEvent = new EventModel();
     Set<String> guestEmails = new HashSet<>();
     guestEmails.add("test@example.com");
+
+    // Set up organizer
+    com.api.demo.models.User organizer = new com.api.demo.models.User();
+    organizer.setId(organizerId);
+    organizer.setName("Organizer Name");
+    organizer.setEmail("organizer@example.com");
+    mockEvent.setOrganizer(organizer);
+
+    // Set up event guests
+    com.api.demo.models.User guest = new com.api.demo.models.User();
+    guest.setId(2L);
+    guest.setName("Guest Name");
+    guest.setEmail("guest@example.com");
+    com.api.demo.models.EventGuest eventGuest = new com.api.demo.models.EventGuest();
+    eventGuest.setGuest(guest);
+    Set<com.api.demo.models.EventGuest> eventGuests = new HashSet<>();
+    eventGuests.add(eventGuest);
+    mockEvent.setEventGuests(eventGuests);
+
+    // Set up other required EventModel fields to avoid NPEs
+    mockEvent.setId(10L);
+    mockEvent.setTitle("Sample Event");
+    mockEvent.setDescription("Sample Description");
+    mockEvent.setStartTime(java.time.LocalDateTime.now());
+    mockEvent.setIsPublic(true);
+    mockEvent.setImageURL("http://example.com/image.jpg");
 
     CreateEventWithGuestsRequest request = new CreateEventWithGuestsRequest(mockEvent, guestEmails);
 
@@ -76,12 +103,21 @@ class EventGuestControllerTest {
         .thenReturn(mockEvent);
 
     // When
-    ResponseEntity<EventModel> response =
+    ResponseEntity<EventDTO> response =
         eventGuestController.createEventWithGuests(organizerId, request);
 
     // Then
     assertEquals(HttpStatus.CREATED, response.getStatusCode());
     assertNotNull(response.getBody());
+    assertEquals(mockEvent.getId(), response.getBody().getId());
+    assertEquals(mockEvent.getTitle(), response.getBody().getTitle());
+    assertEquals(mockEvent.getDescription(), response.getBody().getDescription());
+    assertEquals(mockEvent.getStartTime(), response.getBody().getStartTime());
+    assertEquals("Community", response.getBody().getEventType());
+    assertEquals(organizer.getId(), response.getBody().getOrganizer().getId());
+    assertEquals(organizer.getName(), response.getBody().getOrganizer().getName());
+    assertEquals(organizer.getEmail(), response.getBody().getOrganizer().getEmail());
+    assertEquals(mockEvent.getImageURL(), response.getBody().getImageURL());
     verify(eventGuestService).createEventWithGuests(organizerId, mockEvent, guestEmails);
   }
 

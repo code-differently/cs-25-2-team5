@@ -1,7 +1,7 @@
 package com.api.demo.controllers;
 
+import com.api.demo.dtos.DTOConverter;
 import com.api.demo.dtos.EventDTO;
-import com.api.demo.dtos.UserDTO;
 import com.api.demo.models.EventModel;
 import com.api.demo.services.EventService;
 import jakarta.validation.Valid;
@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("api/v1/events")
 @CrossOrigin("*")
 public class EventController {
-
   @Autowired private EventService eventService;
 
   public EventController(EventService eventService) {
@@ -34,26 +33,7 @@ public class EventController {
     return StreamSupport.stream(events.spliterator(), false)
         .map(
             event -> {
-              // Handle null organizer case
-              UserDTO organizerDTO = null;
-              if (event.getOrganizer() != null) {
-                organizerDTO =
-                    UserDTO.builder()
-                        .id(event.getOrganizer().getId())
-                        .name(event.getOrganizer().getName())
-                        .email(event.getOrganizer().getEmail())
-                        .build();
-              }
-
-              return EventDTO.builder()
-                  .title(event.getTitle())
-                  .description(event.getDescription())
-                  .startTime(event.getStartTime())
-                  .id(event.getId())
-                  .eventType(
-                      event.getIsPublic() != null && event.getIsPublic() ? "Community" : "Private")
-                  .organizer(organizerDTO)
-                  .build();
+              return DTOConverter.mapToDTO(event);
             })
         .collect(Collectors.toList());
   }
@@ -61,27 +41,7 @@ public class EventController {
   @GetMapping("/{id}")
   public ResponseEntity<EventDTO> getEventById(@Valid @PathVariable Long id) {
     EventModel event = eventService.getEventById(id);
-
-    // Handle null organizer case
-    UserDTO organizerDTO = null;
-    if (event.getOrganizer() != null) {
-      organizerDTO =
-          UserDTO.builder()
-              .name(event.getOrganizer().getName())
-              .email(event.getOrganizer().getEmail())
-              .id(event.getOrganizer().getId())
-              .build();
-    }
-
-    EventDTO eventDTO =
-        EventDTO.builder()
-            .title(event.getTitle())
-            .description(event.getDescription())
-            .startTime(event.getStartTime())
-            .eventType(event.getIsPublic() != null && event.getIsPublic() ? "Community" : "Private")
-            .organizer(organizerDTO)
-            .id(event.getId())
-            .build();
+    EventDTO eventDTO = DTOConverter.mapToDTO(event);
     return ResponseEntity.ok(eventDTO);
   }
 }

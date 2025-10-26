@@ -29,6 +29,7 @@ public class DTOConverter {
             .guests(guests)
             .id(event.getId())
             .address(event.getLocation())
+            .imageURL(event.getImageURL())
             .build();
     return model;
   }

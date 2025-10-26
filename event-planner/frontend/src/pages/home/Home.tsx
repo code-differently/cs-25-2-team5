@@ -9,8 +9,7 @@ const Home: React.FC = () => {
       <section>
         <div>
             <h1 className="welcome-title">
-              Welcome to Eyvnt
-              
+              Welcome to Evynt
             </h1>
             <p>
               Discover and create amazing events in your community!
