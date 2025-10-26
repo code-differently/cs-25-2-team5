@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './EventForm.css';
 import EventField from './EventField';
 import { useUser } from '@clerk/clerk-react';
@@ -24,26 +24,37 @@ const EventForm: React.FC = () => {
   }
   const BASE_API_URL = import.meta.env.VITE_API_URL
   const clerkId = user?.id
-  const fetchUser = async()=> {
+  useEffect(()=> {
+    const fetchUser = async()=> {
     try {
         const response = await fetch(`${BASE_API_URL}/users/clerk/${clerkId}`)
         if (response.ok) {
-            const json = await response.json()
+            const json = await response.json();
+            setBackendUser(json)
             
-            console.log()
+            
+        } else {
+            console.error("Failed to fetch user", response.status);
         }
-    } catch (err) {
-        throw(err)
-    }
+        } catch (err) {
+            console.error("Error fetching user:", err);
+        }
 
   }
   fetchUser();
 
+  },[clerkId])
+  
+  
 
-  const handleSubmit = (e: React.FormEvent) => {
+
+  const handleSubmit = async(e: React.FormEvent) => {
     e.preventDefault();
     const eventData = { title, description, location, owner, time, imageUrl, visibility };
-    console.log('Event created:', eventData);
+    fetch(`${BASE_API_URL}/users/${backendUser?.id}/events`, {
+        method:'POST',
+        headers:{'Content-Type': 'application/json'},
+    })
   };
 
   return (
