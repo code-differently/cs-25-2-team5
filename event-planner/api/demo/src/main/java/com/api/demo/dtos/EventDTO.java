@@ -2,6 +2,9 @@ package com.api.demo.dtos;
 
 import java.time.LocalDateTime;
 import java.util.Set;
+
+import com.api.demo.models.Location;
+
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -19,5 +22,6 @@ public class EventDTO {
   private LocalDateTime startTime;
   private String eventType;
   private UserDTO organizer;
+  private Location address;
   private Set<UserDTO> guests;
 }

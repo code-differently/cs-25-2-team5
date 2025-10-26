@@ -88,10 +88,26 @@ public class UserController {
   @PostMapping("/{userId}/events")
   public ResponseEntity<EventDTO> createEventForUser(
       @PathVariable Long userId, @RequestBody CreatePublicEventRequest eventRequest) {
-    EventModel createdEvent = userService.createPublicEvent(eventRequest, userId);
-    EventDTO model = DTOConverter.mapToDTO(createdEvent);
-    return ResponseEntity.ok(model);
-
+    try {
+      System.out.println("=== Received Event Creation Request ===");
+      System.out.println("User ID: " + userId);
+      System.out.println("Event Request: " + eventRequest);
+      if (eventRequest != null) {
+        System.out.println("Title: " + eventRequest.getTitle());
+        System.out.println("Description: " + eventRequest.getDescription());
+        System.out.println("IsPublic: " + eventRequest.getIsPublic());
+        System.out.println("StartTime: " + eventRequest.getStartTime());
+        System.out.println("Address: " + eventRequest.getAddress());
+      }
+      
+      EventModel createdEvent = userService.createPublicEvent(eventRequest, userId);
+      EventDTO model = DTOConverter.mapToDTO(createdEvent);
+      return ResponseEntity.ok(model);
+    } catch (Exception e) {
+      System.err.println("Error in createEventForUser: " + e.getMessage());
+      e.printStackTrace();
+      throw e;
+    }
   }
 
   @PutMapping("/{userId}/events/{eventId}")

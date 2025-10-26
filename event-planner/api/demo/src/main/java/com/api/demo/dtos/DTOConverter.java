@@ -28,6 +28,7 @@ public class DTOConverter {
             .organizer(organizerDTO)
             .guests(guests)
             .id(event.getId())
+            .address(event.getLocation())
             .build();
         return model;
 
