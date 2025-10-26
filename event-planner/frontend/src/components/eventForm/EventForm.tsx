@@ -64,60 +64,73 @@ const removeGuestField = (index: number) => {
   const validateInputs = () => {
     if (!title || !description || !location || !time || !date || !backendUser) {
         alert("Please fill in all required fields");
-        return;
-        }
+        return false;
+    }
+    return true;
   }
   const convertToDateTimeString = (date: string, time: string): string => {
     return `${date}T${time}:00`;
   }
-  const handleSubmit = async(e: React.FormEvent) => {
-    e.preventDefault();
-    
-    // Validate required fields
-    validateInputs();
+  const createEvent = async (isPublic: boolean) => {
+    if (!validateInputs() || !backendUser) return;
+
+    const combinedDateTime = convertToDateTimeString(date, time);
+    const endpoint = isPublic
+      ? `${BASE_API_URL}/users/${backendUser.id}/events`
+      : `${BASE_API_URL}/organizer/${backendUser.id}/event/create`;
+
+    const payload: Record<string, any> = {
+      title,
+      description,
+      isPublic,
+      startTime: combinedDateTime,
+      address: location,
+    };
+
+    // Only include guestEmails for private events
+    if (!isPublic) {
+      payload.guestEmails = guestEmails;
+    }
 
     try {
-      const combinedDateTime = convertToDateTimeString(date, time);
-
-      const response = await fetch(`${BASE_API_URL}/users/${backendUser?.id}/events`, {
+      const response = await fetch(endpoint, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          title: title,
-          description: description,
-          isPublic: true,
-          startTime: combinedDateTime,
-          address: location,
-        }),
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
       });
 
       if (response.ok) {
         const createdEvent = await response.json();
-        console.log("Event created successfully:", createdEvent);
-        alert("Event created successfully!");
-        
-        // Reset form
-        setTitle('');
-        setDescription('');
-        setLocation('');
-        setTime('');
-        setImageUrl('');
+        console.log(createdEvent);
+        console.log('Event created successfully:', createdEvent);
+        alert('Event created successfully!');
+        resetForm();
       } else {
         const errorText = await response.text();
-        console.error("Failed to create event:", response.status, errorText);
-        alert(`Failed to create event: ${response.status} - ${errorText}`);
+        console.error('Failed to create event:', response.status, errorText);
+        alert(`Failed to create event: ${response.status}`);
       }
     } catch (error) {
-      console.error("Error creating event:", error);
-      alert("An error occurred while creating the event. Please try again.");
+      console.error('Error creating event:', error);
+      alert('An error occurred while creating the event. Please try again.');
     }
   };
-  const handlePrivateSubmit = async(e: React.FormEvent) => {
-    e.preventDefault();
 
-  }
+  const resetForm = () => {
+    setTitle('');
+    setDescription('');
+    setLocation('');
+    setDate('');
+    setTime('');
+    setImageUrl('');
+    setGuestEmails(['']);
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    createEvent(visibility === 'public');
+  };
+
 
   return (
     <div className="event-form-section">
