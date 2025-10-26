@@ -61,20 +61,25 @@ const removeGuestField = (index: number) => {
   
   
 
-
+  const validateInputs = () => {
+    if (!title || !description || !location || !time || !date || !backendUser) {
+        alert("Please fill in all required fields");
+        return;
+        }
+  }
+  const convertToDateTimeString = (date: string, time: string): string => {
+    return `${date}T${time}:00`;
+  }
   const handleSubmit = async(e: React.FormEvent) => {
     e.preventDefault();
     
     // Validate required fields
-    if (!title || !description || !location || !time || !backendUser?.id) {
-      alert("Please fill in all required fields and ensure you're logged in.");
-      return;
-    }
+    validateInputs();
 
     try {
-      const combinedDateTime = `${date}T${time}:00`;
+      const combinedDateTime = convertToDateTimeString(date, time);
 
-      const response = await fetch(`${BASE_API_URL}/users/${backendUser.id}/events`, {
+      const response = await fetch(`${BASE_API_URL}/users/${backendUser?.id}/events`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -109,6 +114,10 @@ const removeGuestField = (index: number) => {
       alert("An error occurred while creating the event. Please try again.");
     }
   };
+  const handlePrivateSubmit = async(e: React.FormEvent) => {
+    e.preventDefault();
+
+  }
 
   return (
     <div className="event-form-section">
