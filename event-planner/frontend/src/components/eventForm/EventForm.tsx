@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import './EventForm.css';
-
+import EventField from "./EventField";
 const EventForm: React.FC = () => {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
