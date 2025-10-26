@@ -61,8 +61,6 @@ public class EventGuestController {
   @PostMapping("/organizer/{organizerId}/event/create")
   public ResponseEntity<EventDTO> createEventWithGuests(
       @PathVariable Long organizerId, @RequestBody CreateEventWithGuestsRequest request) {
-    System.out.println("Received request to create event with guests: " + request.getTitle());
-    System.out.println("Event Address: " + request.getAddress());
     EventModel createdEvent = DTOConverter.mapToModel(request);
     EventModel savedEvent =
         eventGuestService.createEventWithGuests(
