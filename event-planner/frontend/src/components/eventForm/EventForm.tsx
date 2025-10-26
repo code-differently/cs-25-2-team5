@@ -77,7 +77,7 @@ const removeGuestField = (index: number) => {
     const combinedDateTime = convertToDateTimeString(date, time);
     const endpoint = isPublic
       ? `${BASE_API_URL}/users/${backendUser.id}/events`
-      : `${BASE_API_URL}/organizer/${backendUser.id}/event/create`;
+      : `${BASE_API_URL}/event-guests/organizer/${backendUser.id}/event/create`;
 
     const payload: Record<string, any> = {
       title,
@@ -91,6 +91,7 @@ const removeGuestField = (index: number) => {
     if (!isPublic) {
       payload.guestEmails = guestEmails;
     }
+    console.log("Payload:", payload);
 
     try {
       const response = await fetch(endpoint, {
@@ -100,9 +101,8 @@ const removeGuestField = (index: number) => {
       });
 
       if (response.ok) {
-        const createdEvent = await response.json();
-        console.log(createdEvent);
-        console.log('Event created successfully:', createdEvent);
+        await response.json();
+
         alert('Event created successfully!');
         resetForm();
       } else {
