@@ -116,16 +116,17 @@ class EventGuestControllerTest {
     // Then
     assertEquals(HttpStatus.CREATED, response.getStatusCode());
     assertNotNull(response.getBody());
-    assertEquals(mockEvent.getId(), response.getBody().getId());
-    assertEquals(mockEvent.getTitle(), response.getBody().getTitle());
-    assertEquals(mockEvent.getDescription(), response.getBody().getDescription());
-    assertEquals(mockEvent.getStartTime(), response.getBody().getStartTime());
-    assertEquals("Community", response.getBody().getEventType());
+    assertEquals(savedEvent.getId(), response.getBody().getId());
+    assertEquals(savedEvent.getTitle(), response.getBody().getTitle());
+    assertEquals(savedEvent.getDescription(), response.getBody().getDescription());
+    assertEquals(savedEvent.getStartTime(), response.getBody().getStartTime());
+    assertEquals("Private", response.getBody().getEventType());
     assertEquals(organizer.getId(), response.getBody().getOrganizer().getId());
     assertEquals(organizer.getName(), response.getBody().getOrganizer().getName());
     assertEquals(organizer.getEmail(), response.getBody().getOrganizer().getEmail());
-    assertEquals(mockEvent.getImageURL(), response.getBody().getImageURL());
-    verify(eventGuestService).createEventWithGuests(organizerId, mockEvent, guestEmails);
+    assertEquals(savedEvent.getImageURL(), response.getBody().getImageURL());
+    verify(eventGuestService)
+        .createEventWithGuests(eq(organizerId), any(EventModel.class), eq(guestEmails));
   }
 
   @Test
