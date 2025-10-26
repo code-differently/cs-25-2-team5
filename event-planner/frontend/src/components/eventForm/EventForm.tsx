@@ -17,6 +17,7 @@ const EventForm: React.FC = () => {
   const [visibility, setVisibility] = useState('public');
   const {isSignedIn,user} = useUser();
   const [backendUser,setBackendUser] = useState<User>();
+  const [guestEmails, setGuestEmails] = useState<string[]>([""]);
 
   if(!isSignedIn) {
     alert("You must be signed in to create an event.");
@@ -44,57 +45,92 @@ const EventForm: React.FC = () => {
   fetchUser();
 
   },[clerkId])
+
+  const handleGuestEmailChange = (index: number, value: string) => {
+  const updated = [...guestEmails];
+  updated[index] = value;
+  setGuestEmails(updated);
+};
+
+const addGuestField = () => setGuestEmails([...guestEmails, ""]);
+
+const removeGuestField = (index: number) => {
+  setGuestEmails(guestEmails.filter((_, i) => i !== index));
+};
+
   
   
 
-
-  const handleSubmit = async(e: React.FormEvent) => {
-    e.preventDefault();
-    
-    // Validate required fields
-    if (!title || !description || !location || !time || !backendUser?.id) {
-      alert("Please fill in all required fields and ensure you're logged in.");
-      return;
+  const validateInputs = () => {
+    if (!title || !description || !location || !time || !date || !backendUser) {
+        alert("Please fill in all required fields");
+        return false;
     }
+    return true;
+  }
+  const convertToDateTimeString = (date: string, time: string): string => {
+    return `${date}T${time}:00`;
+  }
+  const createEvent = async (isPublic: boolean) => {
+    if (!validateInputs() || !backendUser) return;
+
+    const combinedDateTime = convertToDateTimeString(date, time);
+    const endpoint = isPublic
+      ? `${BASE_API_URL}/users/${backendUser.id}/events`
+      : `${BASE_API_URL}/event-guests/organizer/${backendUser.id}/event/create`;
+
+    const payload: Record<string, any> = {
+      title,
+      description,
+      isPublic,
+      startTime: combinedDateTime,
+      address: location,
+    };
+
+    // Only include guestEmails for private events
+    if (!isPublic) {
+      payload.guestEmails = guestEmails;
+    }
+    console.log("Payload:", payload);
 
     try {
-      const combinedDateTime = `${date}T${time}:00`;
-
-      const response = await fetch(`${BASE_API_URL}/users/${backendUser.id}/events`, {
+      const response = await fetch(endpoint, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          title: title,
-          description: description,
-          isPublic: true,
-          startTime: combinedDateTime,
-          address: location,
-        }),
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
       });
 
       if (response.ok) {
-        const createdEvent = await response.json();
-        console.log("Event created successfully:", createdEvent);
-        alert("Event created successfully!");
-        
-        // Reset form
-        setTitle('');
-        setDescription('');
-        setLocation('');
-        setTime('');
-        setImageUrl('');
+        await response.json();
+
+        alert('Event created successfully!');
+        resetForm();
       } else {
         const errorText = await response.text();
-        console.error("Failed to create event:", response.status, errorText);
-        alert(`Failed to create event: ${response.status} - ${errorText}`);
+        console.error('Failed to create event:', response.status, errorText);
+        alert(`Failed to create event: ${response.status}`);
       }
     } catch (error) {
-      console.error("Error creating event:", error);
-      alert("An error occurred while creating the event. Please try again.");
+      console.error('Error creating event:', error);
+      alert('An error occurred while creating the event. Please try again.');
     }
   };
+
+  const resetForm = () => {
+    setTitle('');
+    setDescription('');
+    setLocation('');
+    setDate('');
+    setTime('');
+    setImageUrl('');
+    setGuestEmails(['']);
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    createEvent(visibility === 'public');
+  };
+
 
   return (
     <div className="event-form-section">
@@ -170,6 +206,42 @@ const EventForm: React.FC = () => {
               <option value="public">Public</option>
               <option value="private">Private</option>
             </select>
+            {visibility === "private" && (
+  <div className="form-group">
+    <label htmlFor="guestEmails">Invite Guests (Emails)</label>
+
+    {
+    guestEmails.map((email, index) => (
+      <div key={index} className="guest-email-row">
+        <input
+          type="email"
+          className="event-form-input"
+          placeholder="guest@example.com"
+          value={email}
+          onChange={(e) => handleGuestEmailChange(index, e.target.value)}
+        />
+        {guestEmails.length > 1 && (
+          <button
+            type="button"
+            className="remove-guest-btn"
+            onClick={() => removeGuestField(index)}
+          >
+            ✕
+          </button>
+        )}
+      </div>
+    ))}
+
+    <button
+      type="button"
+      className="add-guest-btn"
+      onClick={addGuestField}
+    >
+      + Add another guest
+    </button>
+  </div>
+)}
+
           </div>
 
           <button type="submit" className="event-form-button">

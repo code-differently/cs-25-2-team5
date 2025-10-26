@@ -3,6 +3,7 @@ package com.api.demo.controllers;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -12,7 +13,9 @@ import com.api.demo.models.EventGuest;
 import com.api.demo.models.EventGuestKey;
 import com.api.demo.models.EventModel;
 import com.api.demo.models.RsvpStatus;
+import com.api.demo.models.User;
 import com.api.demo.services.EventGuestService;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -67,40 +70,44 @@ class EventGuestControllerTest {
   void shouldTestCreateEventWithGuests() {
     // Given
     Long organizerId = 1L;
-    EventModel mockEvent = new EventModel();
+
+    // guest emails
     Set<String> guestEmails = new HashSet<>();
-    guestEmails.add("test@example.com");
+    guestEmails.add("guest1@example.com");
+    guestEmails.add("guest2@example.com");
 
-    // Set up organizer
-    com.api.demo.models.User organizer = new com.api.demo.models.User();
+    // DTO request
+    CreateEventWithGuestsRequest request =
+        CreateEventWithGuestsRequest.builder()
+            .title("Team Party")
+            .description("End of Year Celebration")
+            .isPublic(false)
+            .startTime(LocalDateTime.now().plusDays(3))
+            .address("123 Main St")
+            .guestEmails(guestEmails)
+            .build();
+
+    // Mock saved event (return from service)
+    EventModel savedEvent = new EventModel();
+    savedEvent.setId(10L);
+    savedEvent.setTitle(request.getTitle());
+    savedEvent.setDescription(request.getDescription());
+    savedEvent.setIsPublic(request.getIsPublic());
+    savedEvent.setStartTime(request.getStartTime());
+    // Set location as String since that's what your controller expects
+    savedEvent.setLocation(request.getAddress());
+
+    // Mock organizer for the DTO conversion
+    User organizer = new User();
     organizer.setId(organizerId);
-    organizer.setName("Organizer Name");
+    organizer.setName("Test Organizer");
     organizer.setEmail("organizer@example.com");
-    mockEvent.setOrganizer(organizer);
+    savedEvent.setOrganizer(organizer);
 
-    // Set up event guests
-    com.api.demo.models.User guest = new com.api.demo.models.User();
-    guest.setId(2L);
-    guest.setName("Guest Name");
-    guest.setEmail("guest@example.com");
-    com.api.demo.models.EventGuest eventGuest = new com.api.demo.models.EventGuest();
-    eventGuest.setGuest(guest);
-    Set<com.api.demo.models.EventGuest> eventGuests = new HashSet<>();
-    eventGuests.add(eventGuest);
-    mockEvent.setEventGuests(eventGuests);
-
-    // Set up other required EventModel fields to avoid NPEs
-    mockEvent.setId(10L);
-    mockEvent.setTitle("Sample Event");
-    mockEvent.setDescription("Sample Description");
-    mockEvent.setStartTime(java.time.LocalDateTime.now());
-    mockEvent.setIsPublic(true);
-    mockEvent.setImageURL("http://example.com/image.jpg");
-
-    CreateEventWithGuestsRequest request = new CreateEventWithGuestsRequest(mockEvent, guestEmails);
-
-    when(eventGuestService.createEventWithGuests(organizerId, mockEvent, guestEmails))
-        .thenReturn(mockEvent);
+    // Mock service call - the controller calls DTOConverter.mapToModel internally
+    when(eventGuestService.createEventWithGuests(
+            eq(organizerId), any(EventModel.class), eq(guestEmails)))
+        .thenReturn(savedEvent);
 
     // When
     ResponseEntity<EventDTO> response =
@@ -109,16 +116,17 @@ class EventGuestControllerTest {
     // Then
     assertEquals(HttpStatus.CREATED, response.getStatusCode());
     assertNotNull(response.getBody());
-    assertEquals(mockEvent.getId(), response.getBody().getId());
-    assertEquals(mockEvent.getTitle(), response.getBody().getTitle());
-    assertEquals(mockEvent.getDescription(), response.getBody().getDescription());
-    assertEquals(mockEvent.getStartTime(), response.getBody().getStartTime());
-    assertEquals("Community", response.getBody().getEventType());
+    assertEquals(savedEvent.getId(), response.getBody().getId());
+    assertEquals(savedEvent.getTitle(), response.getBody().getTitle());
+    assertEquals(savedEvent.getDescription(), response.getBody().getDescription());
+    assertEquals(savedEvent.getStartTime(), response.getBody().getStartTime());
+    assertEquals("Private", response.getBody().getEventType());
     assertEquals(organizer.getId(), response.getBody().getOrganizer().getId());
     assertEquals(organizer.getName(), response.getBody().getOrganizer().getName());
     assertEquals(organizer.getEmail(), response.getBody().getOrganizer().getEmail());
-    assertEquals(mockEvent.getImageURL(), response.getBody().getImageURL());
-    verify(eventGuestService).createEventWithGuests(organizerId, mockEvent, guestEmails);
+    assertEquals(savedEvent.getImageURL(), response.getBody().getImageURL());
+    verify(eventGuestService)
+        .createEventWithGuests(eq(organizerId), any(EventModel.class), eq(guestEmails));
   }
 
   @Test

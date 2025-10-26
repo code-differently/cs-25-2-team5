@@ -19,7 +19,7 @@ export default function EventDetails() {
     fetchEvent()
   }, [id])
 
-
+  console.log(event)
   if (!event) {
     return (
       <div className="event-not-found">
@@ -44,7 +44,7 @@ export default function EventDetails() {
             <div className="event-info-details">
               <div className="event-detail-group">
                 <div className="event-detail-label">Location</div>
-                <div className="event-detail-item">{event.location}</div>
+                <div className="event-detail-item">{event.address}</div>
               </div>
               <div className="event-detail-group">
                 {/* <div className="event-detail-label">Host</div>
