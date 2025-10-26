@@ -18,7 +18,7 @@ export const Event = ({id, title, location, organizer, description, startTime, i
           <h3 className="event-list-card-title">{title}</h3>
           <div className="event-list-card-details">
             <div className="event-list-card-detail-row">{location}</div>
-            <div className="event-list-card-detail-row">{organizer.name} • {startTime}</div>
+            <div className="event-list-card-detail-row">{organizer?.name ?? 'Unknown Organizer'} • {startTime}</div>
             <div className="event-list-card-detail-row">{description}</div>
           </div>
         </div>

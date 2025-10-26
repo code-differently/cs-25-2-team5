@@ -8,8 +8,8 @@ const mockEvent = {
   title: 'Sample Event',
   description: 'This is a sample event description.',
   location: 'Sample Location',
-  owner: 'John Doe',
-  time: '10:00 AM',
+  organizer: { name: 'John Doe' },
+  startTime: '10:00 AM',
   imageUrl: '/sample-image.jpg',
 };
 
