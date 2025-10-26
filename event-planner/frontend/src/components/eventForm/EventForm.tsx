@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './EventForm.css';
 import EventField from './EventField';
-
+import { useUser } from '@clerk/clerk-react';
 const EventForm: React.FC = () => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -10,6 +10,12 @@ const EventForm: React.FC = () => {
   const [time, setTime] = useState('');
   const [imageUrl, setImageUrl] = useState('');
   const [visibility, setVisibility] = useState('public');
+  const {isSignedIn,user} = useUser();
+
+  if(!isSignedIn) {
+    alert("You must be signed in to create an event.");
+    window.location.href = "/";
+  }
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
