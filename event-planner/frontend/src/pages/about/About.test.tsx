@@ -11,9 +11,9 @@ describe('AboutUs Component', () => {
       </MemoryRouter>
     );
   });
-  it('renders the group photo placeholder', () => {
-    const photoPlaceholder = screen.getByText('👥');
-    expect(photoPlaceholder).toBeInTheDocument();
+  it('renders the group photo', () => {
+    const groupPhoto = screen.getByAltText('Our Team');
+    expect(groupPhoto).toBeInTheDocument();
   });
   it('renders the team section header', () => {
   const teamSectionHeader = screen.getByText(/Our Team/i);

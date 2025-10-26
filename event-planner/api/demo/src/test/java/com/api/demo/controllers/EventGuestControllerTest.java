@@ -116,16 +116,16 @@ class EventGuestControllerTest {
     // Then
     assertEquals(HttpStatus.CREATED, response.getStatusCode());
     assertNotNull(response.getBody());
-    assertEquals(savedEvent.getId(), response.getBody().getId());
-    assertEquals(savedEvent.getTitle(), response.getBody().getTitle());
-    assertEquals(savedEvent.getDescription(), response.getBody().getDescription());
-    assertEquals(
-        "Private", response.getBody().getEventType()); // isPublic=false should be "Private"
-    assertEquals(savedEvent.getLocation(), response.getBody().getAddress());
-
-    // Verify service was called with correct parameters
-    verify(eventGuestService)
-        .createEventWithGuests(eq(organizerId), any(EventModel.class), eq(guestEmails));
+    assertEquals(mockEvent.getId(), response.getBody().getId());
+    assertEquals(mockEvent.getTitle(), response.getBody().getTitle());
+    assertEquals(mockEvent.getDescription(), response.getBody().getDescription());
+    assertEquals(mockEvent.getStartTime(), response.getBody().getStartTime());
+    assertEquals("Community", response.getBody().getEventType());
+    assertEquals(organizer.getId(), response.getBody().getOrganizer().getId());
+    assertEquals(organizer.getName(), response.getBody().getOrganizer().getName());
+    assertEquals(organizer.getEmail(), response.getBody().getOrganizer().getEmail());
+    assertEquals(mockEvent.getImageURL(), response.getBody().getImageURL());
+    verify(eventGuestService).createEventWithGuests(organizerId, mockEvent, guestEmails);
   }
 
   @Test

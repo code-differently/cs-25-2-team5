@@ -57,7 +57,6 @@ public class EventGuestController {
     return ResponseEntity.ok(eventGuest);
   }
 
-  // Create event with guests (from EventGuestService)
   @PostMapping("/organizer/{organizerId}/event/create")
   public ResponseEntity<EventDTO> createEventWithGuests(
       @PathVariable Long organizerId, @RequestBody CreateEventWithGuestsRequest request) {
@@ -94,26 +93,8 @@ public class EventGuestController {
     return ResponseEntity.ok(updatedStatus);
   }
 
-  // Save or update an event guest
-  @PostMapping
-  public ResponseEntity<EventGuest> saveEventGuest(@RequestBody EventGuest eventGuest) {
-    EventGuest savedGuest = eventGuestService.saveEventGuest(eventGuest);
-    return ResponseEntity.status(HttpStatus.CREATED).body(savedGuest);
-  }
-
   // Check if event-guest relationship exists
-  @GetMapping("/event/{eventId}/guest/{guestId}/exists")
-  public ResponseEntity<Boolean> checkEventGuestExists(
-      @PathVariable Long eventId, @PathVariable Long guestId) {
-    boolean exists = eventGuestService.existsEventGuest(eventId, guestId);
-    return ResponseEntity.ok(exists);
-  }
 
   // Delete event-guest relationship
-  @DeleteMapping("/event/{eventId}/guest/{guestId}")
-  public ResponseEntity<Void> deleteEventGuest(
-      @PathVariable Long eventId, @PathVariable Long guestId) {
-    eventGuestService.deleteEventGuest(eventId, guestId);
-    return ResponseEntity.noContent().build();
-  }
+
 }

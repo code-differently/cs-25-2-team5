@@ -3,10 +3,10 @@ import './About.css';
 
 function AboutUs() {
   const teamMembers = [
-    { name: 'Talia Crockett', role: 'Product Owner' },
+    { name: 'Talia Crockett', role: 'Developer' },
     { name: 'Daniel Boyce', role: 'Lead Developer' },
-    { name: 'Ethan Hillman', role: 'Senior Developer' },
-    { name: 'Calvin Robinson', role: 'Senior Developer' },
+    { name: 'Ethan Hillman', role: 'Developer' },
+    { name: 'Calvin Robinson', role: 'Developer' },
     { name: 'Joy Brown', role: 'Scrum Master' }
   ];
 
@@ -17,11 +17,7 @@ function AboutUs() {
           <div className="about-us-grid">
             {/* Left Column - Group Photo */}
             <div className="team-photo-section">
-              {/* Placeholder for group photo - replace with <img src="your-photo.jpg" alt="Our Team" className="group-photo" /> */}
-              <div className="group-photo-placeholder">
-                <span className="photo-icon">👥</span>
-              </div>
-              
+               <img src="Group_Portrait.jpg" alt="Our Team" className="group-photo" />
               <div className="team-info">
                 <h1 className="team-heading">Our Team</h1>
                 <div className="team-list">

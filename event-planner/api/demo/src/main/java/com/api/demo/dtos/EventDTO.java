@@ -21,4 +21,5 @@ public class EventDTO {
   private UserDTO organizer;
   private String address;
   private Set<UserDTO> guests;
+  private String imageURL;
 }

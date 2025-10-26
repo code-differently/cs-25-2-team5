@@ -30,6 +30,7 @@ public class EventModel {
   private String description;
   private Boolean isPublic;
   private LocalDateTime startTime;
+  private String imageURL;
 
   private String location;
 

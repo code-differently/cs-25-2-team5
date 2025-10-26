@@ -16,4 +16,5 @@ public class CreatePublicEventRequest {
   private Boolean isPublic;
   private LocalDateTime startTime;
   private String address;
+  private String imageURL;
 }
