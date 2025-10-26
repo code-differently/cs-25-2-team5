@@ -67,7 +67,7 @@ const Navigation: React.FC = () => {
           </Link>
         )}
         <SignedIn>
-          <UserButton afterSignOutUrl="/" />
+          <UserButton />
         </SignedIn>
       </div>
     </header>

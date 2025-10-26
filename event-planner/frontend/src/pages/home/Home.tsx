@@ -3,6 +3,7 @@ import EventList from '../../components/event/EventList';
 import './Home.css';
 
 const Home: React.FC = () => {
+   
   return (
     <article>
       <section>
