@@ -1,6 +1,8 @@
 package com.api.demo.dtos;
 
 import com.api.demo.models.EventModel;
+
+import java.time.LocalDateTime;
 import java.util.Set;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,6 +19,10 @@ import lombok.NoArgsConstructor;
 @Builder
 public class CreateEventWithGuestsRequest {
 
-  private EventModel event;
+  private String title;
+  private String description;
+  private Boolean isPublic;
+  private LocalDateTime startTime;
+  private String address;
   private Set<String> guestEmails;
 }

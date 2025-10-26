@@ -1,6 +1,7 @@
 package com.api.demo.controllers;
 
 import com.api.demo.dtos.CreateEventWithGuestsRequest;
+import com.api.demo.dtos.DTOConverter;
 import com.api.demo.models.EventGuest;
 import com.api.demo.models.EventGuestKey;
 import com.api.demo.models.EventModel;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.yaml.snakeyaml.events.Event;
 
 @RestController
 @RequestMapping("/api/v1/event-guests")
@@ -57,10 +59,10 @@ public class EventGuestController {
   @PostMapping("/organizer/{organizerId}/event/create")
   public ResponseEntity<EventModel> createEventWithGuests(
       @PathVariable Long organizerId, @RequestBody CreateEventWithGuestsRequest request) {
-    EventModel createdEvent =
-        eventGuestService.createEventWithGuests(
-            organizerId, request.getEvent(), request.getGuestEmails());
-    return ResponseEntity.status(HttpStatus.CREATED).body(createdEvent);
+    EventModel createdEvent = DTOConverter.mapToModel(request);
+    EventModel savedEvent = eventGuestService.createEventWithGuests(organizerId, createdEvent, request.getGuestEmails());
+
+    return ResponseEntity.status(HttpStatus.CREATED).body(savedEvent);
   }
 
   // Add a new guest to an existing event
