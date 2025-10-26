@@ -116,4 +116,9 @@ public class UserService {
   private boolean isUserOrganizerOfEvent(Long userId, EventModel event) {
     return event.getOrganizer().getId().equals(userId);
   }
+
+  public User getByClerkId(String clerkId) {
+    return userRepository.findbyClerkId(clerkId).orElseThrow(()->new UserNotFoundException("User with id not found"));
+  }
+
 }
