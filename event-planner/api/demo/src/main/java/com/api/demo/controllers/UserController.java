@@ -1,6 +1,7 @@
 package com.api.demo.controllers;
 
 import com.api.demo.dtos.CreatePublicEventRequest;
+import com.api.demo.dtos.DTOConverter;
 import com.api.demo.dtos.EventDTO;
 import com.api.demo.dtos.LoginRequest;
 import com.api.demo.dtos.UserDTO;
@@ -10,6 +11,9 @@ import com.api.demo.models.User;
 import com.api.demo.services.LocationIQService;
 import com.api.demo.services.UserService;
 import jakarta.validation.Valid;
+
+
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -89,33 +93,11 @@ public class UserController {
       @PathVariable Long userId, @RequestBody CreatePublicEventRequest eventRequest) {
 
     User organizer = userService.getUserById(userId);
-    Location location = locationIQService.geocodeAddress(eventRequest.getAddress());
-    EventModel event = new EventModel();
-    event.setTitle(eventRequest.getTitle());
-    event.setDescription(eventRequest.getDescription());
-    event.setIsPublic(eventRequest.getIsPublic());
-    event.setStartTime(eventRequest.getStartTime());
-    event.setLocation(location);
-    event.setOrganizer(organizer);
+    EventModel event = buildEventFromRequest(eventRequest, organizer);
     EventModel createdEvent = userService.createPublicEvent(event, userId);
-    UserDTO organizerDTO =
-        UserDTO.builder()
-            .name(organizer.getName())
-            .email(organizer.getEmail())
-            .id(organizer.getId())
-            .build();
-    Set<UserDTO> guests = new HashSet<>();
-    EventDTO model =
-        EventDTO.builder()
-            .title(createdEvent.getTitle())
-            .description(createdEvent.getDescription())
-            .startTime(createdEvent.getStartTime())
-            .eventType(createdEvent.getIsPublic() ? "Community" : "Private")
-            .organizer(organizerDTO)
-            .guests(guests)
-            .id(createdEvent.getId())
-            .build();
+    EventDTO model = DTOConverter.mapToDTO(createdEvent);
     return ResponseEntity.ok(model);
+
   }
 
   @PutMapping("/{userId}/events/{eventId}")
@@ -124,24 +106,7 @@ public class UserController {
       @PathVariable Long eventId,
       @RequestBody EventModel updatedEventInfo) {
     EventModel updatedEvent = userService.updateUserEvent(userId, eventId, updatedEventInfo);
-    User organizer = updatedEvent.getOrganizer();
-
-    UserDTO organizerDTO =
-        UserDTO.builder()
-            .name(organizer.getName())
-            .email(organizer.getEmail())
-            .id(organizer.getId())
-            .build();
-    Set<UserDTO> guests = new HashSet<>();
-    EventDTO eventDTO =
-        EventDTO.builder()
-            .title(updatedEvent.getTitle())
-            .description(updatedEvent.getDescription())
-            .startTime(updatedEvent.getStartTime())
-            .eventType(updatedEvent.getIsPublic() ? "Community" : "Private")
-            .organizer(organizerDTO)
-            .guests(guests)
-            .build();
+    EventDTO  eventDTO = DTOConverter.mapToDTO(updatedEvent);
     return ResponseEntity.ok(eventDTO);
   }
 
@@ -165,5 +130,16 @@ public class UserController {
 
     return ResponseEntity.ok(userDTO);
   }
-  
+  public EventModel buildEventFromRequest(CreatePublicEventRequest eventRequest,User organizer) {
+    Location location = locationIQService.geocodeAddress(eventRequest.getAddress());
+    EventModel event = new EventModel();
+    event.setTitle(eventRequest.getTitle());
+    event.setDescription(eventRequest.getDescription());
+    event.setIsPublic(eventRequest.getIsPublic());
+    event.setStartTime(eventRequest.getStartTime());
+    event.setLocation(location);
+    event.setOrganizer(organizer);
+
+    return userService.createPublicEvent(event, organizer.getId());
+  }
 }
