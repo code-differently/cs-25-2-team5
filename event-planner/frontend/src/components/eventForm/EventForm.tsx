@@ -14,7 +14,7 @@ const EventForm: React.FC = () => {
 
   if(!isSignedIn) {
     alert("You must be signed in to create an event.");
-    window.location.href = "/";
+    window.location.href = "/login";
   }
 
   const handleSubmit = (e: React.FormEvent) => {
