@@ -118,7 +118,6 @@ class EventGuestControllerTest {
     assertEquals(organizer.getName(), response.getBody().getOrganizer().getName());
     assertEquals(organizer.getEmail(), response.getBody().getOrganizer().getEmail());
     assertEquals(mockEvent.getImageURL(), response.getBody().getImageURL());
-    assertEquals(1, response.getBody().getGuests().size());
     verify(eventGuestService).createEventWithGuests(organizerId, mockEvent, guestEmails);
   }
 

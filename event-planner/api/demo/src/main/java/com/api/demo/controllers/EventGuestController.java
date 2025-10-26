@@ -1,6 +1,7 @@
 package com.api.demo.controllers;
 
 import com.api.demo.dtos.CreateEventWithGuestsRequest;
+import com.api.demo.dtos.DTOConverter;
 import com.api.demo.dtos.EventDTO;
 import com.api.demo.models.EventGuest;
 import com.api.demo.models.EventGuestKey;
@@ -54,47 +55,13 @@ public class EventGuestController {
     return ResponseEntity.ok(eventGuest);
   }
 
-  // Create event with guests (from EventGuestService)
-  private com.api.demo.dtos.UserDTO buildUserDTO(com.api.demo.models.User user) {
-    if (user == null) return null;
-    return com.api.demo.dtos.UserDTO.builder()
-        .id(user.getId())
-        .name(user.getName())
-        .email(user.getEmail())
-        .build();
-  }
-
-  private java.util.Set<com.api.demo.dtos.UserDTO> buildGuestDTOs(
-      java.util.Set<com.api.demo.models.EventGuest> eventGuests) {
-    java.util.Set<com.api.demo.dtos.UserDTO> guests = new java.util.HashSet<>();
-    if (eventGuests != null) {
-      for (com.api.demo.models.EventGuest eventGuest : eventGuests) {
-        com.api.demo.models.User guest = eventGuest.getGuest();
-        if (guest != null) {
-          guests.add(buildUserDTO(guest));
-        }
-      }
-    }
-    return guests;
-  }
-
   @PostMapping("/organizer/{organizerId}/event/create")
   public ResponseEntity<EventDTO> createEventWithGuests(
       @PathVariable Long organizerId, @RequestBody CreateEventWithGuestsRequest request) {
     EventModel createdEvent =
         eventGuestService.createEventWithGuests(
             organizerId, request.getEvent(), request.getGuestEmails());
-    EventDTO eventDTO =
-        EventDTO.builder()
-            .id(createdEvent.getId())
-            .title(createdEvent.getTitle())
-            .description(createdEvent.getDescription())
-            .startTime(createdEvent.getStartTime())
-            .eventType(createdEvent.getIsPublic() ? "Community" : "Private")
-            .organizer(buildUserDTO(createdEvent.getOrganizer()))
-            .guests(buildGuestDTOs(createdEvent.getEventGuests()))
-            .imageURL(createdEvent.getImageURL())
-            .build();
+    EventDTO eventDTO = DTOConverter.mapToDTO(createdEvent);
     return ResponseEntity.status(HttpStatus.CREATED).body(eventDTO);
   }
 
@@ -123,26 +90,8 @@ public class EventGuestController {
     return ResponseEntity.ok(updatedStatus);
   }
 
-  // Save or update an event guest
-  @PostMapping
-  public ResponseEntity<EventGuest> saveEventGuest(@RequestBody EventGuest eventGuest) {
-    EventGuest savedGuest = eventGuestService.saveEventGuest(eventGuest);
-    return ResponseEntity.status(HttpStatus.CREATED).body(savedGuest);
-  }
-
   // Check if event-guest relationship exists
-  @GetMapping("/event/{eventId}/guest/{guestId}/exists")
-  public ResponseEntity<Boolean> checkEventGuestExists(
-      @PathVariable Long eventId, @PathVariable Long guestId) {
-    boolean exists = eventGuestService.existsEventGuest(eventId, guestId);
-    return ResponseEntity.ok(exists);
-  }
 
   // Delete event-guest relationship
-  @DeleteMapping("/event/{eventId}/guest/{guestId}")
-  public ResponseEntity<Void> deleteEventGuest(
-      @PathVariable Long eventId, @PathVariable Long guestId) {
-    eventGuestService.deleteEventGuest(eventId, guestId);
-    return ResponseEntity.noContent().build();
-  }
+
 }
