@@ -3,16 +3,18 @@ package com.api.demo.controllers;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.api.demo.dtos.CreateEventWithGuestsRequest;
+import com.api.demo.dtos.EventDTO;
 import com.api.demo.models.EventGuest;
 import com.api.demo.models.EventGuestKey;
 import com.api.demo.models.EventModel;
 import com.api.demo.models.RsvpStatus;
+import com.api.demo.models.User;
 import com.api.demo.services.EventGuestService;
-
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -64,60 +66,67 @@ class EventGuestControllerTest {
   }
 
   @Test
-@DisplayName("Should test createEventWithGuests method")
-void shouldTestCreateEventWithGuests() {
-  // Given
-  Long organizerId = 1L;
+  @DisplayName("Should test createEventWithGuests method")
+  void shouldTestCreateEventWithGuests() {
+    // Given
+    Long organizerId = 1L;
 
-  // guest emails
-  Set<String> guestEmails = new HashSet<>();
-  guestEmails.add("guest1@example.com");
-  guestEmails.add("guest2@example.com");
+    // guest emails
+    Set<String> guestEmails = new HashSet<>();
+    guestEmails.add("guest1@example.com");
+    guestEmails.add("guest2@example.com");
 
-  // DTO request
-  CreateEventWithGuestsRequest request = CreateEventWithGuestsRequest.builder()
-      .title("Team Party")
-      .description("End of Year Celebration")
-      .isPublic(false)
-      .startTime(LocalDateTime.now().plusDays(3))
-      .address("123 Main St")
-      .guestEmails(guestEmails)
-      .build();
+    // DTO request
+    CreateEventWithGuestsRequest request =
+        CreateEventWithGuestsRequest.builder()
+            .title("Team Party")
+            .description("End of Year Celebration")
+            .isPublic(false)
+            .startTime(LocalDateTime.now().plusDays(3))
+            .address("123 Main St")
+            .guestEmails(guestEmails)
+            .build();
 
-  // What DTOConverter.mapToModel(request) would return
-  EventModel mappedEvent = new EventModel();
-  mappedEvent.setTitle(request.getTitle());
-  mappedEvent.setDescription(request.getDescription());
-  mappedEvent.setIsPublic(request.getIsPublic());
-  mappedEvent.setStartTime(request.getStartTime());
-  mappedEvent.setLocation(request.getAddress());
+    // Mock saved event (return from service)
+    EventModel savedEvent = new EventModel();
+    savedEvent.setId(10L);
+    savedEvent.setTitle(request.getTitle());
+    savedEvent.setDescription(request.getDescription());
+    savedEvent.setIsPublic(request.getIsPublic());
+    savedEvent.setStartTime(request.getStartTime());
+    // Set location as String since that's what your controller expects
+    savedEvent.setLocation(request.getAddress());
 
-  // Mock saved event (return from service)
-  EventModel savedEvent = new EventModel();
-  savedEvent.setId(10L);
-  savedEvent.setTitle(mappedEvent.getTitle());
-  savedEvent.setDescription(mappedEvent.getDescription());
-  savedEvent.setIsPublic(mappedEvent.getIsPublic());
-  savedEvent.setStartTime(mappedEvent.getStartTime());
-  savedEvent.setLocation(mappedEvent.getLocation());
+    // Mock organizer for the DTO conversion
+    User organizer = new User();
+    organizer.setId(organizerId);
+    organizer.setName("Test Organizer");
+    organizer.setEmail("organizer@example.com");
+    savedEvent.setOrganizer(organizer);
 
-  // Mock service call
-  when(eventGuestService.createEventWithGuests(organizerId, mappedEvent, guestEmails))
-      .thenReturn(savedEvent);
+    // Mock service call - the controller calls DTOConverter.mapToModel internally
+    when(eventGuestService.createEventWithGuests(
+            eq(organizerId), any(EventModel.class), eq(guestEmails)))
+        .thenReturn(savedEvent);
 
-  // When
-  ResponseEntity<EventModel> response =
-      eventGuestController.createEventWithGuests(organizerId, request);
+    // When
+    ResponseEntity<EventDTO> response =
+        eventGuestController.createEventWithGuests(organizerId, request);
 
-  // Then
-  assertEquals(HttpStatus.CREATED, response.getStatusCode());
-  assertNotNull(response.getBody());
-  assertEquals(savedEvent.getId(), response.getBody().getId());
-  assertEquals(savedEvent.getTitle(), response.getBody().getTitle());
-  assertEquals(savedEvent.getDescription(), response.getBody().getDescription());
-  verify(eventGuestService).createEventWithGuests(organizerId, mappedEvent, guestEmails);
-}
+    // Then
+    assertEquals(HttpStatus.CREATED, response.getStatusCode());
+    assertNotNull(response.getBody());
+    assertEquals(savedEvent.getId(), response.getBody().getId());
+    assertEquals(savedEvent.getTitle(), response.getBody().getTitle());
+    assertEquals(savedEvent.getDescription(), response.getBody().getDescription());
+    assertEquals(
+        "Private", response.getBody().getEventType()); // isPublic=false should be "Private"
+    assertEquals(savedEvent.getLocation(), response.getBody().getAddress());
 
+    // Verify service was called with correct parameters
+    verify(eventGuestService)
+        .createEventWithGuests(eq(organizerId), any(EventModel.class), eq(guestEmails));
+  }
 
   @Test
   @DisplayName("Should test addGuestToEvent method")

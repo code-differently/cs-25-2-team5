@@ -1,7 +1,5 @@
 package com.api.demo.dtos;
 
-import com.api.demo.models.EventModel;
-
 import java.time.LocalDateTime;
 import java.util.Set;
 import lombok.AllArgsConstructor;

@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-
 @RestController
 @RequestMapping("/api/v1/event-guests")
 @CrossOrigin("*")
@@ -62,10 +61,12 @@ public class EventGuestController {
   @PostMapping("/organizer/{organizerId}/event/create")
   public ResponseEntity<EventDTO> createEventWithGuests(
       @PathVariable Long organizerId, @RequestBody CreateEventWithGuestsRequest request) {
-      System.out.println("Received request to create event with guests: " + request.getTitle());
-      System.out.println("Event Address: " + request.getAddress());
+    System.out.println("Received request to create event with guests: " + request.getTitle());
+    System.out.println("Event Address: " + request.getAddress());
     EventModel createdEvent = DTOConverter.mapToModel(request);
-    EventModel savedEvent = eventGuestService.createEventWithGuests(organizerId, createdEvent, request.getGuestEmails());
+    EventModel savedEvent =
+        eventGuestService.createEventWithGuests(
+            organizerId, createdEvent, request.getGuestEmails());
     EventDTO eventDTO = DTOConverter.mapToDTO(savedEvent);
     return ResponseEntity.status(HttpStatus.CREATED).body(eventDTO);
   }

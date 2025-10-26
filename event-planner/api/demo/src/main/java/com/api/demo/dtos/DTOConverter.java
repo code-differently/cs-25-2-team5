@@ -32,6 +32,7 @@ public class DTOConverter {
             .build();
     return model;
   }
+
   public static EventModel mapToModel(CreateEventWithGuestsRequest request) {
     EventModel createdEvent = new EventModel();
     createdEvent.setDescription(request.getDescription());
@@ -41,6 +42,4 @@ public class DTOConverter {
     createdEvent.setLocation(request.getAddress());
     return createdEvent;
   }
-
-
 }
