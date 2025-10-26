@@ -17,6 +17,7 @@ const EventForm: React.FC = () => {
   const [visibility, setVisibility] = useState('public');
   const {isSignedIn,user} = useUser();
   const [backendUser,setBackendUser] = useState<User>();
+  const [guestEmails, setGuestEmails] = useState<string[]>([""]);
 
   if(!isSignedIn) {
     alert("You must be signed in to create an event.");
@@ -44,6 +45,19 @@ const EventForm: React.FC = () => {
   fetchUser();
 
   },[clerkId])
+
+  const handleGuestEmailChange = (index: number, value: string) => {
+  const updated = [...guestEmails];
+  updated[index] = value;
+  setGuestEmails(updated);
+};
+
+const addGuestField = () => setGuestEmails([...guestEmails, ""]);
+
+const removeGuestField = (index: number) => {
+  setGuestEmails(guestEmails.filter((_, i) => i !== index));
+};
+
   
   
 
@@ -170,6 +184,42 @@ const EventForm: React.FC = () => {
               <option value="public">Public</option>
               <option value="private">Private</option>
             </select>
+            {visibility === "private" && (
+  <div className="form-group">
+    <label htmlFor="guestEmails">Invite Guests (Emails)</label>
+
+    {
+    guestEmails.map((email, index) => (
+      <div key={index} className="guest-email-row">
+        <input
+          type="email"
+          className="event-form-input"
+          placeholder="guest@example.com"
+          value={email}
+          onChange={(e) => handleGuestEmailChange(index, e.target.value)}
+        />
+        {guestEmails.length > 1 && (
+          <button
+            type="button"
+            className="remove-guest-btn"
+            onClick={() => removeGuestField(index)}
+          >
+            ✕
+          </button>
+        )}
+      </div>
+    ))}
+
+    <button
+      type="button"
+      className="add-guest-btn"
+      onClick={addGuestField}
+    >
+      + Add another guest
+    </button>
+  </div>
+)}
+
           </div>
 
           <button type="submit" className="event-form-button">
