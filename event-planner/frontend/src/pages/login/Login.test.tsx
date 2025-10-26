@@ -4,7 +4,19 @@ import '@testing-library/jest-dom';
 import userEvent from '@testing-library/user-event';
 import Login from './Login';
 
+// Mock Clerk useSignIn
+jest.mock('@clerk/clerk-react', () => ({
+  useSignIn: () => ({
+    signIn: {
+      create: jest.fn(() => Promise.resolve({ status: 'complete', createdSessionId: 'fake-session-id' }))
+    },
+    isLoaded: true,
+    setActive: jest.fn()
+  })
+}));
+
 window.alert = jest.fn(); // Mock alert function
+
 describe('Login Page', () => {
     // Test to check if the login form renders correctly
     it('renders login form', () => {
@@ -17,7 +29,11 @@ describe('Login Page', () => {
         expect(screen.getByLabelText(/password/i)).toBeInTheDocument();
     });
     it('should allow typing into input fields', async () => {
-      render(<Login />);
+      render(
+        <MemoryRouter>
+          <Login />
+        </MemoryRouter>
+      );
       const emailInput = screen.getByLabelText(/email/i);
       const passwordInput = screen.getByLabelText(/password/i);
 
@@ -28,7 +44,11 @@ describe('Login Page', () => {
       expect(passwordInput).toHaveValue('testpassword');
     });
     it('submits the form with correct data', async () => {
-      render(<Login />);
+      render(
+        <MemoryRouter>
+          <Login />
+        </MemoryRouter>
+      );
       const emailInput = screen.getByLabelText(/email/i);
       const passwordInput = screen.getByLabelText(/password/i);
       const submitButton = screen.getByRole('button', { name: /Sign In/i });

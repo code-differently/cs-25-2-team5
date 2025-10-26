@@ -5,7 +5,7 @@ export const Login: React.FC = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const { signIn, isLoaded, setActive } = useSignIn();
-    const API_URL = import.meta.env.VITE_API_URL;
+    const API_URL = process.env.VITE_API_URL;
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
