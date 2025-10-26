@@ -5,6 +5,7 @@ import com.api.demo.dtos.LoginRequest;
 import com.api.demo.dtos.UserDTO;
 import com.api.demo.models.EventModel;
 import com.api.demo.models.User;
+import com.api.demo.services.LocationIQService;
 import com.api.demo.services.UserService;
 import jakarta.validation.Valid;
 import java.util.ArrayList;
@@ -32,10 +33,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
 
   public UserService userService;
+  public LocationIQService locationIQService;
 
   @Autowired
-  public UserController(UserService userService) {
+  public UserController(UserService userService,LocationIQService locationIQService) {
     this.userService = userService;
+    this.locationIQService = locationIQService;
   }
 
   @GetMapping("")
@@ -84,8 +87,9 @@ public class UserController {
   public ResponseEntity<EventDTO> createEventForUser(
       @PathVariable Long userId, @RequestBody EventModel event) {
     EventModel createdEvent = userService.createPublicEvent(event, userId);
-    User organizer = createdEvent.getOrganizer();
-
+    User organizer = userService.getUserById(userId);
+    Location location = 
+      
     UserDTO organizerDTO =
         UserDTO.builder()
             .name(organizer.getName())

@@ -54,6 +54,14 @@ const EventForm: React.FC = () => {
     fetch(`${BASE_API_URL}/users/${backendUser?.id}/events`, {
         method:'POST',
         headers:{'Content-Type': 'application/json'},
+        body:JSON.stringify({
+                    title:title,
+                    description:description,
+                    isPublic:true,
+                    startTime:time,
+                    
+
+                }),
     })
   };
 
