@@ -11,11 +11,18 @@ const EventForm: React.FC = () => {
   const [imageUrl, setImageUrl] = useState('');
   const [visibility, setVisibility] = useState('public');
   const {isSignedIn,user} = useUser();
+  const {backendUser,setBackendUser} = useState();
 
   if(!isSignedIn) {
     alert("You must be signed in to create an event.");
     window.location.href = "/login";
   }
+  const BASE_API_URL = process.env.VITE_API_URL
+  const clerkId = user?.id
+  const fetchUser = async()=> {
+    await fetch(`${BASE_API_URL}/users/clerk/`)
+  }
+
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
