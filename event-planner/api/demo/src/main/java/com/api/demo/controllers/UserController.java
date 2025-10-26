@@ -1,9 +1,11 @@
 package com.api.demo.controllers;
 
+import com.api.demo.dtos.CreatePublicEventRequest;
 import com.api.demo.dtos.EventDTO;
 import com.api.demo.dtos.LoginRequest;
 import com.api.demo.dtos.UserDTO;
 import com.api.demo.models.EventModel;
+import com.api.demo.models.Location;
 import com.api.demo.models.User;
 import com.api.demo.services.LocationIQService;
 import com.api.demo.services.UserService;
@@ -36,7 +38,7 @@ public class UserController {
   public LocationIQService locationIQService;
 
   @Autowired
-  public UserController(UserService userService,LocationIQService locationIQService) {
+  public UserController(UserService userService, LocationIQService locationIQService) {
     this.userService = userService;
     this.locationIQService = locationIQService;
   }
@@ -68,7 +70,6 @@ public class UserController {
     UserDTO userDTO =
         UserDTO.builder().name(user.getName()).email(user.getEmail()).id(user.getId()).build();
     return ResponseEntity.ok(userDTO);
-    
   }
 
   @PostMapping("")
@@ -85,11 +86,18 @@ public class UserController {
 
   @PostMapping("/{userId}/events")
   public ResponseEntity<EventDTO> createEventForUser(
-      @PathVariable Long userId, @RequestBody EventModel event) {
-    EventModel createdEvent = userService.createPublicEvent(event, userId);
+      @PathVariable Long userId, @RequestBody CreatePublicEventRequest eventRequest) {
+
     User organizer = userService.getUserById(userId);
-    Location location = 
-      
+    Location location = locationIQService.geocodeAddress(eventRequest.getAddress());
+    EventModel event = new EventModel();
+    event.setTitle(eventRequest.getTitle());
+    event.setDescription(eventRequest.getDescription());
+    event.setIsPublic(eventRequest.getIsPublic());
+    event.setStartTime(eventRequest.getStartTime());
+    event.setLocation(location);
+    event.setOrganizer(organizer);
+    EventModel createdEvent = userService.createPublicEvent(event, userId);
     UserDTO organizerDTO =
         UserDTO.builder()
             .name(organizer.getName())
@@ -157,4 +165,5 @@ public class UserController {
 
     return ResponseEntity.ok(userDTO);
   }
+  
 }

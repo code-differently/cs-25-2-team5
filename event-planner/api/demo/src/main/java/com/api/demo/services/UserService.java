@@ -118,7 +118,8 @@ public class UserService {
   }
 
   public User getByClerkId(String clerkId) {
-    return userRepository.findByClerkId(clerkId).orElseThrow(()->new UserNotFoundException("User with id not found"));
+    return userRepository
+        .findByClerkId(clerkId)
+        .orElseThrow(() -> new UserNotFoundException("User with id not found"));
   }
-
 }

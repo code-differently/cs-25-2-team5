@@ -257,7 +257,4 @@ public class UserServiceTest {
     // Assert
     verify(eventService, times(1)).deleteEvent(eventId);
   }
-  
-
-
 }
