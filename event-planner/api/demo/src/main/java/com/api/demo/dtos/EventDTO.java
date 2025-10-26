@@ -22,6 +22,6 @@ public class EventDTO {
   private LocalDateTime startTime;
   private String eventType;
   private UserDTO organizer;
-  private Location address;
+  private String address;
   private Set<UserDTO> guests;
 }

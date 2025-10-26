@@ -70,7 +70,7 @@ public class UserService {
   }
 
   private EventModel buildEventFromRequest(CreatePublicEventRequest eventRequest,User organizer) {
-    Location location = locationIQService.geocodeAddress(eventRequest.getAddress());
+    String location = locationIQService.geocodeAddress(eventRequest.getAddress());
     EventModel event = new EventModel();
     event.setTitle(eventRequest.getTitle());
     event.setDescription(eventRequest.getDescription());

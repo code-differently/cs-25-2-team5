@@ -32,7 +32,7 @@ public class EventModel {
   private Boolean isPublic;
   private LocalDateTime startTime;
 
-  @Embedded private Location location;
+  private String location;
 
   @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
   private Set<EventGuest> eventGuests;

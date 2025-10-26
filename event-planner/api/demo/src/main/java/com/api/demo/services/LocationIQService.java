@@ -28,71 +28,42 @@ public class LocationIQService {
   public LocationIQService(RestTemplate restTemplate) {
     this.restTemplate = restTemplate;
   }
+ 
 
   /**
-   * Geocode an address to get latitude and longitude coordinates.
-   *
-   * @param address The address to geocode
-   * @return JSON response from LocationIQ API
+   * Get formatted address string from LocationIQ
+   * @param address Input address to geocode
+   * @return Formatted address string or input address if API fails
    */
-  private List<Map<String, Object>> fetchLocationData(String address) {
+  public String geocodeAddress(String address) {
     try {
-      URI uri =
-          UriComponentsBuilder.fromUriString(baseUrl)
-              .queryParam("q", address)
-              .queryParam("apiKey", apiKey)
-              .queryParam("limit", 1)
-              .build()
-              .toUri();
+      URI uri = UriComponentsBuilder.fromUriString(baseUrl)
+          .queryParam("q", address)
+          .queryParam("key", apiKey)  // LocationIQ uses "key", not "apiKey"
+          .queryParam("format", "json")
+          .queryParam("limit", 1)
+          .build()
+          .toUri();
 
       log.info("Making request to LocationIQ: {}", uri);
-      Map<String, Object> response = restTemplate.getForObject(uri, Map.class);
-      log.info("LocationIQ response: {}", response);
-
-      if (response == null || !response.containsKey("items")) return null;
-
-      List<Map<String, Object>> items = (List<Map<String, Object>>) response.get("items");
-      if (items.isEmpty()) return null;
-
-      Map<String, Object> item = items.get(0);
-
-      Map<String, Object> position = (Map<String, Object>) item.get("position");
-      Map<String, Object> addressMap = (Map<String, Object>) item.get("address");
-      items.add(addressMap);
-      items.add(position);
-
-      return items;
-    } catch (Exception e) {
-      log.error("Error calling LocationIQ API: {}", e.getMessage());
-      log.error("Full error: ", e);
-      return null; // Return null to trigger fallback
-    }
-  }
-
-  public Location geocodeAddress(String address) {
-    List<Map<String, Object>> locationData = fetchLocationData(address);
-    if (locationData == null || locationData.size() < 3) {
-      log.warn("LocationIQ API failed or returned no data for address: {}. Using fallback location.", address);
       
-      // Return a fallback location so the event can still be created
-      return new Location(
-          40.7128, -74.0060, // Default to NYC coordinates
-          "New York", "NY", "United States", 
-          "10001", address, address);
+      // LocationIQ returns an array of results directly
+      List<Map<String, Object>> response = restTemplate.getForObject(uri, List.class);
+      
+      if (response != null && !response.isEmpty()) {
+        Map<String, Object> firstResult = response.get(0);
+        String displayName = (String) firstResult.get("display_name");
+        
+        log.info("LocationIQ success: {} -> {}", address, displayName);
+        return displayName != null ? displayName : address;
+      }
+      
+      log.warn("LocationIQ returned empty response for: {}", address);
+      return address; // Fallback to input
+      
+    } catch (Exception e) {
+      log.error("LocationIQ API error for '{}': {}", address, e.getMessage());
+      return address; // Fallback to input
     }
-
-    Map<String, Object> addressMap = locationData.get(1);
-    Map<String, Object> position = locationData.get(2);
-
-    Double latitude = (Double) position.get("lat");
-    Double longitude = (Double) position.get("lng");
-    String city = (String) addressMap.get("city");
-    String state = (String) addressMap.get("state");
-    String country = (String) addressMap.get("countryName");
-    String zipCode = (String) addressMap.get("postalCode");
-    String formattedAddress = (String) addressMap.get("label");
-
-    return new Location(
-        latitude, longitude, city, state, country, zipCode, formattedAddress, address);
   }
 }
