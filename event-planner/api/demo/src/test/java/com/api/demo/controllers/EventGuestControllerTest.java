@@ -12,6 +12,8 @@ import com.api.demo.models.EventGuestKey;
 import com.api.demo.models.EventModel;
 import com.api.demo.models.RsvpStatus;
 import com.api.demo.services.EventGuestService;
+
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -62,28 +64,60 @@ class EventGuestControllerTest {
   }
 
   @Test
-  @DisplayName("Should test createEventWithGuests method")
-  void shouldTestCreateEventWithGuests() {
-    // Given
-    Long organizerId = 1L;
-    EventModel mockEvent = new EventModel(); // Will use default constructor
-    Set<String> guestEmails = new HashSet<>();
-    guestEmails.add("test@example.com");
+@DisplayName("Should test createEventWithGuests method")
+void shouldTestCreateEventWithGuests() {
+  // Given
+  Long organizerId = 1L;
 
-    CreateEventWithGuestsRequest request = new CreateEventWithGuestsRequest(mockEvent, guestEmails);
+  // guest emails
+  Set<String> guestEmails = new HashSet<>();
+  guestEmails.add("guest1@example.com");
+  guestEmails.add("guest2@example.com");
 
-    when(eventGuestService.createEventWithGuests(organizerId, mockEvent, guestEmails))
-        .thenReturn(mockEvent);
+  // DTO request
+  CreateEventWithGuestsRequest request = CreateEventWithGuestsRequest.builder()
+      .title("Team Party")
+      .description("End of Year Celebration")
+      .isPublic(false)
+      .startTime(LocalDateTime.now().plusDays(3))
+      .address("123 Main St")
+      .guestEmails(guestEmails)
+      .build();
 
-    // When
-    ResponseEntity<EventModel> response =
-        eventGuestController.createEventWithGuests(organizerId, request);
+  // What DTOConverter.mapToModel(request) would return
+  EventModel mappedEvent = new EventModel();
+  mappedEvent.setTitle(request.getTitle());
+  mappedEvent.setDescription(request.getDescription());
+  mappedEvent.setIsPublic(request.getIsPublic());
+  mappedEvent.setStartTime(request.getStartTime());
+  mappedEvent.setLocation(request.getAddress());
 
-    // Then
-    assertEquals(HttpStatus.CREATED, response.getStatusCode());
-    assertNotNull(response.getBody());
-    verify(eventGuestService).createEventWithGuests(organizerId, mockEvent, guestEmails);
-  }
+  // Mock saved event (return from service)
+  EventModel savedEvent = new EventModel();
+  savedEvent.setId(10L);
+  savedEvent.setTitle(mappedEvent.getTitle());
+  savedEvent.setDescription(mappedEvent.getDescription());
+  savedEvent.setIsPublic(mappedEvent.getIsPublic());
+  savedEvent.setStartTime(mappedEvent.getStartTime());
+  savedEvent.setLocation(mappedEvent.getLocation());
+
+  // Mock service call
+  when(eventGuestService.createEventWithGuests(organizerId, mappedEvent, guestEmails))
+      .thenReturn(savedEvent);
+
+  // When
+  ResponseEntity<EventModel> response =
+      eventGuestController.createEventWithGuests(organizerId, request);
+
+  // Then
+  assertEquals(HttpStatus.CREATED, response.getStatusCode());
+  assertNotNull(response.getBody());
+  assertEquals(savedEvent.getId(), response.getBody().getId());
+  assertEquals(savedEvent.getTitle(), response.getBody().getTitle());
+  assertEquals(savedEvent.getDescription(), response.getBody().getDescription());
+  verify(eventGuestService).createEventWithGuests(organizerId, mappedEvent, guestEmails);
+}
+
 
   @Test
   @DisplayName("Should test addGuestToEvent method")

@@ -40,6 +40,7 @@ public class DTOConverter {
     createdEvent.setIsPublic(request.getIsPublic());
     createdEvent.setLocation(request.getAddress());
     return createdEvent;
+  }
 
 
 }
