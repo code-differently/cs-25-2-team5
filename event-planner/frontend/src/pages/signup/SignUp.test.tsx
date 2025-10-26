@@ -3,6 +3,15 @@ import '@testing-library/jest-dom';
 import { BrowserRouter } from 'react-router-dom';
 import SignUpPage from './SignUp';
 
+// Mock the useSignUp hook from @clerk/clerk-react
+jest.mock('@clerk/clerk-react', () => ({
+  useSignUp: () => ({
+    isLoaded: true,
+    signUp: { create: jest.fn().mockResolvedValue({ status: 'complete', createdSessionId: 'dummy-session' }) },
+    setActive: jest.fn(),
+  }),
+}));
+
 describe('SignUpPage Component', () => {
   beforeEach(() => {
     render(

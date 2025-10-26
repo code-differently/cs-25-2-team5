@@ -31,7 +31,7 @@ export default function SignUpPage() {
     setErrors((e) => ({ ...e, [name]: undefined, form: undefined }));
   };
   
-  const API_URL = import.meta.env.VITE_API_URL;
+  const API_URL = process.env.VITE_API_URL;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
