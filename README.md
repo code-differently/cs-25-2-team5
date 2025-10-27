@@ -52,11 +52,13 @@ EVYNT provides a comprehensive platform with:
 - [Node.js](https://nodejs.org/) (v16+ recommended)  
 - npm or yarn
 - java 17
-- PostgresSQL 
+- PostgresSQL - start postgresql server locallty at `jdbc:postgresql://localhost:5432/postgres`
+    - with username postgres and password postgres
 - [LocationIQ API Key ](https://docs.locationiq.com/docs/search-forward-geocoding?_gl=1*xiem2h*_ga*OTk2NjI1MDEuMTc2MTQ5ODY0NQ..*_ga_TRV5GF9KFC*czE3NjE1Mjk5MTUkbzQkZzEkdDE3NjE1Mjk5MTckajU4JGwwJGgw)
 
 ### Steps
 ```bash
+#Frontend
 # 1. Clone the repository
 git clone https://github.com/code-differently/cs-25-2-team5.git
 
@@ -69,8 +71,9 @@ npm install
 # 4. Start the development server for front end
 npm run dev
 # 5
- cd event-planner/api/demo
- ./gradlew bootRun
+#Backend
+cd event-planner/api/demo
+./gradlew bootRun
 ```
 ---
 
