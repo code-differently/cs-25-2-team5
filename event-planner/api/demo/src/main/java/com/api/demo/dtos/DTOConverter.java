@@ -43,4 +43,15 @@ public class DTOConverter {
     createdEvent.setLocation(request.getAddress());
     return createdEvent;
   }
+
+  public static EventDTO mapDto(UserInviteDTO userInvite) {
+   return EventDTO.builder()
+    .description(userInvite.getDescription())
+    .address(userInvite.getLocation())
+    .eventType("private")
+    .startTime(userInvite.getStartTime())
+    .imageURL(userInvite.getImageUrl()).build()
+    ;
+    
+  }
 }

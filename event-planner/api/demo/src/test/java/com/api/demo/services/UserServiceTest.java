@@ -234,16 +234,16 @@ public class UserServiceTest {
                 .email("john.doe@example.com")
                 .description("Description 1")
                 .title("Event 1")
-                .is_public(true)
-                .start_time(LocalDateTime.now().plusDays(1))
+                .isPublic(true)
+                .startTime(LocalDateTime.now().plusDays(1))
                 .name("John Doe")
                 .build(),
             UserInviteDTO.builder()
                 .email("john.doe@example.com")
                 .description("Description 2")
                 .title("Event 2")
-                .is_public(false)
-                .start_time(LocalDateTime.now().plusDays(2))
+                .isPublic(false)
+                .startTime(LocalDateTime.now().plusDays(2))
                 .name("John Doe")
                 .build());
 
