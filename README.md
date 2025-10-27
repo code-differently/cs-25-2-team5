@@ -51,6 +51,9 @@ EVYNT provides a comprehensive platform with:
 ### Prerequisites
 - [Node.js](https://nodejs.org/) (v16+ recommended)  
 - npm or yarn
+- java 17
+- PostgresSQL 
+- [LocationIQ API Key ](https://docs.locationiq.com/docs/search-forward-geocoding?_gl=1*xiem2h*_ga*OTk2NjI1MDEuMTc2MTQ5ODY0NQ..*_ga_TRV5GF9KFC*czE3NjE1Mjk5MTUkbzQkZzEkdDE3NjE1Mjk5MTckajU4JGwwJGgw)
 
 ### Steps
 ```bash
@@ -58,17 +61,22 @@ EVYNT provides a comprehensive platform with:
 git clone https://github.com/code-differently/cs-25-2-team5.git
 
 # 2. Navigate into the project directory
-cd event-planner
+cd event-planner/frontend
 
 # 3. Install dependencies
 npm install
 
-# 4. Start the development server
+# 4. Start the development server for front end
 npm run dev
-
+# 5
+ cd event-planner/api/demo
+ ./gradlew bootRun
+```
 ---
 
 ## ⚠️ Known Issues
+- Error handling refreshing screens
+    - if you are on a screen that requires log in and you refresh it will prompt you to move to the log in page even though your still logged in
 
 ### Technical Challenges We've Addressed
 - **Database Connection** - Ongoing optimization for reliability
