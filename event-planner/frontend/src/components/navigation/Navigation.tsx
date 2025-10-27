@@ -51,6 +51,7 @@ const Navigation: React.FC = () => {
         <ul className="navigation-top-menu">
           <li><Link to="/">Discover</Link></li>
           <li><Link to="/about">About Us</Link></li>
+          <li><Link to="/invitations">Invites</Link></li>
         </ul>
       )}
 
