@@ -165,15 +165,31 @@
     box-shadow: 0 0 0 3px rgba(165, 165, 141, 0.1);
 }
 
-/* Add to EventForm.css */
-.guests-list {
-    margin-top: 1rem;
-    padding: 1rem;
-    background-color: #f8f8f8;
-    border-radius: 8px;
+.guest-email-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 0.5rem;
 }
 
-.guests-list h3 {
+.guest-email-row input[type="email"] {
+    flex: 1;
+    padding: 12px 16px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 14px;
+    background-color: #fff;
+    color: #333;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.guest-email-row input[type="email"]:focus {
+    outline: none;
+    border-color: #a5a58d;
+    box-shadow: 0 0 0 3px rgba(165, 165, 141, 0.1);
+}
+
+.guest-email-row h3 {
     font-size: 14px;
     font-weight: 600;
     color: #333;
@@ -181,33 +197,12 @@
     margin-bottom: 0.75rem;
 }
 
-.guests-list ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    color: #222;
-}
-
-.guests-list li {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0.75rem;
-    background-color: white;
-    border-radius: 6px;
-    border: 1px solid #ddd;
-}
-
-.remove-guest-button {
+.remove-guest-btn {
     padding: 6px 12px;
     border: none;
     border-radius: 6px;
     font-size: 12px;
     font-weight: 600;
-    font-family: 'Satoshi', sans-serif;
     background-color: #dc3545;
     color: white;
     cursor: pointer;
@@ -215,18 +210,17 @@
     margin-left: 10px;
 }
 
-.remove-guest-button:hover {
+.remove-guest-btn:hover {
     background-color: #c82333;
     transform: translateY(-1px);
 }
 
-.add-guests-button {
+.add-guest-btn {
     padding: 12px 24px;
     border: none;
     border-radius: 8px;
     font-size: 14px;
     font-weight: 600;
-    font-family: 'Satoshi', sans-serif;
     background-color: #a5a58d;
     color: white;
     cursor: pointer;
@@ -235,7 +229,7 @@
     margin-top: 0.5rem;
 }
 
-.add-guests-button:hover {
+.add-guest-btn:hover {
     background-color: #939380;
     transform: translateY(-1px);
 }
