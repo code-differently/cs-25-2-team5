@@ -230,14 +230,8 @@ public class UserServiceTest {
     Long userId = 1L;
     List<UserInviteDTO> expectedInvites =
         List.of(
-            UserInviteDTO.builder()
-                .title("Event 1")
-                .eventId(1L)
-                .build(),
-            UserInviteDTO.builder()
-                .title("Event 2")
-                .eventId(2L)
-                .build());
+            UserInviteDTO.builder().title("Event 1").eventId(1L).build(),
+            UserInviteDTO.builder().title("Event 2").eventId(2L).build());
 
     when(userRepository.findAllUserInvitedEvents(userId)).thenReturn(expectedInvites);
 

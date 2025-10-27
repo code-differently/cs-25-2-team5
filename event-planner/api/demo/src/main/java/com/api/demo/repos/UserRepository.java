@@ -18,7 +18,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
   Optional<User> findByClerkId(String clerkId);
 
-  @Query("""
+  @Query(
+      """
     SELECT new com.api.demo.dtos.UserInviteDTO(
        e.title,e.id
     )

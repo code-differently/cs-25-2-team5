@@ -123,5 +123,4 @@ public class UserController {
     List<UserInviteDTO> userInvites = userService.getAllInvitedEvents(id);
     return ResponseEntity.ok(userInvites);
   }
-
 }
