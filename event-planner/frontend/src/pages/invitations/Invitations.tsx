@@ -1,4 +1,4 @@
-import React, { use, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import './Invitations.css';
 import { type PrivateEventDetails, invitedEvents } from "../../types/types";
 import InvitationsList from "../../components/invitations/InvitationsList";
@@ -82,7 +82,5 @@ const Invitations: React.FC = () => {
 };
 
 export default Invitations;
-function useffect(arg0: () => void, arg1: never[]) {
-    throw new Error("Function not implemented.");
-}
+
 
