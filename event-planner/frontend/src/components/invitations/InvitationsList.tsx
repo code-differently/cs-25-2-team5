@@ -12,7 +12,8 @@ type InvitationsListProps = {
 const InvitationsList: React.FC<InvitationsListProps> = ({ events, onSelect }) => (
   <ul className="invitations-list">
     {/* Render a button for each event; clicking sets the selected event in the parent */}
-    {events.map((event, idx) => (
+    {
+    events.map((event, idx) => (
       <li key={idx}>
         <button onClick={() => onSelect(idx)}>{event.title}</button>
       </li>

@@ -20,12 +20,13 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
   @Query(
       """
-        SELECT
-            u.email, u.name, e.title, e.description, e.isPublic, e.startTime
-        FROM EventGuest eg
-        JOIN eg.guest u
-        JOIN eg.event e
-        WHERE u.id = :userId
-    """)
+    SELECT new com.api.demo.dtos.UserInviteDTO(
+       e.title,e.id
+    )
+    FROM EventGuest eg
+    JOIN eg.guest u
+    JOIN eg.event e
+    WHERE u.id = :userId
+""")
   List<UserInviteDTO> findAllUserInvitedEvents(Long userId);
 }

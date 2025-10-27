@@ -5,6 +5,7 @@ import com.api.demo.dtos.DTOConverter;
 import com.api.demo.dtos.EventDTO;
 import com.api.demo.dtos.LoginRequest;
 import com.api.demo.dtos.UserDTO;
+import com.api.demo.dtos.UserInviteDTO;
 import com.api.demo.models.EventModel;
 import com.api.demo.models.User;
 import com.api.demo.services.UserService;
@@ -115,5 +116,11 @@ public class UserController {
         UserDTO.builder().id(user.getId()).name(user.getName()).email(user.getEmail()).build();
 
     return ResponseEntity.ok(userDTO);
+  }
+
+  @GetMapping("/{id}/invites")
+  public ResponseEntity<List<UserInviteDTO>> getUserInvites(@PathVariable Long id) {
+    List<UserInviteDTO> userInvites = userService.getAllInvitedEvents(id);
+    return ResponseEntity.ok(userInvites);
   }
 }
