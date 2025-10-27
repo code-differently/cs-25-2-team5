@@ -231,20 +231,12 @@ public class UserServiceTest {
     List<UserInviteDTO> expectedInvites =
         List.of(
             UserInviteDTO.builder()
-                .email("john.doe@example.com")
-                .description("Description 1")
                 .title("Event 1")
-                .isPublic(true)
-                .startTime(LocalDateTime.now().plusDays(1))
-                .name("John Doe")
+                .eventId(1L)
                 .build(),
             UserInviteDTO.builder()
-                .email("john.doe@example.com")
-                .description("Description 2")
                 .title("Event 2")
-                .isPublic(false)
-                .startTime(LocalDateTime.now().plusDays(2))
-                .name("John Doe")
+                .eventId(2L)
                 .build());
 
     when(userRepository.findAllUserInvitedEvents(userId)).thenReturn(expectedInvites);
@@ -256,8 +248,10 @@ public class UserServiceTest {
     verify(userRepository, times(1)).findAllUserInvitedEvents(userId);
     assertThat(result).hasSize(2);
     assertThat(result).isEqualTo(expectedInvites);
-    assertThat(result.get(0).getEmail()).isEqualTo("john.doe@example.com");
+    assertThat(result.get(0).getTitle()).isEqualTo("Event 1");
     assertThat(result.get(1).getTitle()).isEqualTo("Event 2");
+    assertThat(result.get(0).getEventId()).isEqualTo(1L);
+    assertThat(result.get(1).getEventId()).isEqualTo(2L);
   }
 
   @Test

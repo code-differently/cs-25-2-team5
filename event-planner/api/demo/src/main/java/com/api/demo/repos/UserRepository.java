@@ -20,7 +20,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
   @Query("""
     SELECT new com.api.demo.dtos.UserInviteDTO(
-        u.email, u.name, e.description, e.startTime, e.title,e.id,e.location,e.imageURL
+       e.title,e.id
     )
     FROM EventGuest eg
     JOIN eg.guest u

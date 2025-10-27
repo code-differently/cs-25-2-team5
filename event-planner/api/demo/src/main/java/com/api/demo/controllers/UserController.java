@@ -119,9 +119,9 @@ public class UserController {
   }
 
   @GetMapping("/{id}/invites")
-  public ResponseEntity<List<UserInviteDTO>> getUserInvited(@PathVariable Long id) {
-    
-    return ResponseEntity.ok(userService.getAllInvitedEvents(id));
+  public ResponseEntity<List<UserInviteDTO>> getUserInvites(@PathVariable Long id) {
+    List<UserInviteDTO> userInvites = userService.getAllInvitedEvents(id);
+    return ResponseEntity.ok(userInvites);
   }
 
 }
